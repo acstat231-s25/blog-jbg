@@ -1,6 +1,6 @@
 ---
 title: "Data Wrangling"
-subtitle: "STAT 231 PUG Shiny Project"
+subtitle: "STAT 231 Blog Project"
 author: "Gloria Wu, Justyce Williams, Ben Snyderman"
 date: today
 format: pdf
@@ -36,408 +36,43 @@ library(dplyr)
 ```
 
 ## Variables
-* `TUCASEID` : ID for each responder (all datasets)
-* `TEAGE` : age of responder (sum)
-* `TESEX` : sex of responder (sum)
-* `TRERNWA` : weekly earnings at main job (sum)
-* `GTCBSA`: principle city (cps)
-* `TUACTDUR` : CBSA (metropolitan core based statistical area) code
-* `TRCODE` : activity codes, check lexicon for specific information (act)
+
 
 ## Wrangling
 
 ```{r}
 #| label: load & basic wrangling
-## GLORIA
+
 # check if we can scrape
-paths_allowed("https://www.bls.gov/tus/data/datafiles-2023.htm")
-paths_allowed("https://www.nber.org/research/data/census-core-based-statistical-area-cbsa-federal-information-processing-series-fips-county-crosswalk")
+paths_allowed("https://www.billboard.com/charts/hot-100/")
+paths_allowed("https://genius.com")
+paths_allowed("https://spotify.com")
 
-# make sure to set working directory to current file location
-atusact_2023 <- read_csv("raw-data/atusact_2023.dat")
-atussum_2023 <- read_csv("raw-data/atussum_2023.dat")
-atuscps_2023 <- read_csv("raw-data/atuscps_2023.dat")
 
-## basic wrangling
-# only keep variables we want
-act <- atusact_2023 |>
-  select(TUCASEID, TUACTDUR, TRCODE) |>
-  rename(duration = TUACTDUR,
-         activity = TRCODE) |>
-  # keep activity types starting with 12, 13, 15
-  # 12 = socializing, relaxing, leisure
-  # 13 = sports, exercise, recreation
-  # 15 = volunteer activities
-  # create boolean variable to see if it is one of these activities
-  mutate(bool_act = str_starts(activity, "12|13|15")) |>
-  # filter out all other activities
-  filter(bool_act == TRUE) |>
-  select(- bool_act)
 
-sum <- atussum_2023 |>
-  select(TUCASEID, TEAGE, TESEX, TRERNWA) |>
-  rename(age = TEAGE,
-         earnings = TRERNWA) |>
-  filter(earnings != -1)
-
-cps <- atuscps_2023 |>
-  select(TUCASEID, GTCBSA) |>
-  rename(location = GTCBSA)
-
-# join responder data together (no activities)
-responder_info <- sum |>
-  inner_join(cps, by = "TUCASEID")
 ```
 
 ```{r}
-#| label: wrangling for map
-## GLORIA - create states map dataset
-states <- maps::map("state", plot = FALSE, fill = TRUE) |>
-  st_as_sf()
+#| label: wrangling for 
 
-# CBSA to county code dataset
-cbsa_fips <- read_csv("raw-data/cbsa2fipsxw.csv")
-fips_states <- cbsa_fips |>
-  mutate(ID = str_to_lower(statename),
-         # cast to character to join with dataset
-         location = as.character(cbsacode)) |>
-  # only keep states (rather than counties), because there isn't
-  # enough data per county
-  select(location, ID) |>
-  # join with state data
-  inner_join(states)
-
-# create average time dataset
-avg_time <- act |>
-  group_by(TUCASEID) |>
-  # sum time by person
-  summarize(total_time = sum(duration)) |>
-  inner_join(responder_info, by = "TUCASEID") |>
-  # join with map data
-  inner_join(fips_states) |>
-  # group by state
-  group_by(ID, geom) |>
-  # average time by location
-  summarize(time = mean(total_time)) |>
-  mutate(State = str_to_title(ID))
-
-# earnings data
-table_map_data <- responder_info |>
-  # add state information
-  inner_join(fips_states) |>
-  inner_join(avg_time) |>
-  select(- TUCASEID, - TESEX, - location, - geom) |>
-  group_by(ID) |>
-  summarize(mean_age = mean(age),
-            mean_earnings = mean(earnings),
-            mean_time = mean(time)) |>
-  mutate(State = str_to_title(ID)) |>
-  select(State, mean_age, mean_earnings, mean_time) |>
-  # rounding digits to 2
-  dplyr::mutate(across(where(is.numeric), round, 2))
-
-avg_time <- avg_time |>
-  # add earnings data
-  inner_join(table_map_data) |>
-  select(State, time, mean_age, 
-         mean_earnings, geom) |>
-  # round digits to 2
-  dplyr::mutate(across(where(is.numeric), round, 2)) |>
-  # add tooltip text
-  mutate(text = paste(
-    "State: ", State,
-    "\n Mean Time: ", time,
-    "\n Mean Age: ", mean_age,
-    "\n Mean Earnings: ", mean_earnings,
-    sep = ""
-  )) 
-
-# changing variable names
-table_map_data <- table_map_data |>
-  rename("Mean Leisure Time per Day (Minutes)" = mean_time,
-         "Mean Age (Years)" = mean_age,
-         "Mean Earnings per Week (USD)" = mean_earnings)
 ```
 
 ```{r}
-#| label: wrangling for scatterplot
-
-## JUSTYCE
-# variables: age, time, hobbies
-#Creating Age Groups for Scatter Layering
-res_in<- responder_info|>
-  mutate(age_group = case_when(
-      age <= 19 ~ "Adolescence",
-      age>= 20 & age <30~ "Young Adult",
-      age>= 30 & age <= 49 ~ "Adult",
-      age>= 50 & age < 59 ~ "Older Adult",
-      age>= 60 ~ "Senior",
-      TRUE ~ "Unknown"),
-        Gender= case_when( 
-      TESEX == 1 ~ "Male",
-      TESEX == 2 ~ "Female"))
-
-res_in<- res_in|>
- filter(age_group!= "Unknown")
- 
+#| label: wrangling for 
 
 
-#Pull Out activities 12, 13, and 15 as their own values for column 
-actrevamp<- act|>
-mutate(actcategory = case_when(
-    str_starts(activity, "12") ~ "Leisure",
-    str_starts(activity, "13") ~ "Sports/Recreation",
-    str_starts(activity, "15") ~ "Volunteerism",
-    TRUE ~ "Other" 
-  ))
-
-#Combine actvamp & res_in
-layeredfile<- res_in|>
-inner_join(actrevamp, by= "TUCASEID")
-
-
-
-#Create a data frame for Each Category 
-# 12 = socializing, relaxing, leisure
-# 13 = sports, exercise, recreation
-# 15 = volunteer activities
-
-#Second Tier Breakdown 
-activities_expressed<- layeredfile|>
-   mutate(activity_involved= str_sub(activity, 1, 4),
-   activity_involvedname = case_when(
-    str_starts(activity_involved, "1201") ~ "Socializing/Communicating",
-str_starts(activity_involved, "1202") ~ "Attending/Hosting Social Events",
-str_starts(activity_involved, "1203") ~ "Relaxing/Leisure",
-str_starts(activity_involved, "1204") ~ "Arts/Entertainment",
-str_starts(activity_involved, "1301") ~ "Participating in Sports/Exercise/Recreation",
-str_starts(activity_involved, "1302") ~ "Attending Sporting/Recreation Events",
-str_starts(activity_involved, "1501") ~ "Administrative & Support Activities",
-str_starts(activity_involved, "1502") ~ "Social Service & Care Activities (Except Medical)",
-str_starts(activity_involved, "1503") ~ "Indoor & Outdoor Maintenance, Building, & Clean-up Activities",
-str_starts(activity_involved, "1504") ~ "Participating in Performance & Cultural Activities
-",
-str_starts(activity_involved, "1505") ~ "Other",
-str_starts(activity_involved, "1506") ~ "Public Health & Safety Activities",
-TRUE ~ "Other"))
-
-
-
-#Third Tier Breakdown 
-fullfile<- activities_expressed|>
-   mutate(activity_3rd= str_sub(activity, 1, 6),
-   thirdtier = case_when(
-str_starts(activity, "120101") ~ "Attending/Hosting Social Events with Others",
-str_starts(activity, "120201") ~ "Attending or hosting parties/receptions/ceremonies",
-str_starts(activity, "120301") ~ "Relaxing/Lounging",
-str_starts(activity, "120303") ~ "Television and movies",
-str_starts(activity, "120305") ~ "Listening to the radio",
-str_starts(activity, "120306") ~ "Listening to/playing music",
-str_starts(activity, "120307") ~ "Playing games",
-str_starts(activity, "120308") ~ "Computer Use",
-str_starts(activity, "120309") ~ "Arts and crafts as a hobby",
-str_starts(activity, "120310") ~ "Collecting",
-str_starts(activity, "120312") ~ "Leisure Reading",
-str_starts(activity, "120313") ~ "Leisure Writing",
-str_starts(activity, "120401") ~ "Attending performing arts",
-str_starts(activity, "120402") ~ "Attending museums",
-str_starts(activity, "120403") ~ "Gambling",
-str_starts(activity, "130101") ~ "Aerobics",
-str_starts(activity, "130102") ~ "Baseball",
-str_starts(activity, "130103") ~ "Basketball",
-str_starts(activity, "130104") ~ "Biking",
-str_starts(activity, "130105") ~ "Billards",
-str_starts(activity, "130106") ~ "Boating",
-str_starts(activity, "130107") ~ "Bowling",
-str_starts(activity, "130108") ~ "Climbing/Caving",
-str_starts(activity, "130109") ~ "Dancing",
-str_starts(activity, "130110") ~ "Equestrian sports",
-str_starts(activity, "130111") ~ "Fencing",
-str_starts(activity, "130112") ~ "Fishing",
-str_starts(activity, "130113") ~ "Football",
-str_starts(activity, "130114") ~ "Golfing",
-str_starts(activity, "130115") ~ "Gymnastics",
-str_starts(activity, "130116") ~ "Hiking",
-str_starts(activity, "130117") ~ "Hockey",
-str_starts(activity, "130118") ~ "Hunting",
-str_starts(activity, "130119") ~ "Martial Arts",
-str_starts(activity, "130120") ~ "Racquet Sports",
-str_starts(activity, "130121") ~ "Rodeo",
-str_starts(activity, "130122") ~ "Rollerblading",
-str_starts(activity, "130123") ~ "Rugby",
-str_starts(activity, "130124") ~ "Running",
-str_starts(activity, "130125") ~ "Skiing/Ice Skating/Snowboarding",
-str_starts(activity, "130126") ~ "Soccer",
-str_starts(activity, "130127") ~ "Softball",
-str_starts(activity, "130129") ~ "Vehicle Touring/Racing",
-str_starts(activity, "130130") ~ "Volleyball",
-str_starts(activity, "130131") ~ "Walking",
-str_starts(activity, "130132") ~ "Water Sports",
-str_starts(activity,"130128")|
-str_starts(activity,"130133")|
-str_starts(activity,"130134") ~ "Gym",
-str_starts(activity, "130135") ~ "Wrestling",
-str_starts(activity, "130136") ~ "Yoga",
-str_starts(activity, "130201") ~ "Watching aerobics",
-str_starts(activity, "130202") ~ "Watching baseball",
-str_starts(activity, "130203") ~ "Watching basketball",
-str_starts(activity, "130204") ~ "Watching biking",
-str_starts(activity, "130205") ~ "Watching billiards",
-str_starts(activity, "130206") ~ "Watching boating",
-str_starts(activity, "130207") ~ "Watching bowling",
-str_starts(activity, "130208") ~ "Watching climbing, spelunking, caving",
-str_starts(activity, "130209") ~ "Watching dancing",
-str_starts(activity, "130210") ~ "Watching equestrian sports",
-str_starts(activity, "130211") ~ "Watching fencing",
-str_starts(activity, "130212") ~ "Watching fishing",
-str_starts(activity, "130213") ~ "Watching football",
-str_starts(activity, "130214") ~ "Watching golfing",
-str_starts(activity, "130215") ~ "Watching gymnastics",
-str_starts(activity, "130216") ~ "Watching hockey",
-str_starts(activity, "130217") ~ "Watching martial arts",
-str_starts(activity, "130218") ~ "Watching racquet sports",
-str_starts(activity, "130219") ~ "Watching rodeo competitions",
-str_starts(activity, "130220") ~ "Watching rollerblading",
-str_starts(activity, "130221") ~ "Watching rugby",
-str_starts(activity, "130222") ~ "Watching running",
-str_starts(activity, "130223") ~ "Watching skiing, ice skating, snowboarding",
-str_starts(activity, "130224") ~ "Watching soccer",
-str_starts(activity, "130225") ~ "Watching softball",
-str_starts(activity, "130226") ~ "Watching vehicle touring/racing",
-str_starts(activity, "130227") ~ "Watching volleyball",
-str_starts(activity, "130228") ~ "Watching walking",
-str_starts(activity, "130229") ~ "Watching water sports",
-str_starts(activity, "130230")|
-str_starts(activity, "130231") ~ "Watching people working out, unspecified",
-str_starts(activity, "130232") ~ "Watching wrestling",
-
-#Creating Volunteer Activities 
-
-str_starts(activity, "150101") ~ "Computer use",
-str_starts(activity, "150102") ~ "Organizing and preparing",
-str_starts(activity, "150103") ~ "Reading",
-str_starts(activity, "150105") ~ "Writing",
-str_starts(activity, "150105") ~ "Fundraising",
-str_starts(activity, "150201") ~ "Food preparation, presentation, clean-up",
-str_starts(activity, "150202") ~ "Collecting & delivering clothing & other goods",
-str_starts(activity, "150203") ~ "Providing care",
-str_starts(activity, "150204") ~ "Teaching, leading, counseling, mentoring",
-str_starts(activity, "150301") ~ "Building houses, wildlife sites, & other structures",
-str_starts(activity, "150302") ~ "Indoor & outdoor maintenance, repair, & clean-up",
-str_starts(activity, "150401") ~ "Performing",
-str_starts(activity, "150402") ~ "Serving at volunteer events & cultural activities",
-str_starts(activity, "150601") ~ "Public health activities
-",
-str_starts(activity, "150602") ~ "Public safety activities",
-))
-
-
-#remove unnecessay information 
-#There are two many other removing them makes sense
-fullfile <- fullfile|>
-filter(thirdtier !="Other",
-activity_involvedname != "Other")
 ```
 
 ```{r}
-#| label: wrangling for table
+#| label: wrangling for 
 
-## BEN
-# variables: locations, time, breakdown of hobbies
-
-#makes dataset with the respondents ID and their state
-a <- atuscps_2023 |>
-  select(TUCASEID, GESTFIPS) |>
-  rename(state = GESTFIPS)
-  
-
-##Maps States to activities and duration of different activities
-#pivots the table wider, after grouping by state, leaving each activity as the columns mapped to each state along the rows
-table_data <- activities_expressed |>
-  inner_join(a, by = "TUCASEID") |>
-  mutate(state_name = case_when(
-    state == "1" ~ "Alabama",
-    state == "2" ~ "Alaska",
-    state == "3" ~ "",
-    state == "4" ~ "Arizona",
-    state == "5" ~ "Arkansas",
-    state == "6" ~ "California",
-    state == "7" ~ "",
-    state == "8" ~ "Colorado",
-    state == "9" ~ "Connecticut",
-    state == "10" ~ "Delaware",
-    state == "11" ~ "Washington DC",
-    state == "12" ~ "Florida",
-    state == "13" ~ "Georgia",
-    state == "14" ~ "",
-    state == "15" ~ "Hawaii",
-    state == "16" ~ "Idaho",
-    state == "17" ~ "Illinois",
-    state == "18" ~ "Indiana",
-    state == "19" ~ "Iowa",
-    state == "20" ~ "Kansas",
-    state == "21" ~ "Kentucky",
-    state == "22" ~ "Lousiana",
-    state == "23" ~ "Maine",
-    state == "24" ~ "Maryland",
-    state == "25" ~ "Massachusetts",
-    state == "26" ~ "Michigan",
-    state == "27" ~ "Minnesota",
-    state == "28" ~ "Mississippi",
-    state == "29" ~ "Missouri",
-    state == "30" ~ "Montana",
-    state == "31" ~ "Nebraska",
-    state == "32" ~ "Nevada",
-    state == "33" ~ "New Hampshire",
-    state == "34" ~ "New Jersey",
-    state == "35" ~ "New Mexico",
-    state == "36" ~ "New York",
-    state == "37" ~ "North Carolina",
-    state == "38" ~ "North Dakota",
-    state == "39" ~ "Ohio",
-    state == "40" ~ "Oklahoma",
-    state == "41" ~ "Oregon",
-    state == "42" ~ "Pennsylvania",
-    state == "43" ~ "",
-    state == "44" ~ "Rhode Island",
-    state == "45" ~ "South Carolina",
-    state == "46" ~ "South Dakota",
-    state == "47" ~ "Tennessee",
-    state == "48" ~ "Texas",
-    state == "49" ~ "Utah",
-    state == "50" ~ "Vermont",
-    state == "51" ~ "Virginia",
-    state == "52" ~ "",
-    state == "53" ~ "Washington",
-    state == "54" ~ "West Virginia",
-    state == "55" ~ "Wisconsin",
-    state == "56" ~ "Wyoming"
-    ) ) |>
-  group_by(state_name, activity_involvedname) |>
-  summarize(new_duration = mean(duration)) |>
-  pivot_wider(names_from = activity_involvedname, values_from = new_duration, values_fill = 0) |>
-  mutate(`Socializing/Communicating` = round(`Socializing/Communicating`, 2)
-    ,`Attending/Hosting Social Events` = round(`Attending/Hosting Social Events`, 2)
-    ,`Relaxing/Leisure` = round(`Relaxing/Leisure`, 2)
-    ,`Arts/Entertainment` = round(`Arts/Entertainment`, 2)
-   ,`Participating in Sports/Exercise/Recreation` = round(`Participating in Sports/Exercise/Recreation`, 2)
-    ,`Attending Sporting/Recreation Events` = round(`Attending Sporting/Recreation Events`, 2) 
-  ,`Administrative & Support Activities` = round(`Administrative & Support Activities`, 2)
-  ,`Social Service & Care Activities (Except Medical)` = round(`Social Service & Care Activities (Except Medical)`, 2)
-  ,`Indoor & Outdoor Maintenance, Building, & Clean-up Activities` = round(`Indoor & Outdoor Maintenance, Building, & Clean-up Activities`, 2))
-#Rounds the values of each output to the nearest hundreth
          
 ```
 
 ```{r}
 #| label: save final objects
 
-save(states, avg_time, fullfile, table_data, table_map_data, file = "american-hobbies/data/final_data.Rdata")
+
 ```
 
 ## Sources
-* https://www.bls.gov/tus/data/datafiles-2023.htm
-* https://www.bls.gov/tus/dictionaries/atusintcodebk23.pdf
-* https://www.bls.gov/tus/lexicons/lexiconwex2023.pdf
-* https://www.bls.gov/tus/dictionaries/atuscpscodebk23.pdf
-* https://www.nber.org/research/data/census-core-based-statistical-area-cbsa-federal-information-processing-series-fips-county-crosswalk
