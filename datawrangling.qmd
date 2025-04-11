@@ -28,14 +28,12 @@ options(scipen = 1, knitr.kable.NA = '')
 # load packages
 library(tidyverse)
 library(ggplot2)
-library(sf)
 library(stringr)
 library(robotstxt)
 library(tidyr)
 library(dplyr)
 library(spotifyr)
 library(tidytuesdayR)
-
 ```
 
 ## Variables
@@ -50,9 +48,6 @@ library(tidytuesdayR)
 paths_allowed("https://www.billboard.com/charts/hot-100/")
 paths_allowed("https://genius.com")
 paths_allowed("https://spotify.com")
-
-
-
 ```
 
 ```{r}
