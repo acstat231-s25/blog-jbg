@@ -67,7 +67,7 @@ access_token <- get_spotify_access_token()
 
 
 # billboard ID Needed 
-playlist <- get_playlist_audio_features("spotify", "ID")  
+playlist <- get_playlist_audio_features("spotify", "6UeSakyzhiEt4NB3UAd6NQ")  
 
 ```
 
