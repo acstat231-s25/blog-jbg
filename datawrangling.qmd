@@ -48,6 +48,9 @@ library(tidytuesdayR)
 paths_allowed("https://www.billboard.com/charts/hot-100/")
 paths_allowed("https://genius.com")
 paths_allowed("https://spotify.com")
+
+readRDS("data/tt_spotify_songs.Rds")
+
 ```
 
 ```{r}
