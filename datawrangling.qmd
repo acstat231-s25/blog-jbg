@@ -57,24 +57,28 @@ spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
 # filter out the most popular songs
 songs_top100 <- spotify_songs |>
   filter(track_popularity >= 94) |>
+  select(- track_album_id, - track_album_release_date,
+         - playlist_name, -playlist_id, -playlist_id) |>
+  group_by(track_id)
   # some songs are listed multiple times, merge those rows
   ## figure this out
-  group_by(track_id) |>
-  summarize(track_id = track_id,
-            track_artist = track_artist,
-            track_popularity = mean(track_popularity),
-            track_album_name = track_album_name,
-            danceability = danceability,
-            energy = energy,
-            loudness = loudness,
-            mode = mode,
-            speechiness = speechiness,
-            acousticness = acousticness,
-            instrumentalness = instrumentalness,
-            liveness = liveness,
-            valence = valence,
-            tempo = tempo,
-            duration_ms = duration_ms)
+  # group_by(track_id, track_name) |>
+  # summarize(track_id = track_id,
+  #           track_name = track_name,
+  #           track_artist = track_artist,
+  #           track_popularity = mean(track_popularity),
+  #           track_album_name = track_album_name,
+  #           danceability = danceability,
+  #           energy = energy,
+  #           loudness = loudness,
+  #           mode = mode,
+  #           speechiness = speechiness,
+  #           acousticness = acousticness,
+  #           instrumentalness = instrumentalness,
+  #           liveness = liveness,
+  #           valence = valence,
+  #           tempo = tempo,
+  #           duration_ms = duration_ms)
 ```
 
 ```{r}
