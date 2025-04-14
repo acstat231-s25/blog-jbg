@@ -89,15 +89,17 @@ playlist_lyrics <- tibble(track_name = rep(NA_character_, 100),
 
 ## attempt for just one
 ## ACCESS TOKEN IS WRONG
-  song_title <- playlist$track.name[1]
+  song_title <- playlist$track.name[3]
   search_song <- GET("https://api.genius.com/search",
                      query = list(q = song_title),
                      add_headers(Authorization = paste("Bearer", genius_access_token)))
   song_info <- content(search_song, as = "parsed", type = "application/json")
   song_url <- song_info$response$hits[[1]]$result$url
   lyrics <- read_html(song_url) |>
-    html_element(".lyrics") |>
+    html_nodes(".hiRbsH") |>
     html_text2()
+  
+  print(song_url)
   
   # add to dataset
   playlist_lyrics$track_name[1] <- song_title
