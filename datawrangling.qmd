@@ -66,11 +66,11 @@ spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
 
 # All Songs - Full Set for Cluster 
 # get rid of duplicate songs
-fullset <- spotify_songs|>
+spotify_distinct <- spotify_songs|>
    distinct(track_name, .keep_all = TRUE)
 
 # Popular Songs
-songs_top100 <- fullset |>
+songs_top100 <- spotify_distinct |>
   filter(track_popularity >= 87) |>
   select(- track_album_id, - track_album_release_date,
          - playlist_name, -playlist_id, -playlist_id) |>
@@ -91,8 +91,6 @@ Sys.getenv("ADf5awyFcKidqW0da12mAzZsO8U_PQ6XDrF3ecWrhbqJzrQM1-lM9fysJFWk_K79")
 lyrics <- get_lyrics_search(artist_name = "Kanye West",
                   song_title = "Good Morning") 
 ```
-
-
 
 ```{r}
 #| label: (attempt) load spotify data - DELETE IF NOT USED
@@ -153,12 +151,20 @@ for (i in 2:100){
 
 
 ```{r}
-#| label: wrangling for 
+#| label: wrangling for k-means analysis
+# remove any non-numerical variables
+spotify_kmeans <- spotify_distinct |>
+  select(- track_id, - track_name, - track_artist, - track_album_id,
+         - track_album_name, - track_album_release_date, - playlist_name,
+         - playlist_id, -playlist_genre, - playlist_subgenre)
 
-
+# standardize variables
+spotify_kmeans_standardized <- spotify_kmeans |>
+  mutate(across(where(is.numeric),
+                ~ (.x - mean(.x)) / sd(.x),
+                .names = "{.col}_z")) |>
+  select(ends_with("_z"))
 ```
-
-
 
 ```{r}
 #| label: wrangling for 
