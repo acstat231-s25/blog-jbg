@@ -50,7 +50,6 @@ paths_allowed("https://genius.com")
 paths_allowed("https://spotify.com")
 
 readRDS("data/tt_spotify_songs.Rds")
-
 ```
 
 
@@ -58,15 +57,19 @@ readRDS("data/tt_spotify_songs.Rds")
 ```{r}
 #| label: load spotify data
 
-# Spotify credentials
+## spotify credentials
 Sys.setenv(SPOTIFY_CLIENT_ID = "03faef051fef46ed8ecc6f2153a55206")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "475255efd20c45f88e50275490895841")
 
-# tokens necessary for use 
+## tokens necessary for use 
 access_token <- get_spotify_access_token()
 
-# billboard ID needed 
-playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")  
+## get playlist details
+playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")
+
+## get individual track audio features
+track_ids <- playlist$track.id
+track_audio_features <- get_track_audio_features(track_ids)
 ```
 
 
