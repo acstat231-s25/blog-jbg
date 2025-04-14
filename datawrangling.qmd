@@ -180,6 +180,14 @@ elbow_plot |>
   scale_x_continuous(breaks = 1:10) +
   labs(x = "Number of clusters (k)",
        y = "Total within-cluster sum of squares")
+
+# k-means analysis (4 clusters)
+set.seed(777)
+
+spotify_kmeans_4 <- spotify_kmeans_standardized |>
+  kmeans(centers = 4, nstart = 20)
+
+spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
 ```
 
 ```{r}
