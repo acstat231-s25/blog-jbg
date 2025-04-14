@@ -67,7 +67,7 @@ access_token <- get_spotify_access_token()
 ## get playlist details
 playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")
 
-## get individual track audio features
+# ## get individual track audio features
 track_ids <- playlist$track.id
 track_audio_features <- get_track_audio_features(track_ids)
 ```
