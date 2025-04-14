@@ -40,6 +40,8 @@ library(tidytuesdayR)
 library(geniusr)
 library(httr)
 library(jsonlite)
+library(broom)
+library(GGally)
 ```
 
 ## Variables
@@ -168,7 +170,7 @@ elbow_plot <- tibble(k = 1:10) |>
   mutate(
     kmeans_results = purrr::map(k, ~kmeans(spotify_kmeans_standardized,
                                            .x, nstart = 20)),
-    glanced = purrr:map(kmeans_results, glance)) |>
+    glanced = purrr::map(kmeans_results, glance)) |>
   unnest(cols = c(glanced))
 
 elbow_plot |>
