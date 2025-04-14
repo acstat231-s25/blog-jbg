@@ -56,19 +56,17 @@ readRDS("data/tt_spotify_songs.Rds")
 
 
 ```{r}
-#Spotify Data
+#| label: load spotify data
 
-#Spotify credentials
+# Spotify credentials
 Sys.setenv(SPOTIFY_CLIENT_ID = "03faef051fef46ed8ecc6f2153a55206")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "475255efd20c45f88e50275490895841")
 
-#Tokens Necessary for Use 
+# tokens necessary for use 
 access_token <- get_spotify_access_token()
 
-
-# billboard ID Needed 
-playlist <- get_playlist_audio_features("spotify", "6UeSakyzhiEt4NB3UAd6NQ")  
-
+# billboard ID needed 
+playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")  
 ```
 
 
