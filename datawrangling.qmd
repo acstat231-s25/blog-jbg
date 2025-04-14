@@ -29,11 +29,15 @@ options(scipen = 1, knitr.kable.NA = '')
 library(tidyverse)
 library(ggplot2)
 library(stringr)
+library(purrr)
 library(robotstxt)
+library(tidytext)
 library(tidyr)
 library(dplyr)
 library(spotifyr)
 library(tidytuesdayR)
+library(geniusr)
+
 ```
 
 ## Variables
@@ -48,45 +52,51 @@ library(tidytuesdayR)
 paths_allowed("https://www.billboard.com/charts/hot-100/")
 paths_allowed("https://genius.com")
 paths_allowed("https://spotify.com")
-
-readRDS("data/tt_spotify_songs.Rds")
+spotify<-readRDS("data/tt_spotify_songs.Rds")
 
 ```
 
 
 
 ```{r}
-#Spotify Data
+#Genius Lyric Data
 
-#Spotify credentials
-Sys.setenv(SPOTIFY_CLIENT_ID = "03faef051fef46ed8ecc6f2153a55206")
-Sys.setenv(SPOTIFY_CLIENT_SECRET = "475255efd20c45f88e50275490895841")
+genius_token(bk0ijdi-fnVwz5XIpGRPtnLTay0aPfDgw_nAnQBejj9svAAULIkzDCLh9BzaL3Lw)
 
-#Tokens Necessary for Use 
-access_token <- get_spotify_access_token()
+#Will need to figure out how to make this a full data frame eventually 
+#lyrics<- data.frame(
+ # c(artisit)
+#)
 
+#lyrics
+lyrics<- get_lyrics_search(artist_name = "Kanye West",
+                  song_title = "Good Morning") %>% 
+  # get lyric bigrams
+  unnest_tokens(bigram, line, token = "ngrams", n = 2) %>%
+  # look for good morning
+  filter(bigram == "good morning") %>% 
+  # count bigram frequency
+  nrow()
 
-# billboard ID Needed 
-playlist <- get_playlist_audio_features("spotify", "6UeSakyzhiEt4NB3UAd6NQ")  
 
 ```
 
 
 
+```{r}
+#| label: wrangling for 
 
+```
 
 
 
 ```{r}
 #| label: wrangling for 
 
-```
-
-```{r}
-#| label: wrangling for 
-
 
 ```
+
+
 
 ```{r}
 #| label: wrangling for 
