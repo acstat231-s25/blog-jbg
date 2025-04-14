@@ -80,12 +80,27 @@ playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")
 
 genius_access_token <- "W28ITauMuo8HwVUStqe7xzv0EepDLZm3rHvYkkAHyhrp-0Y-FSdm7GDqFqCYS-fA"
 
-search_url <- "https://api.genius.com/search"
-
 ## pre-allocate space
 playlist_lyrics <- tibble(track_name = rep(NA_character_, 100),
                           track_id = rep(NA_real_, 100),
                           lyrics = rep(NA_character_, 100))
+
+## attempt for just one
+## ACCESS TOKEN IS WRONG
+  song_title <- playlist$track.name[1]
+  search_song <- GET("https://api.genius.com/search",
+                     query = list(q = song_title),
+                     add_headers(Authorization = paste("Bearer", access_token)))
+  song_info <- content(search_song, as = "parsed", type = "application/json")
+  song_url <- song_info$search_song$hits[[1]]$result$url
+  lyrics <- read_html(song_url) |>
+    html_element(".lyrics") |>
+    html_text2()
+  
+  # add to dataset
+  playlist_lyrics$track_name[1] <- song_title
+  playlist_lyrics$track_id[1] <- playlist$track.id[1]
+  playlist_lyrics$lyrics[1] <- lyrics
 
 ## iterate through to get lyrics
 for (i in 1:100){
