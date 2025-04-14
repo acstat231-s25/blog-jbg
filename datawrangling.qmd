@@ -78,6 +78,8 @@ playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")
 ```{r}
 #| label: scrape genius lyrics 
 
+## chatGPT prompt: scrape lyrics from genius.com
+
 genius_access_token <- "W28ITauMuo8HwVUStqe7xzv0EepDLZm3rHvYkkAHyhrp-0Y-FSdm7GDqFqCYS-fA"
 
 ## pre-allocate space
@@ -90,9 +92,9 @@ playlist_lyrics <- tibble(track_name = rep(NA_character_, 100),
   song_title <- playlist$track.name[1]
   search_song <- GET("https://api.genius.com/search",
                      query = list(q = song_title),
-                     add_headers(Authorization = paste("Bearer", access_token)))
+                     add_headers(Authorization = paste("Bearer", genius_access_token)))
   song_info <- content(search_song, as = "parsed", type = "application/json")
-  song_url <- song_info$search_song$hits[[1]]$result$url
+  song_url <- song_info$response$hits[[1]]$result$url
   lyrics <- read_html(song_url) |>
     html_element(".lyrics") |>
     html_text2()
@@ -108,11 +110,11 @@ for (i in 1:100){
   song_title <- playlist$track.name[i]
   search_song <- GET("https://api.genius.com/search",
                      query = list(q = song_title),
-                     add_headers(Authorization = paste("Bearer", access_token)))
+                     add_headers(Authorization = paste("Bearer", genius_access_token)))
   song_info <- content(search_song, as = "parsed", type = "application/json")
   song_url <- song_info$search_song$hits[[1]]$result$url
   lyrics <- read_html(song_url) |>
-    html_element(".lyrics") |>
+    html_nodes(".lyrics") |>
     html_text2()
   
   # add to dataset
