@@ -52,55 +52,50 @@ library(jsonlite)
 
 ## check if we can scrape
 
-#genius
+# genius
 paths_allowed("https://genius.com")
 
-#spotify
+# spotify
 paths_allowed("https://spotify.com")
 
-#Individual Song Lyrics Website Allows us to Scrape
+# Individual Song Lyrics Website Allows us to Scrape
 paths_allowed("https://open.spotify.com/track/00Cwaioho8d1pETtPFO79T")
 
-#Spotify DataSet 
-spotify_songs<-readRDS("data/tt_spotify_songs.Rds")
+# Spotify DataSet 
+spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
 
-#All Songs - Full Set for Cluster 
-fullset<- spotify_songs|>
+# All Songs - Full Set for Cluster 
+# get rid of duplicate songs
+fullset <- spotify_songs|>
    distinct(track_name, .keep_all = TRUE)
 
 # Popular Songs
-songs_top100 <- spotify_songs |>
+songs_top100 <- fullset |>
   filter(track_popularity >= 87) |>
   select(- track_album_id, - track_album_release_date,
          - playlist_name, -playlist_id, -playlist_id) |>
-  group_by(track_id)|>
-  #removes duplicate track names
-   distinct(track_name, .keep_all = TRUE)
-
+  group_by(track_id)
 ```
 
 ```{r}
-
+#| label: scrape lyrics from genius.com
 #Genius Lyric Data
 
 Sys.getenv("ADf5awyFcKidqW0da12mAzZsO8U_PQ6XDrF3ecWrhbqJzrQM1-lM9fysJFWk_K79")
 
-#Will need to figure out how to make this a full data frame eventually 
+# Will need to figure out how to make this a full data frame eventually 
 
 # Helpful Website: https://ewenme.github.io/geniusr/
 
 #lyrics
-lyrics<- get_lyrics_search(artist_name = "Kanye West",
+lyrics <- get_lyrics_search(artist_name = "Kanye West",
                   song_title = "Good Morning") 
-
-
-
 ```
 
 
 
 ```{r}
-#| label: (attempt) load spotify data
+#| label: (attempt) load spotify data - DELETE IF NOT USED
 
 ## spotify credentials
 ##Sys.setenv(SPOTIFY_CLIENT_ID = "03faef051fef46ed8ecc6f2153a55206")
