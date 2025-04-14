@@ -44,18 +44,17 @@ library(tidytuesdayR)
 ```{r}
 #| label: load & basic wrangling
 
-# check if we can scrape
+## check if we can scrape
 paths_allowed("https://www.billboard.com/charts/hot-100/")
 paths_allowed("https://genius.com")
 paths_allowed("https://spotify.com")
 
-readRDS("data/tt_spotify_songs.Rds")
+## tidy tuesday spotify data
+spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
 ```
 
-
-
 ```{r}
-#| label: load spotify data
+#| label: (attempt) load spotify data
 
 ## spotify credentials
 Sys.setenv(SPOTIFY_CLIENT_ID = "03faef051fef46ed8ecc6f2153a55206")
@@ -67,9 +66,10 @@ access_token <- get_spotify_access_token()
 ## get playlist details
 playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")
 
-# ## get individual track audio features
-track_ids <- playlist$track.id
-track_audio_features <- get_track_audio_features(track_ids)
+## get individual track audio features
+# track_ids <- playlist$track.id
+# track_audio_features <- get_track_audio_features(track_ids,
+#                                                  authorization = access_token)
 ```
 
 
