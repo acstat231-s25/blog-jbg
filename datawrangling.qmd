@@ -148,8 +148,6 @@ for (i in 2:100){
   # 1. luther
 ```
 
-
-
 ```{r}
 #| label: wrangling for k-means analysis
 # remove any non-numerical variables
@@ -164,6 +162,22 @@ spotify_kmeans_standardized <- spotify_kmeans |>
                 ~ (.x - mean(.x)) / sd(.x),
                 .names = "{.col}_z")) |>
   select(ends_with("_z"))
+
+# elbow plot to see optimal amount of clusters
+elbow_plot <- tibble(k = 1:10) |>
+  mutate(
+    kmeans_results = purrr::map(k, ~kmeans(spotify_kmeans_standardized,
+                                           .x, nstart = 20)),
+    glanced = purrr:map(kmeans_results, glance)) |>
+  unnest(cols = c(glanced))
+
+elbow_plot |>
+  ggplot(aes(x = k, y = tot.withinss)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = 1:10) +
+  labs(x = "Number of clusters (k)",
+       y = "Total within-cluster sum of squares")
 ```
 
 ```{r}
