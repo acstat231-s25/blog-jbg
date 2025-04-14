@@ -51,70 +51,48 @@ library(jsonlite)
 #| label: load & basic wrangling
 
 ## check if we can scrape
-# paths_allowed("https://www.billboard.com/charts/hot-100/")
+
+#genius
 paths_allowed("https://genius.com")
 
+#spotify
 paths_allowed("https://spotify.com")
-spotify<-readRDS("data/tt_spotify_songs.Rds")
 
-# paths_allowed("https://spotify.com")
+#Individual Song Lyrics Website Allows us to Scrape
+paths_allowed("https://open.spotify.com/track/00Cwaioho8d1pETtPFO79T")
 
-## tidy tuesday spotify data
-spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
-# filter out the most popular songs
-# I did 87 because it was the closest I could get to 100
-#88 would only give us 92 which is under 100, I would rather us at as least 100 than under 100
+#Spotify DataSet 
+spotify_songs<-readRDS("data/tt_spotify_songs.Rds")
+
+#All Songs - Full Set for Cluster 
+fullset<- spotify_songs|>
+   distinct(track_name, .keep_all = TRUE)
+
+# Popular Songs
 songs_top100 <- spotify_songs |>
   filter(track_popularity >= 87) |>
   select(- track_album_id, - track_album_release_date,
          - playlist_name, -playlist_id, -playlist_id) |>
-  group_by(track_id)
-
-songs_top100singles<- songs_top100|>
+  group_by(track_id)|>
+  #removes duplicate track names
    distinct(track_name, .keep_all = TRUE)
 
-
-  # some songs are listed multiple times, merge those rows
-  ## figure this out
-  # group_by(track_id, track_name) |>
-  # summarize(track_id = track_id,
-  #           track_name = track_name,
-  #           track_artist = track_artist,
-  #           track_popularity = mean(track_popularity),
-  #           track_album_name = track_album_name,
-  #           danceability = danceability,
-  #           energy = energy,
-  #           loudness = loudness,
-  #           mode = mode,
-  #           speechiness = speechiness,
-  #           acousticness = acousticness,
-  #           instrumentalness = instrumentalness,
-  #           liveness = liveness,
-  #           valence = valence,
-  #           tempo = tempo,
-  #           duration_ms = duration_ms)
 ```
 
 ```{r}
 
 #Genius Lyric Data
 
-genius_token(bk0ijdi-fnVwz5XIpGRPtnLTay0aPfDgw_nAnQBejj9svAAULIkzDCLh9BzaL3Lw)
+Sys.getenv("ADf5awyFcKidqW0da12mAzZsO8U_PQ6XDrF3ecWrhbqJzrQM1-lM9fysJFWk_K79")
 
 #Will need to figure out how to make this a full data frame eventually 
-#lyrics<- data.frame(
- # c(artisit)
-#)
+
+# Helpful Website: https://ewenme.github.io/geniusr/
 
 #lyrics
 lyrics<- get_lyrics_search(artist_name = "Kanye West",
-                  song_title = "Good Morning") %>% 
-  # get lyric bigrams
-  unnest_tokens(bigram, line, token = "ngrams", n = 2) %>%
-  # look for good morning
-  filter(bigram == "good morning") %>% 
-  # count bigram frequency
-  nrow()
+                  song_title = "Good Morning") 
+
 
 
 ```
