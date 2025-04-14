@@ -48,9 +48,9 @@ library(jsonlite)
 #| label: load & basic wrangling
 
 ## check if we can scrape
-paths_allowed("https://www.billboard.com/charts/hot-100/")
+# paths_allowed("https://www.billboard.com/charts/hot-100/")
 paths_allowed("https://genius.com")
-paths_allowed("https://spotify.com")
+# paths_allowed("https://spotify.com")
 
 ## tidy tuesday spotify data
 spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
