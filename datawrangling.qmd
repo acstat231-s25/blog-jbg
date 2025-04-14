@@ -101,9 +101,9 @@ for (i in 2:100){
     html_text2()
   
   # add to dataset
-  playlist_lyrics[i]$track_name <- song_title
-  playlist_lyrics[i]$track_id <- playlist$track.id[i]
-  playlist_lyrics[i]$lyrics <- lyrics
+  playlist_lyrics$track_name[i] <- song_title
+  playlist_lyrics$track_id[i] <- playlist$track.id[i]
+  playlist_lyrics$lyrics[i] <- lyrics
 }
 
 ## need to manually clean
