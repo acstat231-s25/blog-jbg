@@ -191,7 +191,11 @@ spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
 ```
 
 ```{r}
-#| label: wrangling for 
+#| label: wrangling for Sentiment Analysis
+
+
+genius_access_token <- "OQQUZXvKYhXxNvw9_x7RZgVypJWWwUQvSGmJMD77mTonSK75psaEQL48qYbIpfaj"
+
 
          
 ```
