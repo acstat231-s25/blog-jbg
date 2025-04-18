@@ -195,7 +195,7 @@ spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
 #| label: wrangling for Sentiment Analysis
 
 
-
+##Still working on removing filler at the top
 playlist_lyrics <- tibble(
   track_name = rep(NA_character_, 91),
   track_id = rep(NA_character_, 91),
@@ -231,8 +231,33 @@ for (i in 1:91) {
 }
 
 
+lyrics_words <- playlist_lyrics |>
+  unnest_tokens(output = word, input = lyrics)
+
+afinn_lexicon <- get_sentiments("afinn")
 
 
+afinn_lyrics <- lyrics_words |>
+  inner_join(afinn_lexicon, by = "word")
+
+
+
+afinn_song_scores <- afinn_lyrics |>
+  group_by(track_name, track_id) |>
+  summarize(sentiment_score = sum(value))
+
+
+my_stop_words <- tibble(
+  word = c("contributors", "Translations")
+)
+
+lyrics_no_stop_words <- lyrics_words |>
+  anti_join(stop_words, by = "word") |>
+  anti_join(my_stop_words, by = "word")
+
+
+word_counts <- lyrics_no_stop_words |>
+  count(word)
          
 ```
 
