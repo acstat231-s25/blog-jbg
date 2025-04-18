@@ -42,6 +42,7 @@ library(httr)
 library(jsonlite)
 library(broom)
 library(GGally)
+library(rgenius)
 ```
 
 ## Variables
@@ -194,9 +195,40 @@ spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
 #| label: wrangling for Sentiment Analysis
 
 
-genius_access_token <- "OQQUZXvKYhXxNvw9_x7RZgVypJWWwUQvSGmJMD77mTonSK75psaEQL48qYbIpfaj"
+
+playlist_lyrics <- tibble(
+  track_name = rep(NA_character_, 91),
+  track_id = rep(NA_character_, 91),
+  lyrics = rep(NA_character_, 91)
+)
 
 
+
+for (i in 1:91) {
+  song_title <- songs_top100$track_name[i]
+  song_id <- songs_top100$track_id[i]
+  
+  search_song <- GET("https://api.genius.com/search",
+                     query = list(q = song_title),
+                     add_headers(Authorization = paste("Bearer", "OQQUZXvKYhXxNvw9_x7RZgVypJWWwUQvSGmJMD77mTonSK75psaEQL48qYbIpfaj")))
+  song_info <- content(search_song, as = "parsed", type = "application/json")
+
+
+    song_url <- song_info$response$hits[[1]]$result$url
+
+    lyrics <- 
+      read_html(song_url) |>
+        html_elements("div[data-lyrics-container='true']") |>
+        html_text2() |>
+        paste(collapse = "\n")
+    
+
+
+    playlist_lyrics$track_name[i] <- song_name
+    playlist_lyrics$track_id[i] <- song_id
+    playlist_lyrics$lyrics[i] <- lyrics
+  
+}
          
 ```
 
