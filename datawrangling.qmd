@@ -224,11 +224,15 @@ for (i in 1:91) {
     
 
 
-    playlist_lyrics$track_name[i] <- song_name
+    playlist_lyrics$track_name[i] <- song_title
     playlist_lyrics$track_id[i] <- song_id
     playlist_lyrics$lyrics[i] <- lyrics
   
 }
+
+
+
+
          
 ```
 
