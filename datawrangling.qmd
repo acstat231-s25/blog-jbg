@@ -258,6 +258,13 @@ lyrics_no_stop_words <- lyrics_words |>
 
 word_counts <- lyrics_no_stop_words |>
   count(word)
+
+
+songs_top100_genre <- songs_top100 |>
+  select(track_id, playlist_genre)
+
+playlist_lyrics <- playlist_lyrics |>
+  left_join(songs_top100_genre, by = "track_id")
          
 ```
 
