@@ -45,6 +45,7 @@ spotify_k4 |>
   ggpairs(aes(color = .cluster))
 ```
 
+
 # Getting started
 
 This is an example of a Quarto website. All the [Quarto markdown features](https://quarto.org/docs/authoring/markdown-basics.html) we learned for formatting text, adding headings and subheadings, adding code and output, adding labels and captions and whatnot work as usual. 
@@ -161,6 +162,7 @@ Focus on completing the blog content first! You can play with features and custo
 
 I would strongly recommend  using **knitr**'s `include_graphics()` functions within code chunks to include images or gifs within your blog. This makes it easier to modify figures, add captions and links, and visually find the code for figures quickly if you need to modify something about the output. There is also [markdown syntax to display or embed images](https://quarto.org/docs/authoring/figures.html), but I would typically not recommend it.
 
+
 ```{r}
 #| fig-cap: "Image courtesy of giphy.com"
 #| fig-align: center
@@ -169,6 +171,7 @@ I would strongly recommend  using **knitr**'s `include_graphics()` functions wit
 
 include_graphics("https://i.giphy.com/3og0IT6sIWd1eh7bJm.webp")
 ```
+
 
 Either approach will take either a filepath to a stored file or a URL to an image or gif. Width can be specified as a percentage of the width of the page (0% to 100%; my preferred approach) or as a fixed number of units (e.g. 400px, 3in, 10cm). 
 
@@ -232,6 +235,7 @@ The same syntax shown across the linked examples can be used to create subtables
 
 Two examples in @tbl-layout and @fig-layout below are borrowed and slightly modified from the linked sections. 
 
+
 ```{r}
 #| label: tbl-layout
 #| tbl-cap: "Two tables side-by-side"
@@ -248,7 +252,6 @@ pressure |>
   slice(1:3) |> 
   kable()
 ```
-
 
 ```{r}
 #| label: fig-layout
