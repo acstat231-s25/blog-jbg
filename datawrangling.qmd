@@ -293,6 +293,31 @@ songs_top100_urls<- songs_top100|>
     url= paste0("https://en.wikipedia.org/wiki/", urlartist) #creates the base website URL 
   )
 
+#Save and Read Urls
+songs_top100_urls_html <- songs_top100_urls$url |>
+    map(read_html) |>
+    # Also works with "div.wst-plainlist > ul > li"
+    html_elements("div.wst-plainlist > ul > li > a") |>
+    html_text2()
+
+
+
+
+
+
+
+
+
+
+
+
+
+songs_top100_urls <- songs_top100_urls |>
+  mutate( texthtml = map(url, (read_html))
+  )
+
+
+
 #Reading the Website w/ HTML
 wikihtml <- songs_top100_urls$url|>
   map(songs_top100_urls$url, read_html)
@@ -300,7 +325,7 @@ wikihtml <- songs_top100_urls$url|>
 
 
  # Identify number of iterations (start with 1!)
-n_iter <- nrows(songs_top100_urls)
+n_iter <- nrow(songs_top100_urls)
   # Pre-allocate space
   songs_wikipedia <- songs_top100_urls|>
     tibble(title = titles
