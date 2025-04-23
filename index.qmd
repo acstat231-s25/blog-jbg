@@ -41,17 +41,25 @@ elbow_plot |>
 ```{r}
 #| label: k-means analysis energy plot
 #| warning: false
+#| out-width: 100%
 
 # choosing the variables that contribute to "energy"
 spotify_k4 |>
   select(track_popularity_z, danceability_z, energy_z, loudness_z, liveness_z
          , .cluster) |>
-  ggpairs(aes(color = .cluster))
+  rename(Popularity = track_popularity_z,
+         Danceability = danceability_z,
+         Energy = energy_z,
+         Loudness = loudness_z,
+         Liveness = liveness_z,
+         Cluster = .cluster) |>
+  ggpairs(aes(color = Cluster))
 ```
 
 ```{r}
 #| label: k-means analysis features plot
 #| warning: false
+#| out-width: 100%
 
 # choosing the variables that are inherent features of the track
 spotify_k4 |>
