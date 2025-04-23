@@ -299,6 +299,36 @@ wikihtml <- songs_top100_urls$url|>
 #Current reading in all the values at Null 
 
 
+ # Identify number of iterations (start with 1!)
+n_iter <- nrows(songs_top100_urls)
+  # Pre-allocate space
+  songs_wikipedia <- songs_top100_urls|>
+    tibble(title = titles
+                           , url = urls
+                            # Create empty character vector the same
+                           # length as our titles vector
+                           , text = vector(mode = "character"
+                                           , length = length(titles))) |>
+# Limit to only the rows we are trying to work with
+  slice(1:n_iter)
+# Iterate through links 
+  for (i in 1:n_iter) {
+    songs_wikipedia$text[i] <- songs_wikipedia$url[i] |>
+      read_html() |>
+      html_element("#mw-content-text") |>
+      html_text2()
+}
+  # Identify number of iterations (start with 1!)
+  n_iter <- nrow(toc)
+  # Pre-allocate space
+  songs_wikipedia <- tibble(title = titles
+                           , url = urls
+                           # Create empty character vector the same
+                           # length as our titles vector
+                           , text = vector(mode = "character"
+                                           , length = length(titles)))
+
+
 #Pulling by Paragraphs
 paragraphs <-wikihtml|>
   map(~ .x |> #for each wikipedia page url 
