@@ -43,7 +43,7 @@ paths_allowed("https://spotify.com")
 paths_allowed("https://open.spotify.com/track/00Cwaioho8d1pETtPFO79T")
 
 # Spotify DataSet 
-spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
+spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 
 # Wikipedia 
 paths_allowed("https://en.wikipedia.org/wiki/Post_Malone") # Post Malone 
@@ -77,46 +77,6 @@ lyrics <- get_lyrics_search(artist_name = "Kanye West",
                             song_title = "Good Morning") 
 
 # ------------------------------------------------------------------------------      
-
-### wrangling for k-means analysis
-  # remove any non-numerical variables
-      spotify_kmeans <- spotify_distinct |>
-        select(- track_id, - track_name, - track_artist, - track_album_id,
-                - track_album_name, - track_album_release_date, - playlist_name,
-                - playlist_id, -playlist_genre, - playlist_subgenre)
-           
-  # standardize variables
-      spotify_kmeans_standardized <- spotify_kmeans |>
-        mutate(across(where(is.numeric),
-                      ~ (.x - mean(.x)) / sd(.x),
-                        .names = "{.col}_z")) |>
-        select(ends_with("_z"))
-           
-  # elbow plot to see optimal amount of clusters
-      elbow_plot <- tibble(k = 1:10) |>
-        mutate(
-          kmeans_results = purrr::map(k, ~kmeans(spotify_kmeans_standardized,
-                                                      .x, nstart = 20)),
-               glanced = purrr::map(kmeans_results, glance)) |>
-          unnest(cols = c(glanced))
-           
-          elbow_plot |>
-            ggplot(aes(x = k, y = tot.withinss)) +
-            geom_point() +
-            geom_line() +
-            scale_x_continuous(breaks = 1:10) +
-            labs(x = "Number of clusters (k)",
-                y = "Total within-cluster sum of squares")
-           
-  # k-means analysis (4 clusters)
-    set.seed(777)
-           
-    spotify_kmeans_4 <- spotify_kmeans_standardized |>
-      kmeans(centers = 4, nstart = 20)
-           
-    spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
-    
-# ------------------------------------------------------------------------------
     
 ### wrangling for Sentiment Analysis
            
