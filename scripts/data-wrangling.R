@@ -43,6 +43,7 @@ paths_allowed("https://spotify.com")
 paths_allowed("https://open.spotify.com/track/00Cwaioho8d1pETtPFO79T")
 
 # Spotify DataSet 
+# set working directory to blog-jbg
 spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 
 # Wikipedia 
