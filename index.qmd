@@ -39,43 +39,43 @@ elbow_plot |>
 ```
 
 ```{r}
-#| label: k-means analysis energy plot
+#| label: k-means analysis plot 1
 #| warning: false
 #| out-width: 100%
 
-# choosing the variables that contribute to "energy"
 spotify_k4 |>
-  select(track_popularity_z, danceability_z, energy_z, loudness_z, liveness_z
-         , .cluster) |>
-  rename(Popularity = track_popularity_z,
-         Danceability = danceability_z,
-         Energy = energy_z,
-         Loudness = loudness_z,
-         Liveness = liveness_z,
-         Cluster = .cluster) |>
+  select(Popularity, Danceability, Energy, Liveness, Cluster) |>
   ggpairs(aes(color = Cluster))
 ```
 
 ```{r}
-#| label: k-means analysis features plot
+#| label: k-means analysis plot 2
 #| warning: false
 #| out-width: 100%
 
-# choosing the variables that are inherent features of the track
 spotify_k4 |>
-  select(track_popularity_z, key_z, mode_z, tempo_z, duration_ms_z, .cluster) |>
-  ggpairs(aes(color = .cluster))
+  select(Popularity, Key, Mode, Tempo, Duration, Cluster) |>
+  ggpairs(aes(color = Cluster))
 ```
 
 ```{r}
-#| label: k-means analysis misc plot
+#| label: k-means analysis plot 3
 #| warning: false
+#| out-width: 100%
 
-# choosing the remaining variables
 spotify_k4 |>
-  select(track_popularity_z, speechiness_z, acousticness_z, instrumentalness_z,
-         valence_z, .cluster) |>
-  ggpairs(aes(color = .cluster))
+  select(Popularity, Speechiness, Acousticness, Instrumentalness, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 4
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Valence, Mode, Loudness, Cluster) |>
+  ggpairs(aes(color = Cluster))
 ```
 
 # Getting started
