@@ -1,5 +1,5 @@
 ---
-title: "Title"
+title: "Following the Line of Music"
 subtitle: "Optional subtitle"
 author: 
 - "Gloria Wu"
