@@ -21,6 +21,20 @@ library(knitr)
 library(kableExtra)
 ```
 
+```{r}
+#| label: elbow plot
+load("data/k-means-data.Rds")
+
+elbow_plot |>
+  ggplot(aes(x = k, y = tot.withinss)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = 1:10) +
+  labs(x = "Number of clusters (k)",
+       y = "Total within-cluster sum of squares")
+```
+
+
 # Getting started
 
 This is an example of a Quarto website. All the [Quarto markdown features](https://quarto.org/docs/authoring/markdown-basics.html) we learned for formatting text, adding headings and subheadings, adding code and output, adding labels and captions and whatnot work as usual. 

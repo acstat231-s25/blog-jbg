@@ -6,6 +6,7 @@
 ### load packages
 library(tidyverse)
 library(purrr)
+library(broom)
 
 ### load dataset
 # set working directory to blog-jbg
@@ -37,21 +38,13 @@ elbow_plot <- tibble(k = 1:10) |>
     glanced = purrr::map(kmeans_results, glance)) |>
   unnest(cols = c(glanced))
 
-elbow_plot |>
-  ggplot(aes(x = k, y = tot.withinss)) +
-  geom_point() +
-  geom_line() +
-  scale_x_continuous(breaks = 1:10) +
-  labs(x = "Number of clusters (k)",
-       y = "Total within-cluster sum of squares")
-
 # k-means analysis (4 clusters)
 set.seed(777)
 
 spotify_kmeans_4 <- spotify_kmeans_standardized |>
   kmeans(centers = 4, nstart = 20)
 
-spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
+spotify_k4 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
 
 ### save final objects
-save()
+save(elbow_plot, spotify_k4, file = "data/k-means-data.Rds")
