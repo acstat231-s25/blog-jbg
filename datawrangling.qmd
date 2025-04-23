@@ -67,7 +67,7 @@ paths_allowed("https://spotify.com")
 paths_allowed("https://open.spotify.com/track/00Cwaioho8d1pETtPFO79T")
 
 # Spotify DataSet 
-spotify_songs <- readRDS("data/tt_spotify_songs.Rds")
+spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 
 #Wikipedia 
 paths_allowed("https://en.wikipedia.org/wiki/Post_Malone") # Post Malone 
@@ -286,23 +286,26 @@ playlist_lyrics <- playlist_lyrics |>
 ```{r}
 #| label: Wrangle for Network 
 
-#Urls Iteration
-Urls<- songs_top100|>
+#Urls Iteration for Each Artisit in Comprehensive List 
+songs_top100_urls<- songs_top100|>
   mutate( 
     urlartist=  gsub(" ", "_", track_artist), #creates a space for the url to go first, and the separation of the artist names with a underscoe instead of a space because that is how Wikipedia works 
     url= paste0("https://en.wikipedia.org/wiki/", urlartist) #creates the base website URL 
   )
 
 #Reading the Website w/ HTML
-wikihtml <- Urls|>
-  select(url)|>
-  read_html(url)
+wikihtml <- songs_top100_urls$url|>
+  map(songs_top100_urls$url, read_html)
+#Current reading in all the values at Null 
+
 
 #Pulling by Paragraphs
-paragraphs <-Urls|>
-  html_nodes("p")|>
-  html_text()|>
-  paste(collapse = " ")
+paragraphs <-wikihtml|>
+  map(~ .x |> #for each wikipedia page url 
+      html_nodes("p")|> 
+      html_text() |> 
+      paste(collapse = " "))
+  
 
 #Fromn Lab to help make sense 
 toc_url |>
@@ -313,8 +316,6 @@ toc_url |>
 
 
 ```
-
-
 
 
 
