@@ -26,6 +26,10 @@ library(ggplot2)
 load("data/k-means-data.Rds")
 ```
 
+## K-Means Analysis
+
+To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. 
+
 ```{r}
 #| label: elbow plot for k-means analysis
 
