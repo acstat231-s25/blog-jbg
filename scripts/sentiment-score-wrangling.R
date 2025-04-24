@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
-# wrangling for k-means analysis
-# Gloria Wu
+# Wrangling for Sentiment Score Analysis
+# Ben Snyderman
 # ------------------------------------------------------------------------------
 
 ### load packages
