@@ -36,8 +36,7 @@ spotify_distinct <- spotify_songs|>
 songs_top100 <- spotify_distinct |>
   filter(track_popularity >= 87) |>
   select(- track_album_id, - track_album_release_date,
-         - playlist_name, -playlist_id, -playlist_id) |>
-  group_by(track_id)
+         - playlist_name, -playlist_id, -playlist_id)
 
 
 
@@ -49,9 +48,20 @@ playlist_lyrics <- tibble(
 
 
 
+##new to try to help with parenthesis problem
+songs_top100 <- songs_top100 |>
+  mutate(track_name = str_replace(track_name, "\\(.*?\\)", ""))
+
+songs_top100 <- songs_top100 |>
+  mutate(track_name = str_replace(track_name, "Sunflower - Spider-Man: Into the Spider-Verse", "Sunflower"))
+
+
+
 for (i in 1:91) {
   song_title <- songs_top100$track_name[i]
   song_id <- songs_top100$track_id[i]
+  
+  
   
   search_song <- GET("https://api.genius.com/search",
                      query = list(q = song_title),
