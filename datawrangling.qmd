@@ -299,12 +299,21 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
 ```{r}
 #| label: Wrangle for Network 
 
-#Urls Iteration for Each Artisit in Comprehensive List 
+#Edit Names For Wikipedia Urls 
+#Some artists names are too vague, forcing R to quit reading through because it can't find the specfic urls
+songs_top100<- songs_top100|>
+  mutate(track_artist= case_when(
+    track_artist == "MEDUZA" ~ "MEDUZA (producers)",
+    TRUE ~ track_artist
+  ))
+
+#Urls Iteration for Each Artisit in Comprehensive List
 songs_top100_urls<- songs_top100 |>
   mutate( 
     urlartist=  gsub(" ", "_", track_artist), #creates a space for the url to go first, and the separation of the artist names with a underscoe instead of a space because that is how Wikipedia works 
     url= paste0("https://en.wikipedia.org/wiki/", urlartist) #creates the base website URL 
   )
+
 
 #Save and Read Urls
 songs_top100_urls_html <- songs_top100_urls$url[1] |>
