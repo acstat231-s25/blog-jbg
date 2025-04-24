@@ -85,7 +85,7 @@ paths_allowed("https://en.wikipedia.org/wiki/Post_Malone") # Post Malone
 # All Songs - Full Set for Cluster 
 # get rid of duplicate songs
 spotify_distinct <- spotify_songs|>
-   distinct(track_name, .keep_all = TRUE)
+   distinct(track_name, .keep_all = TRUE) #For dataframes only
 
 # Popular Songs
 songs_top100 <- spotify_distinct |>
@@ -287,22 +287,37 @@ playlist_lyrics <- playlist_lyrics |>
 #| label: Wrangle for Network 
 
 #Urls Iteration for Each Artisit in Comprehensive List 
-songs_top100_urls<- songs_top100|>
+songs_top100_urls<- songs_top100 |>
   mutate( 
     urlartist=  gsub(" ", "_", track_artist), #creates a space for the url to go first, and the separation of the artist names with a underscoe instead of a space because that is how Wikipedia works 
     url= paste0("https://en.wikipedia.org/wiki/", urlartist) #creates the base website URL 
   )
 
 #Save and Read Urls
-songs_top100_urls_html <- songs_top100_urls$url |>
-    map(read_html) |>
+songs_top100_urls_html <- songs_top100_urls$url[1] |>
+  unique() |>
+  read_html()|>
+
+
     # Also works with "div.wst-plainlist > ul > li"
-    html_elements("div.wst-plainlist > ul > li > a") |>
+    html_elements("a") |>
     html_text2()
 
+as.data.frame(unique(songs_top100_urls_html)) 
 
 
 
+```
+
+
+```{r}
+
+
+vec <- pull(songs_top100_urls, url)
+for(v in vec) {
+  cat(v)
+  read_html(v)
+}
 
 
 
