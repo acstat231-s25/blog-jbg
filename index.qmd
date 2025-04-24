@@ -30,6 +30,8 @@ load("data/k-means-data.Rds")
 
 To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. 
 
+### Elbow Plot
+
 ```{r}
 #| label: elbow plot for k-means analysis
 
@@ -41,6 +43,8 @@ elbow_plot |>
   labs(x = "Number of clusters (k)",
        y = "Total within-cluster sum of squares")
 ```
+
+### K-Means Analysis Visualizations
 
 ```{r}
 #| label: k-means analysis plot 1
