@@ -28,7 +28,7 @@ load("data/k-means-data.Rds")
 
 ## Introduction
 
-Data was taken from the @ttspotify dataset.
+Data was taken from the TidyTuesday Spotify by @ttspotify dataset.
 
 ## K-Means Analysis
 

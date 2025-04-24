@@ -11,7 +11,7 @@
     "href": "index.html",
     "title": "Following the Line of Music",
     "section": "",
-    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
+    "text": "Data was taken from the Thompson et al. (2020) dataset."
   },
   {
     "objectID": "index.html#website-project-structure",
@@ -53,7 +53,7 @@
     "href": "index.html#creating-in-text-citations",
     "title": "Following the Line of Music",
     "section": "Creating in-text citations",
-    "text": "Creating in-text citations\nItems you cite in the text will be automatically added to a list of References at the bottom of the corresponding page. To cite a reference in the text, use the corresponding citation key (the first item in each bibtex entry—it shouldn’t have any spaces or special characters) and format the citation using the appropriate quarto format for in-text citations. This is similar to how we cross-reference tables and figures from code chunk labels. For example, the syntax\n@hadley2016 provides excellent examples of customizing our visualizations using **ggplot2**.\nproduces the following text:\n\nHadley (2016) provides excellent examples of customizing our visualizations using ggplot2.\n\nAnd the corresponding reference is listed in full at the bottom of this page."
+    "text": "Creating in-text citations\nItems you cite in the text will be automatically added to a list of References at the bottom of the corresponding page. To cite a reference in the text, use the corresponding citation key (the first item in each bibtex entry—it shouldn’t have any spaces or special characters) and format the citation using the appropriate quarto format for in-text citations. This is similar to how we cross-reference tables and figures from code chunk labels. For example, the syntax\n@hadley2016 provides excellent examples of customizing our visualizations using **ggplot2**.\nproduces the following text:\n\n(hadley2016?) provides excellent examples of customizing our visualizations using ggplot2.\n\nAnd the corresponding reference is listed in full at the bottom of this page."
   },
   {
     "objectID": "index.html#including-images-or-gifs",
@@ -101,7 +101,14 @@
     "objectID": "index.html#k-means-analysis",
     "href": "index.html#k-means-analysis",
     "title": "Following the Line of Music",
+    "section": "K-Means Analysis",
+    "text": "K-Means Analysis\nTo conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis.\n\nElbow Plot\n\n\n\n\n\n\n\n\n\n\n\nK-Means Analysis Visualizations"
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Following the Line of Music",
     "section": "",
-    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
+    "text": "Data was taken from the Thompson et al. (2020) dataset."
   }
 ]

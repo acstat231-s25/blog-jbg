@@ -9,7 +9,7 @@
 <meta name="author" content="Gloria Wu">
 <meta name="author" content="Justyce Williams">
 <meta name="author" content="Ben Snyderman">
-<meta name="dcterms.date" content="2025-04-23">
+<meta name="dcterms.date" content="2025-04-24">
 
 <title>Following the Line of Music</title>
 <style>
@@ -208,7 +208,12 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#k-means-analysis" id="toc-k-means-analysis" class="nav-link active" data-scroll-target="#k-means-analysis">K-Means Analysis</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#k-means-analysis" id="toc-k-means-analysis" class="nav-link" data-scroll-target="#k-means-analysis">K-Means Analysis</a>
+  <ul class="collapse">
+  <li><a href="#elbow-plot" id="toc-elbow-plot" class="nav-link" data-scroll-target="#elbow-plot">Elbow Plot</a></li>
+  <li><a href="#k-means-analysis-visualizations" id="toc-k-means-analysis-visualizations" class="nav-link" data-scroll-target="#k-means-analysis-visualizations">K-Means Analysis Visualizations</a></li>
+  </ul></li>
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting started</a>
   <ul class="collapse">
   <li><a href="#website-project-structure" id="toc-website-project-structure" class="nav-link" data-scroll-target="#website-project-structure">Website project structure</a>
@@ -240,7 +245,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Following the Line of Music</h1>
-<p class="subtitle lead">Optional subtitle</p>
+<p class="subtitle lead">STAT 231 Blog Project</p>
 </div>
 
 
@@ -259,7 +264,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 23, 2025</p>
+      <p class="date">April 24, 2025</p>
     </div>
   </div>
   
@@ -269,7 +274,7 @@ window.Quarto = {
 <div>
   <div class="abstract">
     <div class="block-title">Abstract</div>
-    A brief abstract summarizing your project is required here. This abstract, along with the first image or figure in your blog, will be used as a preview to your blog on the course’s landing page for all the blogs.
+    Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this projet, we aim to investigate music as a system of patterns, relationships, and compositions and uncover insights on how music is built, connected, and expressed. K-means analysis, sentiment analysis, and a network map are used to explore music.
   </div>
 </div>
 
@@ -277,9 +282,15 @@ window.Quarto = {
 </header>
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Data was taken from the <span class="citation" data-cites="ttspotify">Thompson et al. (<a href="#ref-ttspotify" role="doc-biblioref">2020</a>)</span> dataset.</p>
+</section>
 <section id="k-means-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="k-means-analysis">K-Means Analysis</h2>
 <p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis.</p>
+<section id="elbow-plot" class="level3">
+<h3 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -289,6 +300,9 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</section>
+<section id="k-means-analysis-visualizations" class="level3">
+<h3 class="anchored" data-anchor-id="k-means-analysis-visualizations">K-Means Analysis Visualizations</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -325,6 +339,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="getting-started" class="level1">
 <h1>Getting started</h1>
@@ -408,7 +423,7 @@ Note
 <pre><code>@hadley2016 provides excellent examples of customizing our visualizations using **ggplot2**.</code></pre>
 <p>produces the following text:</p>
 <blockquote class="blockquote">
-<p><span class="citation" data-cites="hadley2016">Hadley (<a href="#ref-hadley2016" role="doc-biblioref">2016</a>)</span> provides excellent examples of customizing our visualizations using <strong>ggplot2</strong>.</p>
+<p><span class="citation" data-cites="hadley2016">(<a href="#ref-hadley2016" role="doc-biblioref"><strong>hadley2016?</strong></a>)</span> provides excellent examples of customizing our visualizations using <strong>ggplot2</strong>.</p>
 </blockquote>
 <p>And the corresponding reference is listed in full at the bottom of this page.</p>
 </section>
@@ -647,8 +662,8 @@ Figure&nbsp;1: Three figures in a complex layout
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-hadley2016" class="csl-entry" role="listitem">
-Hadley, W. (2016), <em><a href="https://ggplot2-book.org"><span class="nocase">ggplot2</span>: Elegant graphics for data analysis</a></em>, Online book, New York, NY: Springer.
+<div id="ref-ttspotify" class="csl-entry" role="listitem">
+Thompson, C., Parry, J., Phipps, D., and Wolff, T. (2020), <span>“Spotify songs,”</span> Available at <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-01-21/readme.md">https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-01-21/readme.md</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
