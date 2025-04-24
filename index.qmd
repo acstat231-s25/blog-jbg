@@ -1,5 +1,5 @@
 ---
-title: "Title"
+title: "Following the Line of Music"
 subtitle: "Optional subtitle"
 author: 
 - "Gloria Wu"
@@ -26,6 +26,10 @@ library(ggplot2)
 load("data/k-means-data.Rds")
 ```
 
+## K-Means Analysis
+
+To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. 
+
 ```{r}
 #| label: elbow plot for k-means analysis
 
@@ -39,10 +43,43 @@ elbow_plot |>
 ```
 
 ```{r}
-#| label: k-means analysis
+#| label: k-means analysis plot 1
+#| warning: false
+#| out-width: 100%
 
 spotify_k4 |>
-  ggpairs(aes(color = .cluster))
+  select(Popularity, Danceability, Energy, Liveness, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 2
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Key, Mode, Tempo, Duration, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 3
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Speechiness, Acousticness, Instrumentalness, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 4
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Valence, Mode, Loudness, Cluster) |>
+  ggpairs(aes(color = Cluster))
 ```
 
 # Getting started

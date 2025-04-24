@@ -44,7 +44,21 @@ set.seed(777)
 spotify_kmeans_4 <- spotify_kmeans_standardized |>
   kmeans(centers = 4, nstart = 20)
 
-spotify_k4 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
+spotify_k4 <- augment(spotify_kmeans_4, spotify_kmeans_standardized) |>
+  rename(Popularity = track_popularity_z,
+         Danceability = danceability_z,
+         Energy = energy_z,
+         Key = key_z,
+         Loudness = loudness_z,
+         Mode = mode_z,
+         Speechiness = speechiness_z,
+         Acousticness = acousticness_z,
+         Instrumentalness = instrumentalness_z,
+         Liveness = liveness_z,
+         Valence = valence_z,
+         Tempo = tempo_z,
+         Duration = duration_ms_z,
+         Cluster = .cluster)
 
 ### save final objects
 save(elbow_plot, spotify_k4, file = "data/k-means-data.Rds")
