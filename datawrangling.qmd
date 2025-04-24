@@ -300,29 +300,25 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
 #| label: Wrangle for Network 
 
 #Edit Names For Wikipedia Urls 
-#Some artists names are too vague, forcing R to quit reading through because it can't find the specfic urls
-songs_top100<- songs_top100|>
+#Some artists names are too vague, forcing R to quit reading through because it can't find the specfic urls 
+
+songs_top1001<- songs_top100|>
   mutate(track_artist= case_when(
-    track_artist == "MEDUZA" ~ "MEDUZA (producers)",
+    track_artist == "MEDUZA" ~ "Meduza (producers)",
+    track_artist == "KAROL G" ~ "Karol G",
+     track_artist == "ROSALÍA" ~ "Rosalía",
+    track_artist == "JAKCBOYS" ~ "Jackboys",
     TRUE ~ track_artist
   ))
 
 #Urls Iteration for Each Artisit in Comprehensive List
-songs_top100_urls<- songs_top100 |>
+songs_top100_urls<- songs_top1001 |>
   mutate( 
     urlartist=  gsub(" ", "_", track_artist), #creates a space for the url to go first, and the separation of the artist names with a underscoe instead of a space because that is how Wikipedia works 
     url= paste0("https://en.wikipedia.org/wiki/", urlartist), #creates the base website URL
     text = ""
   )
 
-  
- songs_top100_urls_html <- songs_top100_urls$url[2] |>
-  unique() |>
-  read_html()|>
-  html_elements("p") |>
-  html_text2()|>
-  paste(collapse = ".") 
-  
   
 #Save and Read Urls Through each link 
   for (i in 1:91) {
@@ -334,9 +330,9 @@ songs_top100_urls<- songs_top100 |>
     
 }
  
-
-as.data.frame(unique(songs_top100_urls_html)) 
-
+songs_top100_urls$url[70]
+https://en.wikipedia.org/wiki/Rosalía
+i
 
 ```
 
