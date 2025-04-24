@@ -246,7 +246,16 @@ for (i in 1:91) {
 }
 
 
-lyrics_words <- playlist_lyrics |>
+playlist_lyrics_2 <- playlist_lyrics |>
+  mutate(lyrics = str_replace(lyrics, "(?s)^.*?\\bLyrics\\b\\s*\\n+", ""))
+
+playlist_lyrics_3 <- playlist_lyrics_2 |>
+  mutate(lyrics = str_replace(lyrics, "(?s)^.*?\\bRead More\\b\\s*\\n+", ""))
+
+playlist_lyrics_4 <- playlist_lyrics_3 |>
+  mutate(lyrics = str_remove_all(lyrics, "\\[.*?\\]"))
+
+lyrics_words <- playlist_lyrics_4 |>
   unnest_tokens(output = word, input = lyrics)
 
 afinn_lexicon <- get_sentiments("afinn")
@@ -266,6 +275,10 @@ my_stop_words <- tibble(
   word = c("contributors", "Translations")
 )
 
+
+
+
+
 lyrics_no_stop_words <- lyrics_words |>
   anti_join(stop_words, by = "word") |>
   anti_join(my_stop_words, by = "word")
@@ -278,7 +291,7 @@ word_counts <- lyrics_no_stop_words |>
 songs_top100_genre <- songs_top100 |>
   select(track_id, playlist_genre)
 
-playlist_lyrics <- playlist_lyrics |>
+playlist_lyrics_4 <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
          
 ```
