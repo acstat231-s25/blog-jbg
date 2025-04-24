@@ -303,7 +303,7 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
 #Some artists names are too vague, forcing R to quit reading through because it can't find the specfic urls
 songs_top100<- songs_top100|>
   mutate(track_artist= case_when(
-    track_artist == "MEDUZA" ~ "MEDUZA (producers)",
+    track_artist == "MEDUZA" ~ "Meduza (producers)",
     TRUE ~ track_artist
   ))
 
@@ -316,14 +316,6 @@ songs_top100_urls<- songs_top100 |>
   )
 
   
- songs_top100_urls_html <- songs_top100_urls$url[2] |>
-  unique() |>
-  read_html()|>
-  html_elements("p") |>
-  html_text2()|>
-  paste(collapse = ".") 
-  
-  
 #Save and Read Urls Through each link 
   for (i in 1:91) {
     songs_top100_urls$text[i] <- songs_top100_urls$url[i]|>
@@ -334,9 +326,7 @@ songs_top100_urls<- songs_top100 |>
     
 }
  
-
-as.data.frame(unique(songs_top100_urls_html)) 
-
+i
 
 ```
 
