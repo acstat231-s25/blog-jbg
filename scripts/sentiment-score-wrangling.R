@@ -125,5 +125,5 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
 
 ##Save Final
-save(playlist_lyrics_4, afinn_song_scores, word_counts, file = "data/k-means-data.Rds")
+save(playlist_lyrics_4, afinn_song_scores, word_counts, file = "data/sentiment-data.Rds")
 
