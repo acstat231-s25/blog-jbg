@@ -311,22 +311,31 @@ songs_top100<- songs_top100|>
 songs_top100_urls<- songs_top100 |>
   mutate( 
     urlartist=  gsub(" ", "_", track_artist), #creates a space for the url to go first, and the separation of the artist names with a underscoe instead of a space because that is how Wikipedia works 
-    url= paste0("https://en.wikipedia.org/wiki/", urlartist) #creates the base website URL 
+    url= paste0("https://en.wikipedia.org/wiki/", urlartist), #creates the base website URL
+    text = ""
   )
 
-
-#Save and Read Urls
-songs_top100_urls_html <- songs_top100_urls$url[1] |>
+  
+ songs_top100_urls_html <- songs_top100_urls$url[2] |>
   unique() |>
   read_html()|>
-
-
-    # Also works with "div.wst-plainlist > ul > li"
-    html_elements("a") |>
-    html_text2()
+  html_elements("p") |>
+  html_text2()|>
+  paste(collapse = ".") 
+  
+  
+#Save and Read Urls Through each link 
+  for (i in 1:91) {
+    songs_top100_urls$text[i] <- songs_top100_urls$url[i]|>
+    read_html()|>
+    html_elements("p") |>
+    html_text2()|>
+    paste(collapse = ".") 
+    
+}
+ 
 
 as.data.frame(unique(songs_top100_urls_html)) 
-
 
 
 ```
