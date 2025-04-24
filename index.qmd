@@ -1,11 +1,11 @@
 ---
 title: "Following the Line of Music"
-subtitle: "Optional subtitle"
+subtitle: "STAT 231 Blog Project"
 author: 
 - "Gloria Wu"
 - "Justyce Williams"
 - "Ben Snyderman"
-abstract: "A brief abstract summarizing your project is required here. This abstract, along with the first image or figure in your blog, will be used as a preview to your blog on the course's landing page for all the blogs."
+abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this projet, we aim to investigate music as a system of patterns, relationships, and compositions and uncover insights on how music is built, connected, and expressed. K-means analysis, sentiment analysis, and a network map are used to explore music. "
 ---
 
 ```{r}
@@ -30,6 +30,8 @@ load("data/k-means-data.Rds")
 
 To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. 
 
+### Elbow Plot
+
 ```{r}
 #| label: elbow plot for k-means analysis
 
@@ -41,6 +43,8 @@ elbow_plot |>
   labs(x = "Number of clusters (k)",
        y = "Total within-cluster sum of squares")
 ```
+
+### K-Means Analysis Visualizations
 
 ```{r}
 #| label: k-means analysis plot 1
