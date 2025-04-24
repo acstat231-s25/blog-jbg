@@ -91,8 +91,7 @@ spotify_distinct <- spotify_songs|>
 songs_top100 <- spotify_distinct |>
   filter(track_popularity >= 87) |>
   select(- track_album_id, - track_album_release_date,
-         - playlist_name, -playlist_id, -playlist_id) |>
-  group_by(track_id)
+         - playlist_name, -playlist_id, -playlist_id) 
 ```
 
 ```{r}
@@ -307,7 +306,7 @@ songs_top1001<- songs_top100|>
     track_artist == "MEDUZA" ~ "Meduza (producers)",
     track_artist == "KAROL G" ~ "Karol G",
      track_artist == "ROSALÍA" ~ "Rosalía",
-    track_artist == "JAKCBOYS" ~ "Jackboys",
+    track_artist == "JACKBOYS" ~ "JackBoys",
     TRUE ~ track_artist
   ))
 
@@ -330,92 +329,25 @@ songs_top100_urls<- songs_top1001 |>
     
 }
  
-songs_top100_urls$url[70]
-https://en.wikipedia.org/wiki/Rosalía
-i
-
-```
+i #Used to confirm full iteration happened 
 
 
-```{r}
+#Creating Separate Dataframe with just text for merge 
+songs_text<- songs_top100_urls|>
+  select(track_artist, text)|>
+  unnest_tokens(output = bigram, input = text, token = "ngrams", n = 2)|>
+  filter(bigram %in%  )
 
 
-vec <- pull(songs_top100_urls, url)
-for(v in vec) {
-  cat(v)
-  read_html(v)
-}
+Fullspotifyset<- songs_text |>
+  right_join(songs_top100_urls, by= track_id)
 
 
 
-
-
-
-
-
-
-songs_top100_urls <- songs_top100_urls |>
-  mutate( texthtml = map(url, (read_html))
-  )
-
-
-
-#Reading the Website w/ HTML
-wikihtml <- songs_top100_urls$url|>
-  map(songs_top100_urls$url, read_html)
-#Current reading in all the values at Null 
-
-
- # Identify number of iterations (start with 1!)
-n_iter <- nrow(songs_top100_urls)
-  # Pre-allocate space
-  songs_wikipedia <- songs_top100_urls|>
-    tibble(title = titles
-                           , url = urls
-                            # Create empty character vector the same
-                           # length as our titles vector
-                           , text = vector(mode = "character"
-                                           , length = length(titles))) |>
-# Limit to only the rows we are trying to work with
-  slice(1:n_iter)
-# Iterate through links 
-  for (i in 1:n_iter) {
-    songs_wikipedia$text[i] <- songs_wikipedia$url[i] |>
-      read_html() |>
-      html_element("#mw-content-text") |>
-      html_text2()
-}
-  # Identify number of iterations (start with 1!)
-  n_iter <- nrow(toc)
-  # Pre-allocate space
-  songs_wikipedia <- tibble(title = titles
-                           , url = urls
-                           # Create empty character vector the same
-                           # length as our titles vector
-                           , text = vector(mode = "character"
-                                           , length = length(titles)))
-
-
-#Pulling by Paragraphs
-paragraphs <-wikihtml|>
-  map(~ .x |> #for each wikipedia page url 
-      html_nodes("p")|> 
-      html_text() |> 
-      paste(collapse = " "))
-  
-
-#Fromn Lab to help make sense 
-toc_url |>
-  read_html() |> 
-  html_elements("div.wst-plainlist> ul>li>a") |>
-  html_attr("href")
 
 
 
 ```
-
-
-
 
 
 ```{r}
