@@ -326,8 +326,22 @@ i #Used to confirm full iteration happened
 #Creating Separate Dataframe with just text for merge 
 songs_text<- songs_top100_urls|>
   select(track_artist, text)|>
-  unnest_tokens(output = bigram, input = text, token = "ngrams", n = 2)|>
-  mutate(splittext= str_split(text, " "))
+  unnest_tokens(output = sentences, input = text, token = "sentences")|>
+  mutate(track_artist= str_to_lower(track_artist))
+
+artistvec<- pull(songs_text, track_artist)|>
+unique()
+
+textspaces<- data.frame(track_artist=NA, sentences= NA, containstextartist=NA)
+
+for (a in artistvec){
+ abdvscei<-  songs_text|>
+  mutate(containtextartist = str_extract(sentences, a))|>
+   filter(!is.na(containtextartist))
+  textspaces<- bind_rows(abdvscei, textspaces )
+}
+
+
 
 
 
@@ -357,7 +371,7 @@ Fullspotifyset<- songs_text |>
 
 
 
-
+#unnest_tokens(output = bigram, input = text, token = "ngrams", n = 2)
 
 ```
 
