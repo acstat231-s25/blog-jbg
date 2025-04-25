@@ -332,7 +332,7 @@ songs_text<- songs_top100_urls|>
 artistvec<- pull(songs_text, track_artist)|>
 unique()
 
-textspaces<- data.frame(track_artist=NA, sentences= NA, containstextartist=NA)
+textspaces<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
 
 for (a in artistvec){
  abdvscei<-  songs_text|>
@@ -342,30 +342,7 @@ for (a in artistvec){
 }
 
 
-
-
-
-
-
-
-
-for (j in 1:91){
-  track_artist[j]
-textmatch<- songs_text[j]|>
-  str_extract()
-
-}
-
-
-songs_text<- songs_top100_urls|>
-  str_split_1(text," ")
-
-
-
-
-
-
-Fullspotifyset<- songs_text |>
+Fullspotifyset<- textspaces |>
   right_join(songs_top100_urls, by= track_id)
 
 
