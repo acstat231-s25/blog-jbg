@@ -291,7 +291,6 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
 
 #Edit Names For Wikipedia Urls 
 #Some artists names are too vague, forcing R to quit reading through because it can't find the specfic urls 
-
 songs_top1001<- songs_top100|>
   mutate(track_artist= case_when(
     track_artist == "MEDUZA" ~ "Meduza (producers)",
@@ -306,8 +305,9 @@ songs_top100_urls<- songs_top1001 |>
   mutate( 
     urlartist=  gsub(" ", "_", track_artist), #creates a space for the url to go first, and the separation of the artist names with a underscoe instead of a space because that is how Wikipedia works 
     url= paste0("https://en.wikipedia.org/wiki/", urlartist), #creates the base website URL
-    text = ""
+    text = "",
   )
+
 
   
 #Save and Read Urls Through each link 
@@ -322,33 +322,32 @@ songs_top100_urls<- songs_top1001 |>
  
 i #Used to confirm full iteration happened 
 
+#Making Artist Names Lowercase to befound in the text paragraphs from Wikipedia
+songs_top100_urls<- songs_top100_urls|>
+   mutate(track_artist= str_to_lower(track_artist))
 
 #Creating Separate Dataframe with just text for merge 
 songs_text<- songs_top100_urls|>
   select(track_artist, text)|>
   unnest_tokens(output = sentences, input = text, token = "sentences")|>
-  mutate(track_artist= str_to_lower(track_artist))
 
+#Creating Vector for the For Loop  
 artistvec<- pull(songs_text, track_artist)|>
 unique()
 
-textspaces<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
+textspacesallocation<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
 
 for (a in artistvec){
- abdvscei<-  songs_text|>
+ spotify_text_identify<-  songs_text|>
   mutate(containtextartist = str_extract(sentences, a))|>
-   filter(!is.na(containtextartist))
-  textspaces<- bind_rows(abdvscei, textspaces )
+   filter(!is.na(containtextartist)) #Used to remove NAs and cut down iteration computation time
+  textspacesallocation<- bind_rows(spotify_text_identify, textspacesallocation )
 }
 
+#Combined New Wrangled Data with Spotify orginal 100 tracks list
+Fullspotifyset<- textspacesallocation |>
+  right_join(songs_top100_urls, by= "track_artist")
 
-Fullspotifyset<- textspaces |>
-  right_join(songs_top100_urls, by= track_id)
-
-
-
-
-#unnest_tokens(output = bigram, input = text, token = "ngrams", n = 2)
 
 ```
 
