@@ -73,15 +73,6 @@ spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 paths_allowed("https://en.wikipedia.org/wiki/Post_Malone") # Post Malone 
 # Just to check if Wikipedia lets us scrape their website 
 
-
-
-
-
-
-
-
-
-
 # All Songs - Full Set for Cluster 
 # get rid of duplicate songs
 spotify_distinct <- spotify_songs|>
@@ -336,7 +327,28 @@ i #Used to confirm full iteration happened
 songs_text<- songs_top100_urls|>
   select(track_artist, text)|>
   unnest_tokens(output = bigram, input = text, token = "ngrams", n = 2)|>
-  filter(bigram %in%  )
+  mutate(splittext= str_split(text, " "))
+
+
+
+
+
+
+
+for (j in 1:91){
+  track_artist[j]
+textmatch<- songs_text[j]|>
+  str_extract()
+
+}
+
+
+songs_text<- songs_top100_urls|>
+  str_split_1(text," ")
+
+
+
+
 
 
 Fullspotifyset<- songs_text |>
