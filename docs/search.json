@@ -117,5 +117,33 @@
     "title": "K-Means Analysis",
     "section": "",
     "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
+  },
+  {
+    "objectID": "network-map.html#subtitle",
+    "href": "network-map.html#subtitle",
+    "title": "Network Map",
+    "section": "Subtitle",
+    "text": "Subtitle"
+  },
+  {
+    "objectID": "sentiment-analysis.html#subtitle",
+    "href": "sentiment-analysis.html#subtitle",
+    "title": "Sentiment Analysis",
+    "section": "Subtitle",
+    "text": "Subtitle"
+  },
+  {
+    "objectID": "k-means.html",
+    "href": "k-means.html",
+    "title": "K-Means Analysis",
+    "section": "",
+    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
+  },
+  {
+    "objectID": "k-means.html#k-means-analysis",
+    "href": "k-means.html#k-means-analysis",
+    "title": "K-Means Analysis",
+    "section": "",
+    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
   }
 ]
