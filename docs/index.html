@@ -9,7 +9,7 @@
 <meta name="author" content="Gloria Wu">
 <meta name="author" content="Justyce Williams">
 <meta name="author" content="Ben Snyderman">
-<meta name="dcterms.date" content="2025-04-24">
+<meta name="dcterms.date" content="2025-04-26">
 
 <title>Following the Line of Music</title>
 <style>
@@ -127,35 +127,6 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -184,7 +155,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./another-page.html"> 
-<span class="menu-text">Another page</span></a>
+<span class="menu-text">K-Means Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./yet-another-page.html"> <i class="bi bi-arrow-through-heart-fill" role="img">
@@ -209,11 +180,6 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#k-means-analysis" id="toc-k-means-analysis" class="nav-link" data-scroll-target="#k-means-analysis">K-Means Analysis</a>
-  <ul class="collapse">
-  <li><a href="#elbow-plot" id="toc-elbow-plot" class="nav-link" data-scroll-target="#elbow-plot">Elbow Plot</a></li>
-  <li><a href="#k-means-analysis-visualizations" id="toc-k-means-analysis-visualizations" class="nav-link" data-scroll-target="#k-means-analysis-visualizations">K-Means Analysis Visualizations</a></li>
-  </ul></li>
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting started</a>
   <ul class="collapse">
   <li><a href="#website-project-structure" id="toc-website-project-structure" class="nav-link" data-scroll-target="#website-project-structure">Website project structure</a>
@@ -264,7 +230,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 24, 2025</p>
+      <p class="date">April 26, 2025</p>
     </div>
   </div>
   
@@ -284,62 +250,7 @@ window.Quarto = {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Data was taken from the <span class="citation" data-cites="ttspotify">Thompson et al. (<a href="#ref-ttspotify" role="doc-biblioref">2020</a>)</span> dataset.</p>
-</section>
-<section id="k-means-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="k-means-analysis">K-Means Analysis</h2>
-<p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis.</p>
-<section id="elbow-plot" class="level3">
-<h3 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h3>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/elbow plot for k-means analysis-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="k-means-analysis-visualizations" class="level3">
-<h3 class="anchored" data-anchor-id="k-means-analysis-visualizations">K-Means Analysis Visualizations</h3>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/k-means analysis plot 1-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/k-means analysis plot 2-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/k-means analysis plot 3-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/k-means analysis plot 4-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
+<p>Data was taken from the TidyTuesday Spotify by <span class="citation" data-cites="ttspotify">Thompson et al. (<a href="#ref-ttspotify" role="doc-biblioref">2020</a>)</span> dataset.</p>
 </section>
 <section id="getting-started" class="level1">
 <h1>Getting started</h1>

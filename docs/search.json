@@ -2,16 +2,16 @@
   {
     "objectID": "another-page.html",
     "href": "another-page.html",
-    "title": "Another page",
+    "title": "K-Means Analysis",
     "section": "",
-    "text": "This is just another page that can be linked! You are not required to include more than just index.qmd, but you are welcome to make content on different pages, if desired. This may help with managing GitHub commits, as well.\nEach page can have it’s own list of references based on what you cite. For example, did you know that good graphs “have a clear purpose, show the data clearly, and make the message obvious”? (Vandemeulebroecke et al. 2019).\n\n\n\n\nReferences\n\nVandemeulebroecke, M., Baillie, M., Carr, D., Kanitra, L., Margolskee, A., Wright, A., and Magnusson, B. (2019), “How can we make better graphs? An initiative to increase the graphical expertise and productivity of quantitative scientists,” Pharmaceutical Statistics, 18, 106–114. https://doi.org/10.1002/pst.1912."
+    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Following the Line of Music",
     "section": "",
-    "text": "Data was taken from the Thompson et al. (2020) dataset."
+    "text": "Data was taken from the TidyTuesday Spotify by Thompson et al. (2020) dataset."
   },
   {
     "objectID": "index.html#website-project-structure",
@@ -109,6 +109,13 @@
     "href": "index.html#introduction",
     "title": "Following the Line of Music",
     "section": "",
-    "text": "Data was taken from the Thompson et al. (2020) dataset."
+    "text": "Data was taken from the TidyTuesday Spotify by Thompson et al. (2020) dataset."
+  },
+  {
+    "objectID": "another-page.html#k-means-analysis",
+    "href": "another-page.html#k-means-analysis",
+    "title": "K-Means Analysis",
+    "section": "",
+    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis."
   }
 ]

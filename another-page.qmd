@@ -1,8 +1,80 @@
 ---
-title: "Another page"
-author: "Kat Correia"
+title: "K-Means Analysis"
+author: "Gloria Wu"
 ---
 
-This is just another page that can be linked! You are not required to include more than just *index.qmd*, but you are welcome to make content on different pages, if desired. This may help with managing GitHub commits, as well. 
+```{r}
+#| label: setup
+#| include: false
 
-Each page can have it's own list of references based on what you cite. For example, did you know that good graphs "have a clear purpose, show the data clearly, and make the message obvious"? [@vandem2019].
+# Improve digit display and NA display for kable tables
+options(scipen = 1, knitr.kable.NA = "")
+
+# Load necessary packages
+library(ggplot2)
+library(tidyverse)
+library(GGally)
+
+# Load datasets
+load("data/k-means-data.Rds")
+```
+
+## K-Means Analysis
+
+To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. 
+
+### Elbow Plot
+
+```{r}
+#| label: elbow plot for k-means analysis
+
+elbow_plot |>
+  ggplot(aes(x = k, y = tot.withinss)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = 1:10) +
+  labs(x = "Number of clusters (k)",
+       y = "Total within-cluster sum of squares")
+```
+
+### K-Means Analysis Visualizations
+
+```{r}
+#| label: k-means analysis plot 1
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Danceability, Energy, Liveness, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 2
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Key, Mode, Tempo, Duration, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 3
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Speechiness, Acousticness, Instrumentalness, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
+
+```{r}
+#| label: k-means analysis plot 4
+#| warning: false
+#| out-width: 100%
+
+spotify_k4 |>
+  select(Popularity, Valence, Mode, Loudness, Cluster) |>
+  ggpairs(aes(color = Cluster))
+```
