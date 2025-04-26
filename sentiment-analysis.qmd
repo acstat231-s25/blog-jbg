@@ -1,0 +1,20 @@
+---
+title: "Sentiment Analysis"
+author: "Ben Snyderman"
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Improve digit display and NA display for kable tables
+options(scipen = 1, knitr.kable.NA = "")
+
+# Load necessary packages
+
+# Load datasets
+```
+
+### Title
+
+## Subtitle
