@@ -43,8 +43,8 @@ library(jsonlite)
 library(broom)
 library(GGally)
 library(rgenius)
-
-
+library(igraph)
+library(ggraph)
 ```
 
 ## Variables
@@ -329,7 +329,7 @@ songs_top100_urls<- songs_top100_urls|>
 #Creating Separate Dataframe with just text for merge 
 songs_text<- songs_top100_urls|>
   select(track_artist, text)|>
-  unnest_tokens(output = sentences, input = text, token = "sentences")|>
+  unnest_tokens(output = sentences, input = text, token = "sentences")
 
 #Creating Vector for the For Loop  
 artistvec<- pull(songs_text, track_artist)|>
@@ -347,6 +347,13 @@ for (a in artistvec){
 #Combined New Wrangled Data with Spotify orginal 100 tracks list
 Fullspotifyset<- textspacesallocation |>
   right_join(songs_top100_urls, by= "track_artist")
+
+
+songs_network <- play_gnp(n, p, directed = FALSE) |>
+    # Activate the node list to add numbered labels
+    activate(nodes) |>
+    mutate(node_number = row_number())
+  class(er_network)
 
 
 ```
