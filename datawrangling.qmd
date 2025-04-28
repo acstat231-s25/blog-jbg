@@ -360,12 +360,18 @@ Offical_artist_collabset<- textspacesallocation1|>
 
           
 
-songs_network <- play_gnp(n, p, directed = FALSE) |>
-    # Activate the node list to add numbered labels
-    activate(nodes) |>
-    mutate(node_number = row_number())
-  class(er_network)
 
+#Plan Out The Network Graph:
+#1. Artist Collab
+#2. Artist Genre 
+#3. Number of times artist mentioned 
+#4. Length of music, maybe something like connection of 
+
+
+#Create Nodes and Edges 
+
+  
+  
   
   
   
