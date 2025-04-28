@@ -331,11 +331,12 @@ songs_text<- songs_top100_urls|>
   select(track_artist, text)|>
   unnest_tokens(output = sentences, input = text, token = "sentences")
 
+#allocation soace for new data entries 
+textspacesallocation<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
+
 #Creating Vector for the For Loop  
 artistvec<- pull(songs_text, track_artist)|>
 unique()
-
-textspacesallocation<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
 
 for (a in artistvec){
  spotify_text_identify<-  songs_text|>
@@ -344,16 +345,34 @@ for (a in artistvec){
   textspacesallocation<- bind_rows(spotify_text_identify, textspacesallocation )
 }
 
-#Combined New Wrangled Data with Spotify orginal 100 tracks list
-Fullspotifyset<- textspacesallocation |>
-  right_join(songs_top100_urls, by= "track_artist")
+#Creating a new column that tells me when the artist's wikipedia site mentions another artist within the data set that R will extract, to display which artist within the data set have worked together 
+textspacesallocation1<- textspacesallocation|>
+  mutate( track_artist1 = case_when (
+    track_artist == containtextartist ~ "x",
+    TRUE ~ track_artist
+  ))
 
+#Get rid of artist mentions of themselves and thn removing the column because it does not add any useful information (it just reopeats the artists again)
+textspacesallocation1<- textspacesallocation1|>
+    filter(!track_artist1== "x")
+Offical_artist_collabset<- textspacesallocation1|>
+  select( -track_artist1)
+
+          
 
 songs_network <- play_gnp(n, p, directed = FALSE) |>
     # Activate the node list to add numbered labels
     activate(nodes) |>
     mutate(node_number = row_number())
   class(er_network)
+
+  
+  
+  
+  
+#Will have to sets of datasets to use 
+#These are the sets to focus on 
+Offical_artist_collabset
 
 
 ```
