@@ -334,7 +334,7 @@ songs_text<- songs_top100_urls|>
   select(track_artist, text)|>
   unnest_tokens(output = sentences, input = text, token = "sentences")
 
-#allocation soace for new data entries 
+#allocation space for new data entries 
 textspacesallocation<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
 
 #Creating Vector for the For Loop  
@@ -432,6 +432,24 @@ numberHits1<- songs_top100|>
 artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
 gorder(artistcollab_network) #Number of Nodes 
 gsize(artistcollab_network) # Number of Edges 
+
+
+
+
+
+
+##HomeTown: 
+
+songs_top100_HomeTown<- songs_top100_urls|>
+  
+
+<th scope="row" class="infobox-label">Home town</th>
+
+
+
+##HomeTown 
+
+##Born
 
 
 
