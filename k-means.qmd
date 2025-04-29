@@ -51,10 +51,14 @@ Four plots were generated to visualize the differences between clusters and popu
 #| label: k-means analysis plot 1
 #| warning: false
 #| out-width: 100%
+#| fig-height: 7
 
 spotify_k4 |>
   select(Popularity, Danceability, Energy, Liveness, Cluster) |>
-  ggpairs(aes(color = Cluster))
+  ggpairs(aes(color = Cluster),
+          upper = list(continuous = "blank"),
+          progress = FALSE) +
+  theme(text = element_text(size = 8))
 ```
 
 Songs in cluster 3 and 4 tended to have a higher popularity rating, while those in cluster 1 and 2 had the lowest, although there were no significant differences between the four clusters. All four clusters had relatively high danceability scores, with cluster 3 having the highest and cluster 2 having the lowest. Cluster 4 had the lowest energy score, while cluster 3 had the second lowest. Clusters 1 and 2 had similarly high energy scores. All four clusters had low liveness scores. 
@@ -81,10 +85,14 @@ spotify_k4 |>
 #| label: k-means analysis plot 3
 #| warning: false
 #| out-width: 100%
+#| fig-height: 7
 
 spotify_k4 |>
   select(Popularity, Speechiness, Acousticness, Instrumentalness, Cluster) |>
-  ggpairs(aes(color = Cluster))
+  ggpairs(aes(color = Cluster),
+          upper = list(continuous = "blank"),
+          progress = FALSE) +
+  theme(text = element_text(size = 8))
 ```
 
 ### Valence, Mode, Loudness
@@ -93,10 +101,14 @@ spotify_k4 |>
 #| label: k-means analysis plot 4
 #| warning: false
 #| out-width: 100%
+#| fig-height: 7
 
 spotify_k4 |>
   select(Popularity, Valence, Mode, Loudness, Cluster) |>
-  ggpairs(aes(color = Cluster))
+  ggpairs(aes(color = Cluster),
+          upper = list(continuous = "blank"),
+          progress = FALSE) +
+  theme(text = element_text(size = 8))
 ```
 
 :::
