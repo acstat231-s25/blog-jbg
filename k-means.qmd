@@ -37,7 +37,11 @@ elbow_plot |>
        y = "Total within-cluster sum of squares")
 ```
 
-### K-Means Analysis Visualizations
+### Visualizations
+
+::: {.panel-tabset}
+
+### Plot 1
 
 ```{r}
 #| label: k-means analysis plot 1
@@ -49,6 +53,8 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
+### Plot 2
+
 ```{r}
 #| label: k-means analysis plot 2
 #| warning: false
@@ -58,6 +64,8 @@ spotify_k4 |>
   select(Popularity, Key, Mode, Tempo, Duration, Cluster) |>
   ggpairs(aes(color = Cluster))
 ```
+
+### Plot 3
 
 ```{r}
 #| label: k-means analysis plot 3
@@ -69,6 +77,8 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
+### Plot 4
+
 ```{r}
 #| label: k-means analysis plot 4
 #| warning: false
@@ -78,3 +88,5 @@ spotify_k4 |>
   select(Popularity, Valence, Mode, Loudness, Cluster) |>
   ggpairs(aes(color = Cluster))
 ```
+
+:::
