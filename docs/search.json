@@ -151,7 +151,7 @@
     "href": "index.html#dataset",
     "title": "Following the Line of Music",
     "section": "Dataset",
-    "text": "Dataset\nData on various songs was taken from the TidyTuesday Spotify dataset by Thompson et al. (2020). Included in the dataset was information about the track (such as the name, artist, and genre), and audio features (such as the danceability, tempo, and duration).\nThen, song lyrics were scraped from Genius (2025) using xx packages.\nFinally, general information on each track was scraped from (wikipedia?) using xx packages."
+    "text": "Dataset\nData on various songs was taken from the TidyTuesday Spotify dataset by Thompson et al. (2020). Included in the dataset was information about the track (such as the name, artist, and genre), and audio features (such as the danceability, tempo, and duration).\nThen, song lyrics were scraped from Genius (2025) using xx packages.\nFinally, general information on each track was scraped from Wikipedia (2025) using xx packages."
   },
   {
     "objectID": "index.html#limitations",

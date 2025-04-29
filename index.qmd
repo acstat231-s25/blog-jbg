@@ -29,7 +29,7 @@ Data on various songs was taken from the TidyTuesday Spotify dataset by @ttspoti
 
 Then, song lyrics were scraped from @genius using xx packages.
 
-Finally, general information on each track was scraped from @wikipedia using xx packages.
+Finally, general information on each track was scraped from @wiki using xx packages.
 
 ## Limitations
 

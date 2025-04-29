@@ -19,11 +19,13 @@ library(GGally)
 load("data/k-means-data.Rds")
 ```
 
+
 ## K-Means Analysis
 
 To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the @tidyverse and @GGally packages. 
 
 ### Elbow Plot
+
 
 ```{r}
 #| label: elbow plot for k-means analysis
@@ -37,11 +39,13 @@ elbow_plot |>
        y = "Total within-cluster sum of squares")
 ```
 
+
 ### Visualizations
 
 ::: {.panel-tabset}
 
 ### Plot 1
+
 
 ```{r}
 #| label: k-means analysis plot 1
@@ -53,7 +57,9 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
+
 ### Plot 2
+
 
 ```{r}
 #| label: k-means analysis plot 2
@@ -65,7 +71,9 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
+
 ### Plot 3
+
 
 ```{r}
 #| label: k-means analysis plot 3
@@ -77,7 +85,9 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
+
 ### Plot 4
+
 
 ```{r}
 #| label: k-means analysis plot 4
@@ -88,5 +98,6 @@ spotify_k4 |>
   select(Popularity, Valence, Mode, Loudness, Cluster) |>
   ggpairs(aes(color = Cluster))
 ```
+
 
 :::
