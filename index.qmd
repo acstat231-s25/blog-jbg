@@ -5,7 +5,7 @@ author:
 - "Gloria Wu"
 - "Justyce Williams"
 - "Ben Snyderman"
-abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this projet, we aim to investigate music as a system of patterns, relationships, and compositions and uncover insights on how music is built, connected, and expressed. K-means analysis, sentiment analysis, and a network map are used to explore music. "
+abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this project, we aim to investigate music as a system of patterns, relationships, and compositions and uncover insights on how music is built, connected, and expressed. K-means analysis, sentiment analysis, and a network map are used to explore music. "
 ---
 
 ```{r}
@@ -16,11 +16,6 @@ abstract: "Music is a significant portion of our media consumption - from iconic
 options(scipen = 1, knitr.kable.NA = "")
 
 # Load necessary packages
-library(tidyverse)
-library(knitr)
-library(kableExtra)
-library(GGally)
-library(ggplot2)
 ```
 
 ## Introduction
