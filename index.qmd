@@ -43,3 +43,5 @@ Finally, general information on each track was scraped from @wiki using xx packa
 - how can study be improved, connect ot future work
 
 ## Conclusion
+
+Citations were generated using the citation by @cite package. 

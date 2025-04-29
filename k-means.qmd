@@ -65,10 +65,14 @@ Songs in cluster 3 and 4 tended to have a higher popularity rating, while those 
 #| label: k-means analysis plot 2
 #| warning: false
 #| out-width: 100%
+#| fig-height: 7
 
 spotify_k4 |>
   select(Popularity, Key, Tempo, Duration, Cluster) |>
-  ggpairs(aes(color = Cluster))
+  ggpairs(aes(color = Cluster),
+          upper = list(continuous = "blank"),
+          progress = FALSE) +
+  theme(text = element_text(size = 8))
 ```
 
 ### Speechiness, Acousticness, Instrumentalness
