@@ -21,6 +21,7 @@ library(jsonlite)
 library(broom)
 library(GGally)
 library(rgenius)
+library(stopwords)
 
 
 
@@ -98,18 +99,6 @@ playlist_lyrics_4 <- playlist_lyrics_3 |>
 lyrics_words <- playlist_lyrics_4 |>
   unnest_tokens(output = word, input = lyrics)
 
-afinn_lexicon <- get_sentiments("afinn")
-
-
-afinn_lyrics <- lyrics_words |>
-  inner_join(afinn_lexicon, by = "word")
-
-
-
-afinn_song_scores <- afinn_lyrics |>
-  group_by(track_name, track_id) |>
-  summarize(sentiment_score = sum(value))
-
 
 my_stop_words <- tibble(
   word = c("contributors", "Translations")
@@ -124,8 +113,44 @@ lyrics_no_stop_words <- lyrics_words |>
   anti_join(my_stop_words, by = "word")
 
 
+stop_words_es <- stopwords(language = "es")
+
+stop_words_es <- tibble(
+  word = stop_words_es)
+
+lyrics_no_stop_words <- lyrics_no_stop_words |>
+  anti_join(stop_words_es, by = "word")
+
+
+
 word_counts <- lyrics_no_stop_words |>
   count(word)
+
+
+afinn_lexicon <- get_sentiments("afinn")
+
+
+afinn_lyrics <- lyrics_words |>
+  inner_join(afinn_lexicon, by = "word")
+
+
+
+afinn_song_scores <- afinn_lyrics |>
+  group_by(track_name, track_id) |>
+  summarize(sentiment_score = sum(value))
+
+
+
+
+nrc_lexicon <- get_sentiments("nrc")
+
+playlist_nrc <- word_counts |>
+  inner_join(nrc_lexicon, by = "word") |>
+  filter(sentiment %in% c("anger", "anticipation", "fear"
+                          , "joy", "surprise", "trust"))  |>
+  arrange(sentiment, desc(n))
+
+
 
 
 songs_top100_genre <- songs_top100 |>
