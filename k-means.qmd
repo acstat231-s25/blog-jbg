@@ -41,9 +41,11 @@ The elbow plot indicates that there are no significant drops in the total within
 
 ### Visualizations
 
+Four plots were generated to visualize the differences between clusters and popularity scores. Click through the tabset panels to explore the different visualizations.   
+
 ::: {.panel-tabset}
 
-### Plot 1
+### Danceability, Energy, Liveness
 
 ```{r}
 #| label: k-means analysis plot 1
@@ -57,7 +59,7 @@ spotify_k4 |>
 
 Songs in cluster 3 and 4 tended to have a higher popularity rating, while those in cluster 1 and 2 had the lowest, although there were no significant differences between the four clusters. All four clusters had relatively high danceability scores, with cluster 3 having the highest and cluster 2 having the lowest. Cluster 4 had the lowest energy score, while cluster 3 had the second lowest. Clusters 1 and 2 had similarly high energy scores. All four clusters had low liveness scores. 
 
-### Plot 2
+### Key, Tempo, Duration
 
 ```{r}
 #| label: k-means analysis plot 2
@@ -69,7 +71,7 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
-### Plot 3
+### Speechiness, Acousticness, Instrumentalness
 
 ```{r}
 #| label: k-means analysis plot 3
@@ -81,7 +83,7 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
-### Plot 4
+### Valence, Mode, Loudness
 
 ```{r}
 #| label: k-means analysis plot 4
