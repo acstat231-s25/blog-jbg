@@ -20,6 +20,8 @@ options(scipen = 1, knitr.kable.NA = "")
 
 ## Introduction
 
+In recent years, music has taken up a significant share of our media consumption - with the rise of digital media services and social media, consumers have little to no barriers to discovering, accessing, and engaging with music (@music_consumption). 
+
 - what is this about
 - why should anyone care about this
 
