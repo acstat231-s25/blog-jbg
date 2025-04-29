@@ -13,6 +13,7 @@ options(scipen = 1, knitr.kable.NA = "")
 # Load necessary packages
 
 # Load datasets
+load("data/sentiment-data.Rds")
 ```
 
 ### Title
