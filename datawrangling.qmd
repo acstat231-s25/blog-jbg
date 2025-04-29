@@ -45,6 +45,8 @@ library(GGally)
 library(rgenius)
 library(igraph)
 library(ggraph)
+library(tidygraph)
+
 ```
 
 ## Variables
@@ -352,11 +354,11 @@ textspacesallocation1<- textspacesallocation|>
     TRUE ~ track_artist
   ))
 
-#Get rid of artist mentions of themselves and thn removing the column because it does not add any useful information (it just reopeats the artists again)
+#Get rid of artist mentions of themselves and thn removing the column because it does not add any useful information (it just reopeats the artists again), also dont need the wikipedia text anymore once I have the artist they have collabed with
 textspacesallocation1<- textspacesallocation1|>
     filter(!track_artist1== "x")
 Offical_artist_collabset<- textspacesallocation1|>
-  select( -track_artist1)
+  select( -track_artist1, sentences)
 
           
 
@@ -364,13 +366,65 @@ Offical_artist_collabset<- textspacesallocation1|>
 #Plan Out The Network Graph:
 #1. Artist Collab
 #2. Artist Genre 
-#3. Number of times artist mentioned 
+#3. Number of times artist mentioned (Not Network, just bar Chart)
+#3. Number of times artist mentioned with Genre
 #4. Length of music, maybe something like connection of 
 
 
-#Create Nodes and Edges 
+##Artist Collab: (Using Offical_artist_collabset data set)
+# Create the Nodes and Edges for a visble Graph 
 
-  
+artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
+gorder(artistcollab_network) #Number of Nodes 
+gsize(artistcollab_network) # Number of Edges 
+
+
+
+##All of Graphs Needed: (Using songs_top100) 
+# Create the Nodes and Edges for a visble Graph 
+
+
+##1. Artist Genre 
+artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= TRUE) #Not Mutually Directed 
+gorder(artistcollab_network) #Number of Nodes 
+gsize(artistcollab_network) # Number of Edges 
+
+
+
+##2. How many Times an artist is mentioned in relation to Genre 
+#Need Wrangling First 
+#Need to Add Weight 
+
+numberHits<- songs_top100|>
+  select(track_artist, playlist_genre)|>
+  group_by(track_artist, playlist_genre)|>
+  summarize(Mentions= n())
+
+NumberOfArtisitHits <- as_tbl_graph(x= numberHits, nodes=playlist_genre, edges =  track_artist, directed= FALSE) #Mutually Connected Each Artist Shoould have a genre (Check that defintion)
+gorder(NumberOfArtisitHits) #Number of Nodes 
+gsize(NumberOfArtisitHits) # Number of Edges 
+
+
+degreeArtistHits <- NumberOfArtisitHits |>
+    activate(nodes) |>
+    mutate(degree = centrality_degree(),
+           strength = centrality_degree(weights = Weight))
+
+
+##3. Number of times artist mentioned 
+# Need Wrangling First 
+numberHits1<- songs_top100|>
+  select(track_artist)|>
+  group_by(track_artist)|>
+  summarize(Mentions= n())
+
+
+
+#4. Length of music, maybe something like connection of 
+artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
+gorder(artistcollab_network) #Number of Nodes 
+gsize(artistcollab_network) # Number of Edges 
+
   
   
   
@@ -382,6 +436,18 @@ Offical_artist_collabset
 
 
 ```
+
+
+
+
+```{r}
+fish_encounters
+fish_encounters %>%
+  pivot_wider(names_from = station, values_from = seen)
+```
+
+
+
 
 
 ```{r}
