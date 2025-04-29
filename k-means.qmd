@@ -37,6 +37,8 @@ elbow_plot |>
        y = "Total within-cluster sum of squares")
 ```
 
+The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our $k$-means analysis. 
+
 ### Visualizations
 
 ::: {.panel-tabset}
@@ -53,6 +55,8 @@ spotify_k4 |>
   ggpairs(aes(color = Cluster))
 ```
 
+Songs in cluster 3 and 4 tended to have a higher popularity rating, while those in cluster 1 and 2 had the lowest, although there were no significant differences between the four clusters. All four clusters had relatively high danceability scores, with cluster 3 having the highest and cluster 2 having the lowest. Cluster 4 had the lowest energy score, while cluster 3 had the second lowest. Clusters 1 and 2 had similarly high energy scores. All four clusters had low liveness scores. 
+
 ### Plot 2
 
 ```{r}
@@ -61,7 +65,7 @@ spotify_k4 |>
 #| out-width: 100%
 
 spotify_k4 |>
-  select(Popularity, Key, Mode, Tempo, Duration, Cluster) |>
+  select(Popularity, Key, Tempo, Duration, Cluster) |>
   ggpairs(aes(color = Cluster))
 ```
 

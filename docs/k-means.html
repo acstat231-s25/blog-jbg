@@ -219,7 +219,7 @@ window.Quarto = {
 
 <section id="k-means-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="k-means-analysis">K-Means Analysis</h2>
-<p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using <span class="citation" data-cites="ggplot2">Hadley (<a href="#ref-ggplot2" role="doc-biblioref">2016</a>)</span> to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis. Finally, visualizations for the <span class="math inline">\(k\)</span>-means analysis were generated using the <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span> and <span class="citation" data-cites="GGally">Schloerke et al. (<a href="#ref-GGally" role="doc-biblioref">2024</a>)</span> packages.</p>
+<p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using the ggplot2 package by <span class="citation" data-cites="ggplot2">Hadley (<a href="#ref-ggplot2" role="doc-biblioref">2016</a>)</span> to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis. Finally, visualizations for the <span class="math inline">\(k\)</span>-means analysis were generated using the tidyverse package by <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span> and GGally package by <span class="citation" data-cites="GGally">Schloerke et al. (<a href="#ref-GGally" role="doc-biblioref">2024</a>)</span>.</p>
 <section id="elbow-plot" class="level3">
 <h3 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h3>
 <div class="cell">
@@ -231,6 +231,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our <span class="math inline">\(k\)</span>-means analysis.</p>
 </section>
 <section id="visualizations" class="level3">
 <h3 class="anchored" data-anchor-id="visualizations">Visualizations</h3>
@@ -247,6 +248,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>Songs in cluster 3 and 4 tended to have a higher popularity rating, while those in cluster 1 and 2 had the lowest, although there were no significant differences between the four clusters. All four clusters had relatively high danceability scores, with cluster 3 having the highest and cluster 2 having the lowest. Cluster 4 had the lowest energy score, while cluster 3 had the second lowest. Clusters 1 and 2 had similarly high energy scores. All four clusters had low liveness scores.</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
