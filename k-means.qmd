@@ -121,4 +121,4 @@ Clusters 1, 2, and 4 had similar valence scores, while cluster 3 had a higher va
 
 Overall, there was no significant difference in the popularity scores of the four clusters. The order of the popularity scores (from highest to lowest) is cluster 3, cluster 4, cluster 2, cluster 1. 
 
-Packages used for this data analysis were:
+Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
