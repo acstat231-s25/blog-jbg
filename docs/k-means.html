@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gloria Wu">
-<meta name="dcterms.date" content="2025-04-28">
+<meta name="dcterms.date" content="2025-04-29">
 
 <title>Following the Line of Music - K-Means Analysis</title>
 <style>
@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -185,7 +205,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 28, 2025</p>
+      <p class="date">April 29, 2025</p>
     </div>
   </div>
   
@@ -199,7 +219,7 @@ window.Quarto = {
 
 <section id="k-means-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="k-means-analysis">K-Means Analysis</h2>
-<p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis.</p>
+<p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using <span class="citation" data-cites="ggplot2">Hadley (<a href="#ref-ggplot2" role="doc-biblioref">2016</a>)</span> to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis. Finally, visualizations for the <span class="math inline">\(k\)</span>-means analysis were generated using the <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span> and <span class="citation" data-cites="GGally">Schloerke et al. (<a href="#ref-GGally" role="doc-biblioref">2024</a>)</span> packages.</p>
 <section id="elbow-plot" class="level3">
 <h3 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h3>
 <div class="cell">
@@ -265,10 +285,21 @@ window.Quarto = {
 </div>
 
 
+
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ggplot2" class="csl-entry" role="listitem">
+Hadley, W. (2016), <em><a href="https://ggplot2-book.org"><span class="nocase">ggplot2</span>: Elegant graphics for data analysis</a></em>, Online book, New York, NY: Springer.
+</div>
+<div id="ref-GGally" class="csl-entry" role="listitem">
+Schloerke, B., Cook, D., Larmarange, J., Briatte, F., Marbach, M., Thoen, E., Elberg, A., and Crowley, J. (2024), <em><a href="https://ggobi.github.io/ggally/">GGally: Extension to ’ggplot2’</a></em>.
+</div>
+<div id="ref-tidyverse" class="csl-entry" role="listitem">
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., Takahashi, K., Vaughan, D., Wilke, C., Woo, K., and Yutani, H. (2019), <span>“Welcome to the <span class="nocase">tidyverse</span>,”</span> <em>Journal of Open Source Software</em>, 4, 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

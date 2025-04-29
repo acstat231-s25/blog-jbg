@@ -137,14 +137,14 @@
     "href": "k-means.html",
     "title": "K-Means Analysis",
     "section": "",
-    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot 1Plot 2Plot 3Plot 4"
+    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using Hadley (2016) to see the optimal amount of clusters to conduct the \\(k\\)-means analysis. Finally, visualizations for the \\(k\\)-means analysis were generated using the Wickham et al. (2019) and Schloerke et al. (2024) packages.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot 1Plot 2Plot 3Plot 4"
   },
   {
     "objectID": "k-means.html#k-means-analysis",
     "href": "k-means.html#k-means-analysis",
     "title": "K-Means Analysis",
     "section": "",
-    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot 1Plot 2Plot 3Plot 4"
+    "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using Hadley (2016) to see the optimal amount of clusters to conduct the \\(k\\)-means analysis. Finally, visualizations for the \\(k\\)-means analysis were generated using the Wickham et al. (2019) and Schloerke et al. (2024) packages.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot 1Plot 2Plot 3Plot 4"
   },
   {
     "objectID": "index.html#dataset",
