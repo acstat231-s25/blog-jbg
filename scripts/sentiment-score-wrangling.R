@@ -101,7 +101,7 @@ lyrics_words <- playlist_lyrics_4 |>
 
 
 my_stop_words <- tibble(
-  word = c("contributors", "Translations")
+  word = c("contributors", "Translations", "uh", "ooh", "ayy", "ah", "woo", "eh", "yeh", "em", "hmm", "mmh")
 )
 
 
@@ -152,6 +152,24 @@ playlist_nrc <- word_counts |>
 
 
 
+word_counts_bleeped <- word_counts |>
+  mutate(word = str_replace(word, "bitch", "b****")) |>
+  mutate(word = str_replace(word, "nigga", "n****")) |>
+  mutate(word = str_replace(word, "shit", "s***")) |>
+  mutate(word = str_replace(word, "fuck", "f***")) |>
+  mutate(word = str_replace(word, "niggas", "n****s")) |>
+  mutate(word = str_replace(word, "fuckin", "f*****"))
+
+
+word_counts_no_swears <- word_counts |>
+  mutate(word = str_remove(word, "bitch")) |>
+  mutate(word = str_remove(word, "nigga")) |>
+  mutate(word = str_remove(word, "shit")) |>
+  mutate(word = str_remove(word, "fuck")) |>
+  mutate(word = str_remove(word, "niggas")) |>
+  mutate(word = str_remove(word, "fuckin"))
+
+
 
 songs_top100_genre <- songs_top100 |>
   select(track_id, playlist_genre)
@@ -160,5 +178,5 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
 
 ##Save Final
-save(playlist_lyrics_4, afinn_song_scores, word_counts, file = "data/sentiment-data.Rds")
+save(playlist_lyrics_4, playlist_nrc, afinn_song_scores, word_counts_bleeped, file = "data/sentiment-data.Rds")
 
