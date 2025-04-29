@@ -10,7 +10,7 @@ website:
     left:
       - href: index.qmd # Must be included as index.qmd
         text: "Home"
-        icon: house # Get icon names: https://icons.getbootstrap.com/?q=home
+        # icon: house # Get icon names: https://icons.getbootstrap.com/?q=home
       # Add or remove additional pages below in desired order of appearance
       - k-means.qmd
       - sentiment-analysis.qmd
