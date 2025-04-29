@@ -21,7 +21,7 @@ load("data/k-means-data.Rds")
 
 ## K-Means Analysis
 
-To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the @tidyverse and @GGally packages. 
+To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
 
 ### Elbow Plot
 
