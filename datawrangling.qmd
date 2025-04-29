@@ -363,6 +363,11 @@ Offical_artist_collabset<- textspacesallocation1|>
           
 
 
+
+#Datasets to Move Forward With-- 
+Offical_artist_collabset
+songs_top100
+
 #Plan Out The Network Graph:
 #1. Artist Collab
 #2. Artist Genre 
@@ -400,7 +405,7 @@ numberHits<- songs_top100|>
   group_by(track_artist, playlist_genre)|>
   summarize(Mentions= n())
 
-NumberOfArtisitHits <- as_tbl_graph(x= numberHits, nodes=playlist_genre, edges =  track_artist, directed= FALSE) #Mutually Connected Each Artist Shoould have a genre (Check that defintion)
+NumberOfArtisitHits <- as_tbl_graph(x= numberHits, nodes=playlist_genre, edges =  track_artist, directed= FALSE) #Mutually Connected Each Artist Should have a genre (Check that definition)
 gorder(NumberOfArtisitHits) #Number of Nodes 
 gsize(NumberOfArtisitHits) # Number of Edges 
 
@@ -408,7 +413,9 @@ gsize(NumberOfArtisitHits) # Number of Edges
 degreeArtistHits <- NumberOfArtisitHits |>
     activate(nodes) |>
     mutate(degree = centrality_degree(),
-           strength = centrality_degree(weights = Weight))
+           strength = centrality_degree(weights = Mentions)) #Grabs how many times the artist has had a hot song for each genre
+
+
 
 
 ##3. Number of times artist mentioned 
@@ -426,27 +433,15 @@ gorder(artistcollab_network) #Number of Nodes
 gsize(artistcollab_network) # Number of Edges 
 
   
-  
-  
-  
+
   
 #Will have to sets of datasets to use 
 #These are the sets to focus on 
 Offical_artist_collabset
+songs_top100
 
 
 ```
-
-
-
-
-```{r}
-fish_encounters
-fish_encounters %>%
-  pivot_wider(names_from = station, values_from = seen)
-```
-
-
 
 
 
