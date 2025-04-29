@@ -5,7 +5,7 @@ author:
 - "Gloria Wu"
 - "Justyce Williams"
 - "Ben Snyderman"
-abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this project, we aim to investigate music as a system of patterns, relationships, and compositions and uncover insights on how music is built, connected, and expressed. K-means analysis, sentiment analysis, and a network map are used to explore music."
+abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this project, we utilize k-means analysis, sentiment analysis, and a network map to explore music."
 ---
 
 ```{r}
@@ -20,10 +20,12 @@ options(scipen = 1, knitr.kable.NA = "")
 
 ## Introduction
 
-In recent years, music has taken up a significant share of our media consumption - with the rise of digital media services and social media, consumers have little to no barriers to discovering, accessing, and engaging with music (@music_consumption). 
+In recent years, music has taken up a significant share of our media consumption - with the rise of digital media services and social media, consumers have little to no barriers to discovering, accessing, and engaging with music (@music_consumption). This observation sparked curiosity in music analysis: we typically think of factors such as genre, lyricism, harmonic frequency, and artist connectivity as being integral to what makes music, music, but what is less clear is which factors really have an impact on the popularity and spread of music. Through this project, we aim to investigate music as a system of patterns, relationships, and compositions, as well as to uncover insights into how music is built, connected, and expressed.    
 
-- what is this about
-- why should anyone care about this
+To analyze these different components of music, we utilize three methods:   
+1. [$K$-means analysis](k-means.qmd) -          
+2. [Sentiment analysis](sentiment-analysis.qmd) -        
+3. [Network map](network-map.qmd) -         
 
 ## Dataset
 
