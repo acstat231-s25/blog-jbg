@@ -25,13 +25,11 @@ options(scipen = 1, knitr.kable.NA = "")
 
 ## Dataset
 
-Data was taken from the TidyTuesday Spotify dataset by @ttspotify.
-@wiki
-@genius
-- who collected, when, in what way, why
-- what kind of data
-- link to data/other way for the reader to follow up
-- cite it
+Data on various songs was taken from the TidyTuesday Spotify dataset by @ttspotify. Included in the dataset was information about the track (such as the name, artist, and genre), and audio features (such as the danceability, tempo, and duration). 
+
+Then, song lyrics were scraped from @genius using xx packages.
+
+Finally, general information on each track was scraped from @wikipedia using xx packages.
 
 ## Limitations
 
