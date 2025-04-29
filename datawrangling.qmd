@@ -82,6 +82,7 @@ spotify_distinct <- spotify_songs|>
 
 # Popular Songs
 songs_top100 <- spotify_distinct |>
+  rename(genre= playlist_genre)|>
   filter(track_popularity >= 87) |>
   select(- track_album_id, - track_album_release_date,
          - playlist_name, -playlist_id, -playlist_id) 
@@ -401,11 +402,11 @@ gsize(artistcollab_network) # Number of Edges
 #Need to Add Weight 
 
 numberHits<- songs_top100|>
-  select(track_artist, playlist_genre)|>
-  group_by(track_artist, playlist_genre)|>
+  select(track_artist, genre)|>
+  group_by(track_artist, genre)|>
   summarize(Mentions= n())
 
-NumberOfArtisitHits <- as_tbl_graph(x= numberHits, nodes=playlist_genre, edges =  track_artist, directed= FALSE) #Mutually Connected Each Artist Should have a genre (Check that definition)
+NumberOfArtisitHits <- as_tbl_graph(x= numberHits, nodes=genre, edges =  track_artist, directed= FALSE) #Mutually Connected Each Artist Should have a genre (Check that definition)
 gorder(NumberOfArtisitHits) #Number of Nodes 
 gsize(NumberOfArtisitHits) # Number of Edges 
 
@@ -427,18 +428,12 @@ numberHits1<- songs_top100|>
 
 
 
-#4. Length of music, maybe something like connection of 
+#4. Length of music, maybe something like connection -- Get Opinions ? Ask them What the think about the need for more.
 artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
 gorder(artistcollab_network) #Number of Nodes 
 gsize(artistcollab_network) # Number of Edges 
 
-  
 
-  
-#Will have to sets of datasets to use 
-#These are the sets to focus on 
-Offical_artist_collabset
-songs_top100
 
 
 ```
