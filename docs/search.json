@@ -11,7 +11,7 @@
     "href": "index.html",
     "title": "Following the Line of Music",
     "section": "",
-    "text": "Data was taken from the TidyTuesday Spotify dataset by Thompson et al. (2020)."
+    "text": "what is this about\nwhy should anyone care about this"
   },
   {
     "objectID": "index.html#website-project-structure",
@@ -109,7 +109,7 @@
     "href": "index.html#introduction",
     "title": "Following the Line of Music",
     "section": "",
-    "text": "Data was taken from the TidyTuesday Spotify dataset by Thompson et al. (2020)."
+    "text": "what is this about\nwhy should anyone care about this"
   },
   {
     "objectID": "another-page.html#k-means-analysis",
@@ -145,5 +145,19 @@
     "title": "K-Means Analysis",
     "section": "",
     "text": "To conduct the \\(k\\)-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the \\(k\\)-means analysis.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot 1Plot 2Plot 3Plot 4"
+  },
+  {
+    "objectID": "index.html#dataset",
+    "href": "index.html#dataset",
+    "title": "Following the Line of Music",
+    "section": "Dataset",
+    "text": "Dataset\nData was taken from the TidyTuesday Spotify dataset by Thompson et al. (2020). Wikipedia (2025) Genius (2025) - who collected, when, in what way, why - what kind of data - link to data/other way for the reader to follow up - cite it"
+  },
+  {
+    "objectID": "index.html#limitations",
+    "href": "index.html#limitations",
+    "title": "Following the Line of Music",
+    "section": "Limitations",
+    "text": "Limitations\n\nto what population do results apply\ndo they generalize\nextended with more data/computational power/time to analyze?\nhow can study be improved, connect ot future work"
   }
 ]
