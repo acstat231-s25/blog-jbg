@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gloria Wu">
-<meta name="dcterms.date" content="2025-04-29">
+<meta name="dcterms.date" content="2025-04-30">
 
 <title>Following the Line of Music - K-Means Analysis</title>
 <style>
@@ -177,8 +177,8 @@ window.Quarto = {
   <li><a href="#k-means-analysis" id="toc-k-means-analysis" class="nav-link active" data-scroll-target="#k-means-analysis">K-Means Analysis</a>
   <ul class="collapse">
   <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">Variables</a></li>
-  <li><a href="#elbow-plot" id="toc-elbow-plot" class="nav-link" data-scroll-target="#elbow-plot">Elbow Plot</a></li>
-  <li><a href="#visualizations" id="toc-visualizations" class="nav-link" data-scroll-target="#visualizations">Visualizations</a></li>
+  <li><a href="#all-tracks" id="toc-all-tracks" class="nav-link" data-scroll-target="#all-tracks">All Tracks</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -205,7 +205,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 29, 2025</p>
+      <p class="date">April 30, 2025</p>
     </div>
   </div>
   
@@ -222,7 +222,7 @@ window.Quarto = {
 <p>To conduct the <span class="math inline">\(k\)</span>-means analysis, only numerical variables were included. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. Then, an elbow plot was constructed using the ggplot2 package by <span class="citation" data-cites="ggplot2">Wickham (<a href="#ref-ggplot2" role="doc-biblioref">2016</a>)</span> to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis. Finally, visualizations for the <span class="math inline">\(k\)</span>-means analysis were generated using the tidyverse package by <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span> and GGally package by <span class="citation" data-cites="GGally">Schloerke et al. (<a href="#ref-GGally" role="doc-biblioref">2024</a>)</span>.</p>
 <section id="variables" class="level3">
 <h3 class="anchored" data-anchor-id="variables">Variables</h3>
-<p>From the tidytuesday Spotify dataset (<span class="citation" data-cites="ttspotify">Thompson et al. (<a href="#ref-ttspotify" role="doc-biblioref">2020</a>)</span>), 13 variables were used.<br>
+<p>From the tidytuesday Spotify dataset by <span class="citation" data-cites="ttspotify">Thompson et al. (<a href="#ref-ttspotify" role="doc-biblioref">2020</a>)</span>, 13 variables were used.<br>
 - <code>track_popularity</code>: ranging from 0 (least popular) to 100 (most popular)<br>
 - <code>danceability</code>: ranging from 0.0 (least danceable) to 1.0 (most danceable), determined based on tempo, rhythm stability, beat strength, and overall regularity<br>
 - <code>energy</code>: ranging from 0.0 (less energetic) to 1.0 (more energetic), determined by dynamic range, perceived loudness, timbre, onset rate, and general entropy<br>
@@ -237,8 +237,10 @@ window.Quarto = {
 - <code>tempo</code>: the average tempo in beats per minute<br>
 - <code>duration_ms</code>: duration of the song in milliseconds</p>
 </section>
-<section id="elbow-plot" class="level3">
-<h3 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h3>
+<section id="all-tracks" class="level3">
+<h3 class="anchored" data-anchor-id="all-tracks">All Tracks</h3>
+<section id="elbow-plot" class="level4">
+<h4 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h4>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -250,8 +252,8 @@ window.Quarto = {
 </div>
 <p>The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our <span class="math inline">\(k\)</span>-means analysis.</p>
 </section>
-<section id="visualizations" class="level3">
-<h3 class="anchored" data-anchor-id="visualizations">Visualizations</h3>
+<section id="visualizations" class="level4">
+<h4 class="anchored" data-anchor-id="visualizations">Visualizations</h4>
 <p>Four plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Danceability, Energy, Liveness</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Key, Tempo, Duration</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Speechiness, Acousticness, Instrumentalness</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Valence, Mode, Loudness</a></li></ul>
@@ -308,6 +310,15 @@ window.Quarto = {
 </div>
 <p>Overall, there was no significant difference in the popularity scores of the four clusters. The order of the popularity scores (from highest to lowest) is cluster 3, cluster 4, cluster 2, cluster 1. The most notable differences between clusters included:<br>
 - Cluster 4 had a much lower energy score - Cluster 1 scored much higher on instrumentalness - Cluster 3 scored relatively higher on valence</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,450 × 0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
 <p>Packages used to wrangle this data prior to data analysis were tidyverse by <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span>, purrr by <span class="citation" data-cites="purrr">Wickham and Henry (<a href="#ref-purrr" role="doc-biblioref">2023</a>)</span>, and broom by <span class="citation" data-cites="broom">Robinson et al. (<a href="#ref-broom" role="doc-biblioref">2024</a>)</span>.</p>
 
 

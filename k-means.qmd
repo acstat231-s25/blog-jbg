@@ -21,7 +21,7 @@ load("data/k-means-data.Rds")
 
 ## K-Means Analysis
 
-To conduct the $k$-means analysis, only numerical variables were included. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
+To conduct the $k$-means analysis, only numerical variables were included. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering (for example, `track_popularity` was on a much larger scale - 0-100 - than other variables - 0-1). Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
 
 ### Variables
 
@@ -40,9 +40,7 @@ From the tidytuesday Spotify dataset by @ttspotify, 13 variables were used.
 - `tempo`: the average tempo in beats per minute     
 - `duration_ms`: duration of the song in milliseconds     
 
-### All Tracks
-
-#### Elbow Plot
+### Elbow Plot
 
 ```{r}
 #| label: elbow plot for k-means analysis
@@ -58,7 +56,7 @@ elbow_plot |>
 
 The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our $k$-means analysis. 
 
-#### Visualizations
+### Visualizations
 
 Four plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.     
 
@@ -139,9 +137,9 @@ Clusters 1, 2, and 4 had similar valence scores, while cluster 3 had a higher va
 :::
 
 Overall, there was no significant difference in the popularity scores of the four clusters. The order of the popularity scores (from highest to lowest) is cluster 3, cluster 4, cluster 2, cluster 1. The most notable differences between clusters included:      
-- Cluster 4 had a much lower energy score
-- Cluster 1 scored much higher on instrumentalness
-- Cluster 3 scored relatively higher on valence
+- Cluster 4 had a much lower energy score      
+- Cluster 1 scored much higher on instrumentalness      
+- Cluster 3 scored relatively higher on valence      
 
 ### Conclusion
 
