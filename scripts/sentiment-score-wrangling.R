@@ -101,7 +101,7 @@ lyrics_words <- playlist_lyrics_4 |>
 
 
 my_stop_words <- tibble(
-  word = c("contributors", "Translations", "uh", "ooh", "ayy", "ah", "woo", "eh", "yeh", "em", "hmm", "mmh")
+  word = c("contributors", "Translations", "uh", "ooh", "ayy", "ah", "woo", "eh", "yeh", "em", "hmm", "mmh", "yeah")
 )
 
 
@@ -151,6 +151,15 @@ playlist_nrc <- word_counts |>
   arrange(sentiment, desc(n))
 
 
+playlist_nrc_bleeped <- plalist_nrc |>
+  mutate(word = str_replace(word, "bitch", "b****")) |>
+  mutate(word = str_replace(word, "nigga", "n****")) |>
+  mutate(word = str_replace(word, "shit", "s***")) |>
+  mutate(word = str_replace(word, "fuck", "f***")) |>
+  mutate(word = str_replace(word, "niggas", "n****s")) |>
+  mutate(word = str_replace(word, "fuckin", "f*****"))
+
+
 
 word_counts_bleeped <- word_counts |>
   mutate(word = str_replace(word, "bitch", "b****")) |>
@@ -175,6 +184,9 @@ songs_top100_genre <- songs_top100 |>
   select(track_id, playlist_genre)
 
 playlist_lyrics_4 <- playlist_lyrics_4 |>
+  left_join(songs_top100_genre, by = "track_id")
+
+affinn_song_scores <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
 
 ##Save Final
