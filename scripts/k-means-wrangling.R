@@ -23,7 +23,6 @@ spotify_kmeans <- spotify_distinct |>
          - track_album_name, - track_album_release_date, - playlist_name,
          - playlist_id, -playlist_genre, - playlist_subgenre)
 
-### with all tracks
 # standardize variables
 spotify_kmeans_standardized <- spotify_kmeans |>
   mutate(across(where(is.numeric),
@@ -61,46 +60,5 @@ spotify_k4 <- augment(spotify_kmeans_4, spotify_kmeans_standardized) |>
          Duration = duration_ms_z,
          Cluster = .cluster)
 
-### analysis with only the top 100 songs
-spotify_kmeans_top116 <- spotify_kmeans |>
-  filter(track_popularity >= 86)
-
-spotify_kmeans_top116_standardized <- spotify_kmeans_top116 |>
-  mutate(across(where(is.numeric),
-                ~ (.x - mean(.x)) / sd(.x),
-                .names = "{.col}_z")) |>
-  select(ends_with("_z"))
-
-# elbow plot to see optimal amount of clusters
-elbow_plot_116 <- tibble(k = 1:10) |>
-  mutate(
-    kmeans_results = purrr::map(k, ~kmeans(spotify_kmeans_top116_standardized,
-                                           .x, nstart = 20)),
-    glanced = purrr::map(kmeans_results, glance)) |>
-  unnest(cols = c(glanced))
-
-# 4 clusters
-set.seed(777)
-
-spotify_kmeans_top116_4 <- spotify_kmeans_top116_standardized |>
-  kmeans(centers = 4, nstart = 20)
-
-spotify_top116_k4 <- augment(spotify_kmeans_top116_4, 
-                             spotify_kmeans_top116_standardized) |>
-  rename(Popularity = track_popularity_z,
-         Danceability = danceability_z,
-         Energy = energy_z,
-         Key = key_z,
-         Loudness = loudness_z,
-         Mode = mode_z,
-         Speechiness = speechiness_z,
-         Acousticness = acousticness_z,
-         Instrumentalness = instrumentalness_z,
-         Liveness = liveness_z,
-         Valence = valence_z,
-         Tempo = tempo_z,
-         Duration = duration_ms_z,
-         Cluster = .cluster)
-
 ### save final objects
-save(elbow_plot, spotify_k4, elbow_plot_116, spotify_top116_k4, file = "data/k-means-data.Rds")
+save(elbow_plot, spotify_k4, file = "data/k-means-data.Rds")

@@ -143,37 +143,6 @@ Overall, there was no significant difference in the popularity scores of the fou
 - Cluster 1 scored much higher on instrumentalness
 - Cluster 3 scored relatively higher on valence
 
-### Top 116 Tracks
-
-#### Elbow Plot
-
-```{r}
-#| label: elbow plot for k-means analysis for top songs only
-
-elbow_plot_116 |>
-  ggplot(aes(x = k, y = tot.withinss)) +
-  geom_point() +
-  geom_line() +
-  scale_x_continuous(breaks = 1:10) +
-  labs(x = "Number of clusters (k)",
-       y = "Total within-cluster sum of squares")
-```
-
-#### Visualizations
-
-::: {.panel-tabset}
-
-```{r}
-spotify_top116_k4 |>
-  select(Popularity, Danceability, Energy, Liveness, Cluster) |>
-  ggpairs(aes(color = Cluster),
-          upper = list(continuous = "blank"),
-          progress = FALSE) +
-  theme(text = element_text(size = 8))
-```
-
-:::
-
 ### Conclusion
 
 Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
