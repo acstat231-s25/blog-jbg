@@ -141,6 +141,13 @@ Overall, there was no significant difference in the popularity scores of the fou
 - Cluster 1 scored much higher on instrumentalness      
 - Cluster 3 scored relatively higher on valence      
 
+```{r}
+#| label: one-way ANOVA
+
+anova_df |>
+  kable()
+```
+
 ### Conclusion
 
 Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 

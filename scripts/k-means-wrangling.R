@@ -60,5 +60,18 @@ spotify_k4 <- augment(spotify_kmeans_4, spotify_kmeans_standardized) |>
          Duration = duration_ms_z,
          Cluster = .cluster)
 
+### dataframe for one-way ANOVA
+# renaming variables for readability
+spotify_renamed <- spotify_distinct |>
+  select(track_popularity, valence, instrumentalness) |>
+  rename(Valence = valence, Instrumentalness = instrumentalness)
+
+spotify_anova <- lm(track_popularity ~ Valence + Instrumentalness, 
+                    spotify_renamed)
+
+# convert to data frame to print as a nice kable
+anova_df <- anova(spotify_anova) |>
+  as.data.frame()
+
 ### save final objects
-save(elbow_plot, spotify_k4, file = "data/k-means-data.Rds")
+save(elbow_plot, spotify_k4, anova_df, file = "data/k-means-data.Rds")
