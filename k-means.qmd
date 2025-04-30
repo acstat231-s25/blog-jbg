@@ -142,7 +142,7 @@ Overall, there was no significant difference in the popularity scores of the fou
 
 ### Conclusion
 
-
+While no significant conclusions can be drawn, the $k$-means analysis suggests that more popular songs tend to score higher on valence. This means that consumers tend to like tracks that are more positive, compared to those that carry a negative tone. Additionally, less popular songs scored much higher on instrumentalness, which suggests that consumers tend to gravitate towards tracks with more lyrics and vocals.      
 
 Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
 
