@@ -25,7 +25,7 @@ library(stopwords)
 
 
 
-
+#need to set working directory to entire folder
 spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 
 # All Songs - Full Set for Cluster 
