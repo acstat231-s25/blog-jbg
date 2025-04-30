@@ -79,13 +79,14 @@ elbow_plot_116 <- tibble(k = 1:10) |>
     glanced = purrr::map(kmeans_results, glance)) |>
   unnest(cols = c(glanced))
 
-# 5 clusters
+# 4 clusters
 set.seed(777)
 
-spotify_kmeans_top116_5 <- spotify_kmeans_top116_standardized |>
-  kmeans(centers = 5, nstart = 20)
+spotify_kmeans_top116_4 <- spotify_kmeans_top116_standardized |>
+  kmeans(centers = 4, nstart = 20)
 
-spotify_top116_k5 <- augment(spotify_kmeans_4, spotify_kmeans_standardized) |>
+spotify_top116_k4 <- augment(spotify_kmeans_top116_4, 
+                             spotify_kmeans_top116_standardized) |>
   rename(Popularity = track_popularity_z,
          Danceability = danceability_z,
          Energy = energy_z,
@@ -102,4 +103,4 @@ spotify_top116_k5 <- augment(spotify_kmeans_4, spotify_kmeans_standardized) |>
          Cluster = .cluster)
 
 ### save final objects
-save(elbow_plot, spotify_k4, elbow_plot_116, spotify_top116_k5, file = "data/k-means-data.Rds")
+save(elbow_plot, spotify_k4, elbow_plot_116, spotify_top116_k4, file = "data/k-means-data.Rds")
