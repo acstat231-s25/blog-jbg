@@ -20,7 +20,14 @@ load("data/k-means-data.Rds")
 
 To observe patterns and relationships amongst the top songs on Spotify, unsupervised learning was utilized through $k$-means analysis. $K$-means analysis includes assigning each track to a distinct group based on similarities in track features. Through cluster analysis, we hope to see if there are specific track features that have a larger impact on a track's popularity. For instance, we often think that more "hype" songs have a higher likelihood of being popular than slower, more melancholy songs; in this case, we would expect that clusters with a higher popularity would also score higher on danceability and energy.            
 
-Because $k$-means analysis can only be conducted on numerical data, all qualitative variables were removed. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. For example, `track_popularity` was recorded on a much larger scale (0-100) than the other variables, which were on a scale from 0-1. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations were generated to see differences amongst clusters.
+Because $k$-means analysis can only be conducted on numerical data, all qualitative variables were removed. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. For example, `track_popularity` was recorded on a much larger scale (0-100) than the other variables, which were on a scale from 0-1. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations were generated to see differences amongst clusters.     
+
+To conduct the data wrangling and analysis for the $k$-means clustering, the following packages were used:     
+- `tidyverse` by @tidyverse      
+- `purrr` by @purrr     
+- `broom` by @broom     
+- `ggplot2` by @ggplot2 - to create the elbow plot to determine the optimal amount of clusters       
+- `GGally` by @GGally - to generate visualizations for the $k$-means analysis   
 
 ### Variables
 
@@ -143,7 +150,3 @@ Overall, there was no significant difference in the popularity scores of the fou
 ### Conclusion
 
 While no significant conclusions can be drawn, the $k$-means analysis suggests that more popular songs tend to score higher on valence. This means that consumers tend to like tracks that are more positive, compared to those that carry a negative tone. Additionally, less popular songs scored much higher on instrumentalness, which suggests that consumers tend to gravitate towards tracks with more lyrics and vocals.      
-
-Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
-
-Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
