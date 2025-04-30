@@ -21,7 +21,24 @@ load("data/k-means-data.Rds")
 
 ## K-Means Analysis
 
-To conduct the $k$-means analysis, only numerical variables were included, and they were all standardized. Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
+To conduct the $k$-means analysis, only numerical variables were included. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
+
+### Variables
+
+From the tidytuesday Spotify dataset (@ttspotify), 13 variables were used.     
+- `track_popularity`: ranging from 0 (least popular) to 100 (most popular)       
+- `danceability`: ranging from 0.0 (least danceable) to 1.0 (most danceable), determined based on tempo, rhythm stability, beat strength, and overall regularity       
+- `energy`: ranging from 0.0 (less energetic) to 1.0 (more energetic), determined by dynamic range, perceived loudness, timbre, onset rate, and general entropy        
+- `key`: the estimated overall key of the track, where 0 = C, 1 = C#, 2 = D, and so on       
+- `loudness`: the average loudness in decibels      
+- `mode`: the modality of a track, either 1 (major) or 0 (minor)       
+- `speechiness`: the presence of spoken words in a track, ranging from 0 (non-speech-like tracks) to 1.0 (exclusively speech-like)      
+- `acousticness`: ranging from 0.0 (low confidence the track is acoustic) to 1.0 (high confidence)        
+- `instrumentalness`: predicts whether a track contains no vocals, ranging from 0.0 (lower likelihood of no vocal content) to 1.0 (higher likelihood); "ooh" and "aah" are treated as instrumental    
+- `liveness`: detects the presence of an audience, ranging from 0.0 (low probability the track was performed live) to 1.0 (high probability the track was performed live)     
+- `valence`: describes the musical positiveness conveyed by the track, ranging from 0.0 (more negative) to 1.0 (more positive)     
+- `tempo`: the average tempo in beats per minute     
+- `duration_ms`: duration of the song in milliseconds     
 
 ### Elbow Plot
 
@@ -41,7 +58,7 @@ The elbow plot indicates that there are no significant drops in the total within
 
 ### Visualizations
 
-Four plots were generated to visualize the differences between clusters and popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.     
+Four plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.     
 
 ::: {.panel-tabset}
 
@@ -119,6 +136,9 @@ Clusters 1, 2, and 4 had similar valence scores, while cluster 3 had a higher va
 
 :::
 
-Overall, there was no significant difference in the popularity scores of the four clusters. The order of the popularity scores (from highest to lowest) is cluster 3, cluster 4, cluster 2, cluster 1. 
+Overall, there was no significant difference in the popularity scores of the four clusters. The order of the popularity scores (from highest to lowest) is cluster 3, cluster 4, cluster 2, cluster 1. The most notable differences between clusters included:      
+- Cluster 4 had a much lower energy score
+- Cluster 1 scored much higher on instrumentalness
+- Cluster 3 scored relatively higher on valence
 
 Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
