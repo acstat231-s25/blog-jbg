@@ -25,7 +25,7 @@ To conduct the $k$-means analysis, only numerical variables were included. Then,
 
 ### Variables
 
-From the tidytuesday Spotify dataset (@ttspotify), 13 variables were used.     
+From the tidytuesday Spotify dataset by @ttspotify, 13 variables were used.     
 - `track_popularity`: ranging from 0 (least popular) to 100 (most popular)       
 - `danceability`: ranging from 0.0 (least danceable) to 1.0 (most danceable), determined based on tempo, rhythm stability, beat strength, and overall regularity       
 - `energy`: ranging from 0.0 (less energetic) to 1.0 (more energetic), determined by dynamic range, perceived loudness, timbre, onset rate, and general entropy        
@@ -140,5 +140,7 @@ Overall, there was no significant difference in the popularity scores of the fou
 - Cluster 4 had a much lower energy score
 - Cluster 1 scored much higher on instrumentalness
 - Cluster 3 scored relatively higher on valence
+
+### Conclusion
 
 Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
