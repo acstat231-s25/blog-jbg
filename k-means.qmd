@@ -21,7 +21,9 @@ load("data/k-means-data.Rds")
 
 ## Introduction
 
-To conduct the $k$-means analysis, only numerical variables were included. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering (for example, `track_popularity` was on a much larger scale - 0-100 - than other variables - 0-1). Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
+To observe patterns and relationships amongst the top songs on Spotify, unsupervised learning was utilized through $k$-means analysis. $K$-means analysis includes assigning each track to a distinct group based on similarities in track features.      
+
+Because $k$-means analysis can only be conducted on numerical data, all qualitative variables were removed. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. For example, `track_popularity` was recorded on a much larger scale (0-100) than the other variables, which were on a scale from 0-1. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations were generated to see differences amongst clusters.
 
 ### Variables
 
@@ -144,3 +146,5 @@ Overall, there was no significant difference in the popularity scores of the fou
 ### Conclusion
 
 Packages used to wrangle this data prior to data analysis were tidyverse by @tidyverse, purrr by @purrr, and broom by @broom. 
+
+Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
