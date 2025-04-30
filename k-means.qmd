@@ -19,7 +19,7 @@ library(GGally)
 load("data/k-means-data.Rds")
 ```
 
-## K-Means Analysis
+## Introduction
 
 To conduct the $k$-means analysis, only numerical variables were included. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering (for example, `track_popularity` was on a much larger scale - 0-100 - than other variables - 0-1). Then, an elbow plot was constructed using the ggplot2 package by @ggplot2 to see the optimal amount of clusters to conduct the $k$-means analysis. Finally, visualizations for the $k$-means analysis were generated using the tidyverse package by @tidyverse and GGally package by @GGally. 
 
@@ -140,13 +140,6 @@ Overall, there was no significant difference in the popularity scores of the fou
 - Cluster 4 had a much lower energy score      
 - Cluster 1 scored much higher on instrumentalness      
 - Cluster 3 scored relatively higher on valence      
-
-```{r}
-#| label: one-way ANOVA
-
-anova_df |>
-  kable()
-```
 
 ### Conclusion
 
