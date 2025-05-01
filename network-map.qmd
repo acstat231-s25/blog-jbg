@@ -1,5 +1,5 @@
 ---
-title: "Network Map"
+title: "Network Map w/ Additional Visuals"
 author: "Justyce Williams"
 ---
 
@@ -40,8 +40,6 @@ library(ggspatial)
 artists<- readRDS("data/networkdata.Rds")
 ```
 
-###Network Maps w/ Additional Visuals 
-
 ## Introduction
 
 To explore connections between artists among top Spotify tracks, we used network science to construct and analyze a collaboration network. In this network, each node represents a unique artist, and edges connect artists who have worked together before. By modeling these relationships as a network, we can observe how artists cluster together, which artists are central to the network, and how collaboration patterns vary across the music industry.
@@ -52,7 +50,7 @@ To create the network, we first scrapped and downloaded information from Wikiped
 
 
 ### Variables 
-Number of Varibles used: 
+Number of Variables used: 
 Sources:
 1. Tidytuesday Spotify dataset by @ttspotify
 2. Wikipedia Sites 
@@ -91,7 +89,7 @@ artists<- artists|>
   distinct(track_artist, collabArtist, .keep_all = TRUE)
 
 # Create the Nodes and Edges for a visble Graph 
-artistcollab_network <- artistGenreSingular |>
+artistcollab_network <- artists |>
       select(track_artist, collabArtist, genre) |>
       as_tbl_graph(directed=FALSE)
 
@@ -147,7 +145,7 @@ artists<- artists|>
   distinct(track_artist, collabArtist, .keep_all = TRUE)
 
 # Create the Nodes and Edges for a visble Graph 
-artistcollab_networkE <- artistGenreSingular |>
+artistcollab_networkE <- artists |>
       select(track_artist, collabArtist, genre) |>
       as_tbl_graph(directed=FALSE)
 
@@ -188,8 +186,7 @@ ggraph(artistcollab_network_SlicedE) +
 
 
 
+##Conclusions 
 
 
-### Title
-
-## Subtitle
+#Sources
