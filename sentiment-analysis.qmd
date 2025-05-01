@@ -65,7 +65,7 @@ coord_flip()
 set.seed(26)
 
 
-my_palette2 <- brewer.pal(10, "Dark2")
+my_palette2 <- brewer.pal(8, "Dark2")
 
 word_counts_bleeped |>
 with(wordcloud(words = word,
