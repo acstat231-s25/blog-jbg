@@ -81,6 +81,10 @@ Sources:
 
 ```{r}
 ## Network Map for Artist Collaboration : Degree Centrality 
+#| label: Network Map: Degree Centrality 
+#| warning: false
+#| out-width: 100%
+#| fig-height: 10
 
 #Getting rid of all the repeative information 
 artists<- artists|>
@@ -132,21 +136,26 @@ ggraph(artistcollab_network_Sliced) +
 
 ```{r}
 ## Network Map for Artist Collaboration : Eigenvector Centrality 
+#| label: Network Map: Eigenvector Centrality 
+#| warning: false
+#| out-width: 100%
+#| fig-height: 10
+
 
 #Getting rid of all the repeative information 
 artists<- artists|>
   distinct(track_artist, collabArtist, .keep_all = TRUE)
 
 # Create the Nodes and Edges for a visble Graph 
-artistcollab_network <- artistGenreSingular |>
+artistcollab_networkE <- artistGenreSingular |>
       select(track_artist, collabArtist, genre) |>
       as_tbl_graph(directed=FALSE)
 
-gorder(artistcollab_network) #Number of Nodes 
-gsize(artistcollab_network) # Number of Edges 
+gorder(artistcollab_networkE) #Number of Nodes 
+gsize(artistcollab_networkE) # Number of Edges 
 
 # Transfer genre info to nodes for ggplot to read it correctly 
-artistcollab_network <- artistcollab_network |>
+artistcollab_networkE <- artistcollab_networkE |>
   activate(nodes) |>
   left_join(
     artists |> 
@@ -155,7 +164,7 @@ artistcollab_network <- artistcollab_network |>
     by = "name"
   )
 
-Eig_artistcollab_network<- artistcollab_network|>
+Eig_artistcollab_network<- artistcollab_networkE|>
   activate(nodes)|>
   mutate(Eigenvector= centrality_eigen())
 

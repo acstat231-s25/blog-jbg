@@ -385,7 +385,7 @@ network<- textspacesallocation1|>
   select( -track_artist1, -sentences)
 
 
-genre<- songs_top100|>
+genre<- songs_top1001|>
   select(track_artist, genre)|>
   mutate(track_artist= str_to_lower(track_artist))
 
@@ -396,7 +396,7 @@ networkdata<- network|>
 #Datasets to Move Forward With-- 
 networkdata
 
-saveRDS(networkdata, "data/network.Rds")
+saveRDS(networkdata, "data/networkdata.Rds")
 
 
 ##Plan Out The Network Graph:
