@@ -11,11 +11,127 @@ author: "Ben Snyderman"
 options(scipen = 1, knitr.kable.NA = "")
 
 # Load necessary packages
+library(tidyverse)
+library(dplyr)
+library(RColorBrewer)
+library(wordcloud)
+
 
 # Load datasets
 load("data/sentiment-data.Rds")
 ```
 
-### Title
+### Sentiment Analysis
 
-## Subtitle
+## What words are the most popular songs using?
+
+*All data is from the top 100 spotify songs*
+
+This visual shows the top words in terms of usage under each category of sentiment defined by nrc.
+
+```{r}
+
+
+ggplot(data=playlist_nrc_bleeped, aes(x = reorder(word,n), y = n, fill = as.factor(n))) +
+geom_col(show.legend = FALSE) +
+labs(x = NULL, y = "Frequency") +
+facet_wrap(~ sentiment, ncol = 2, scales = "free") +
+coord_flip()
+
+
+```
+
+
+
+This visual shows the top words used among all songs in general.
+
+```{r}
+
+ggplot(data=word_counts_bleeped_sliced, aes(x = reorder(word,n), y = n, fill = as.factor(n))) +
+geom_col(show.legend = FALSE) +
+labs(x = NULL, y = "Frequency") +
+coord_flip()
+
+
+```
+
+
+
+
+This visual shows a word cloud including the top words from all songs.
+
+
+```{r}
+
+#| fig.width = 20
+#| fig.height = 16
+
+set.seed(26)
+
+
+my_palette2 <- brewer.pal(8, "Dark2")
+
+word_counts_bleeped |>
+with(wordcloud(words = word,
+freq = n,
+max.words = 100,
+random.order = TRUE,
+scale = c(5, 0.5),
+rot.per = 0.15,
+colors = my_palette2,
+family = "arial"))
+
+
+```
+
+
+
+This visual shows the top ten songs in terms of sentiment according to afinn.
+
+```{r}
+
+
+ggplot(afinn_best, aes(x = reorder(track_name, sentiment_score), y = sentiment_score)) +
+  geom_col(fill = "Green", show.legend = FALSE) +
+  labs(x = NULL, y = "Sentiment Score") +
+coord_flip()
+```
+
+
+This visual shows the bottom ten songs in terms of sentiment according to afinn.
+
+```{r}
+ggplot(afinn_worst, aes(x = reorder(track_name, sentiment_score), y = sentiment_score)) +
+  geom_col(fill = "red", show.legend = FALSE) +
+  labs(x = NULL, y = "Sentiment Score") +
+coord_flip()
+```
+
+
+The next visual shows the top songs in terms of sentiment according to afinn categorized by genre.
+
+```{r}
+
+ggplot(data=afinn_rap_pop_good, aes(x = reorder(track_name,sentiment_score), y = sentiment_score)) +
+geom_col(aes(fill = sentiment_score > 0), show.legend = FALSE) +
+labs(x = NULL, y = "Sentiment Score") +
+facet_wrap(~ playlist_genre, ncol = 2, scales = "free_y") +
+  scale_fill_manual(values = c("TRUE" = "green", "FALSE" = "red")) +
+coord_flip()
+```
+
+
+The next visual shows the bottom songs in terms of sentiment according to afinn categorized by genre.
+
+```{r}
+
+ggplot(data=afinn_rap_pop_bad, aes(x = reorder(track_name,sentiment_score), y = sentiment_score)) +
+geom_col(fill = "red", show.legend = FALSE) +
+labs(x = NULL, y = "Sentiment Score") +
+facet_wrap(~ playlist_genre, ncol = 2, scales = "free_y") +
+coord_flip()
+```
+
+
+
+

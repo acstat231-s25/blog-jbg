@@ -13,7 +13,6 @@ library(robotstxt)
 library(tidytext)
 library(tidyr)
 library(dplyr)
-library(spotifyr)
 library(tidytuesdayR)
 library(geniusr)
 library(httr)
@@ -148,10 +147,12 @@ playlist_nrc <- word_counts |>
   inner_join(nrc_lexicon, by = "word") |>
   filter(sentiment %in% c("anger", "anticipation", "fear"
                           , "joy", "surprise", "trust"))  |>
-  arrange(sentiment, desc(n))
+  arrange(sentiment, desc(n)) |>
+group_by(sentiment) |>
+  slice(1:10)
 
 
-playlist_nrc_bleeped <- plalist_nrc |>
+playlist_nrc_bleeped <- playlist_nrc |>
   mutate(word = str_replace(word, "bitch", "b****")) |>
   mutate(word = str_replace(word, "nigga", "n****")) |>
   mutate(word = str_replace(word, "shit", "s***")) |>
@@ -186,9 +187,40 @@ songs_top100_genre <- songs_top100 |>
 playlist_lyrics_4 <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
 
-affinn_song_scores <- playlist_lyrics_4 |>
+afinn_song_scores <- afinn_song_scores |>
   left_join(songs_top100_genre, by = "track_id")
 
+
+afinn_best <- afinn_song_scores |>
+  arrange(desc(sentiment_score)) |>
+  ungroup() |>
+  slice(1:10)
+
+afinn_worst <- afinn_song_scores |>
+  arrange((sentiment_score)) |>
+  ungroup() |>
+  slice(1:10)
+
+
+
+afinn_rap_pop_good <- afinn_song_scores |>
+  filter(playlist_genre %in% c("pop", "rap")) |>
+  group_by(playlist_genre) |>
+  arrange(desc(sentiment_score)) |>
+  slice(1:10)
+
+afinn_rap_pop_bad <- afinn_song_scores |>
+  filter(playlist_genre %in% c("pop", "rap")) |>
+  group_by(playlist_genre) |>
+  arrange((sentiment_score)) |>
+  slice(1:10)
+
+word_counts_bleeped_sliced <- word_counts_bleeped |>
+  arrange(desc(n)) |>
+  slice(1:10)
+
+
+
 ##Save Final
-save(playlist_lyrics_4, playlist_nrc, afinn_song_scores, word_counts_bleeped, file = "data/sentiment-data.Rds")
+save(playlist_nrc_bleeped, afinn_best, afinn_worst, afinn_rap_pop_good, afinn_rap_pop_bad, word_counts_bleeped_sliced, word_counts_bleeped, file = "data/sentiment-data.Rds")
 

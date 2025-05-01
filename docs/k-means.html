@@ -174,13 +174,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
-  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">Variables</a></li>
   <li><a href="#elbow-plot" id="toc-elbow-plot" class="nav-link" data-scroll-target="#elbow-plot">Elbow Plot</a></li>
   <li><a href="#visualizations" id="toc-visualizations" class="nav-link" data-scroll-target="#visualizations">Visualizations</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -227,9 +225,11 @@ window.Quarto = {
 - <code>purrr</code> by <span class="citation" data-cites="purrr">Wickham and Henry (<a href="#ref-purrr" role="doc-biblioref">2023</a>)</span><br>
 - <code>broom</code> by <span class="citation" data-cites="broom">Robinson et al. (<a href="#ref-broom" role="doc-biblioref">2024</a>)</span><br>
 - <code>ggplot2</code> by <span class="citation" data-cites="ggplot2">Wickham (<a href="#ref-ggplot2" role="doc-biblioref">2016</a>)</span> - to create the elbow plot to determine the optimal amount of clusters<br>
-- <code>GGally</code> by <span class="citation" data-cites="GGally">Schloerke et al. (<a href="#ref-GGally" role="doc-biblioref">2024</a>)</span> - to generate visualizations for the <span class="math inline">\(k\)</span>-means analysis</p>
-<section id="variables" class="level3">
-<h3 class="anchored" data-anchor-id="variables">Variables</h3>
+- <code>GGally</code> by <span class="citation" data-cites="GGally">Schloerke et al. (<a href="#ref-GGally" role="doc-biblioref">2024</a>)</span> - to generate visualizations for the <span class="math inline">\(k\)</span>-means analysis<br>
+- <code>citation</code> by <span class="citation" data-cites="cite">Dietrich and Leoncio (<a href="#ref-cite" role="doc-biblioref">2023</a>)</span> - to generate citations</p>
+</section>
+<section id="variables" class="level2">
+<h2 class="anchored" data-anchor-id="variables">Variables</h2>
 <p>From the tidytuesday Spotify dataset by <span class="citation" data-cites="ttspotify">Thompson et al. (<a href="#ref-ttspotify" role="doc-biblioref">2020</a>)</span>, 13 variables were used.<br>
 - <code>track_popularity</code>: ranging from 0 (least popular) to 100 (most popular)<br>
 - <code>danceability</code>: ranging from 0.0 (least danceable) to 1.0 (most danceable), determined based on tempo, rhythm stability, beat strength, and overall regularity<br>
@@ -245,8 +245,8 @@ window.Quarto = {
 - <code>tempo</code>: the average tempo in beats per minute<br>
 - <code>duration_ms</code>: duration of the song in milliseconds</p>
 </section>
-<section id="elbow-plot" class="level3">
-<h3 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h3>
+<section id="elbow-plot" class="level2">
+<h2 class="anchored" data-anchor-id="elbow-plot">Elbow Plot</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -258,8 +258,8 @@ window.Quarto = {
 </div>
 <p>The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our <span class="math inline">\(k\)</span>-means analysis.</p>
 </section>
-<section id="visualizations" class="level3">
-<h3 class="anchored" data-anchor-id="visualizations">Visualizations</h3>
+<section id="visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
 <p>For clearer visualization, four separate plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Danceability, Energy, Liveness</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Key, Tempo, Duration</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Speechiness, Acousticness, Instrumentalness</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Valence, Mode, Loudness</a></li></ul>
@@ -319,16 +319,18 @@ window.Quarto = {
 - Cluster 1 scored much higher on instrumentalness<br>
 - Cluster 3 scored relatively higher on valence</p>
 </section>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>While no significant conclusions can be drawn, the <span class="math inline">\(k\)</span>-means analysis suggests that more popular songs tend to score higher on valence. This means that consumers tend to like tracks that are more positive, compared to those that carry a negative tone. Additionally, less popular songs scored much higher on instrumentalness, which suggests that consumers tend to gravitate towards tracks with more lyrics and vocals.</p>
 
 
 
 </section>
-</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cite" class="csl-entry" role="listitem">
+Dietrich, J. P., and Leoncio, W. (2023), <em>Citation: Software citation tools</em>.
+</div>
 <div id="ref-broom" class="csl-entry" role="listitem">
 Robinson, D., Hayes, A., and Couch, S. (2024), <em><a href="https://CRAN.R-project.org/package=broom">Broom: Convert statistical objects into tidy tibbles</a></em>.
 </div>
