@@ -27,7 +27,8 @@ To conduct the data wrangling and analysis for the $k$-means clustering, the fol
 - `purrr` by @purrr     
 - `broom` by @broom     
 - `ggplot2` by @ggplot2 - to create the elbow plot to determine the optimal amount of clusters       
-- `GGally` by @GGally - to generate visualizations for the $k$-means analysis   
+- `GGally` by @GGally - to generate visualizations for the $k$-means analysis     
+- `citation` by @cite - to generate citations     
 
 ### Variables
 
