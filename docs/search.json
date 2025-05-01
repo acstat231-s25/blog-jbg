@@ -201,5 +201,12 @@
     "title": "K-Means Analysis",
     "section": "Conclusion",
     "text": "Conclusion\nWhile no significant conclusions can be drawn, the \\(k\\)-means analysis suggests that more popular songs tend to score higher on valence. This means that consumers tend to like tracks that are more positive, compared to those that carry a negative tone. Additionally, less popular songs scored much higher on instrumentalness, which suggests that consumers tend to gravitate towards tracks with more lyrics and vocals."
+  },
+  {
+    "objectID": "sentiment-analysis.html#what-words-are-the-most-popular-songs-using",
+    "href": "sentiment-analysis.html#what-words-are-the-most-popular-songs-using",
+    "title": "Sentiment Analysis",
+    "section": "What words are the most popular songs using?",
+    "text": "What words are the most popular songs using?\nAll data is from the top 100 spotify songs\nThis visual shows the top words in terms of usage under each category of sentiment defined by nrc.\n\n\n\n\n\n\n\n\n\nThis visual shows the top words used among all songs in general.\n\n\n\n\n\n\n\n\n\nThis visual shows a word cloud including the top words from all songs.\n\n\n\n\n\n\n\n\n\nThis visual shows the top ten songs in terms of sentiment according to afinn.\n\n\n\n\n\n\n\n\n\nThis visual shows the bottom ten songs in terms of sentiment according to afinn.\n\n\n\n\n\n\n\n\n\nThe next visual shows the top songs in terms of sentiment according to afinn categorized by genre.\n\n\n\n\n\n\n\n\n\nThe next visual shows the bottom songs in terms of sentiment according to afinn categorized by genre."
   }
 ]
