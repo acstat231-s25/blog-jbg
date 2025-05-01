@@ -11,9 +11,102 @@ author: "Justyce Williams"
 options(scipen = 1, knitr.kable.NA = "")
 
 # Load necessary packages
+# load packages
+library(tidyverse)
+library(rvest)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(robotstxt)
+library(tidytext)
+library(tidyr)
+library(dplyr)
+library(spotifyr)
+library(tidytuesdayR)
+library(geniusr)
+library(httr)
+library(jsonlite)
+library(broom)
+library(GGally)
+library(rgenius)
+library(igraph)
+library(ggraph)
+library(tidygraph)
+library(sf)
+library(leaflet)
+library(ggspatial)
 
 # Load datasets
+artists<- readRDS("data/networkdata.Rds")
 ```
+
+### Variables 
+Number of Varibles used: 
+Sources:
+1. tidytuesday Spotify dataset by @ttspotify
+2. Wikipedia Sites 
+*For Network*
+- `track_artist`: list of all artist who's songs have made it to the top 100 songs 
+- `hometown`: hometown is distinct from bornplace, hometown is where the artist grew up
+- `collabArtist`: the names of artist (exclusively artist listed in the top 100) who have worked with (in any capacity) with track artist
+
+*For Map* -- focus only on network first 
+
+
+*Bar* -- focus only on network first 
+
+
+
+
+```{r}
+# Network Map for Artist Collaboration
+
+# Create the Nodes and Edges for a visble Graph 
+
+artists<- artists|>
+  distinct(track_artist, collabArtist, .keep_all = TRUE)
+  
+
+artistcollab_network <- artists |>
+      select(track_artist, collabArtist, genre) |>
+      as_tbl_graph(directed=FALSE)
+
+gorder(artistcollab_network) #Number of Nodes 
+gsize(artistcollab_network) # Number of Edges 
+
+# Transfer genre info to nodes for ggplot to read it correctly 
+artistcollab_network <- artistcollab_network |>
+  activate(nodes) |>
+  left_join(
+    artists |> 
+      select(name = track_artist, genre) |> 
+      distinct(name, .keep_all = TRUE),
+    by = "name"
+  )
+
+#Filtering to make graph more readability by decreasing data points
+#Reporting the ones with the most connections for a more interesting data 
+topConnectArtist<- artistcollab_network
+
+
+
+
+#Plot: 
+ggraph(artistcollab_network) +
+    geom_edge_link(edge_alpha = 0.5) +
+    geom_node_point(size = 2,aes( color = genre)) +
+    geom_node_label(aes(label = name), repel = TRUE) +
+    # Had to add `base_family` argument due to error with fonts loading for PDF
+    theme_graph(base_family = "sans")
+
+
+
+```
+
+
+
+
+
 
 ### Title
 

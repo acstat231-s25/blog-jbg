@@ -46,7 +46,9 @@ library(rgenius)
 library(igraph)
 library(ggraph)
 library(tidygraph)
-
+library(sf)
+library(leaflet)
+library(ggspatial)
 ```
 
 ## Variables
@@ -292,14 +294,34 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
 ```{r}
 #| label: Wrangle for Network 
 
+#Read in Hometown names from excel created sheet using wikipedia site to keep it consist with the sourced used for the information in the network map
+#Removed unnecessary blank columns 
+ht<- read.csv("raw-data/hometownsheet.csv")
+ht<- ht|>
+  select(-X, - X.1)
+
+
+#Merge Excel Data for Hometown Information Required Later on:
+spotifydata<-inner_join(songs_top100, ht,  by = join_by(track_artist))
+
+
 #Edit Names For Wikipedia Urls 
 #Some artists names are too vague, forcing R to quit reading through because it can't find the specfic urls 
+#Some artisit just need changes for their name need chnages 
 songs_top1001<- songs_top100|>
   mutate(track_artist= case_when(
     track_artist == "MEDUZA" ~ "Meduza (producers)",
     track_artist == "KAROL G" ~ "Karol G",
      track_artist == "ROSALÍA" ~ "Rosalía",
     track_artist == "JACKBOYS" ~ "JackBoys",
+    track_artist == "Regard" ~ "Regard (DJ)",
+    track_artist == "blackbear" ~ "Blackbear (musician)",
+    track_artist == "Y2K" ~ "Y2K!",
+    track_artist == "Halsey" ~ "Halsey (singer)",
+    track_artist == "Sech" ~ "Sech (singer)",
+    track_artist == "Trevor Daniel" ~ "Trevor Daniel (singer)",
+    track_artist == "Dan + Shay" ~ "Dan %2B Shay",
+    track_artist == "Mustard" ~ "Mustard (record producer)",
     TRUE ~ track_artist
   ))
 
@@ -335,7 +357,7 @@ songs_text<- songs_top100_urls|>
   unnest_tokens(output = sentences, input = text, token = "sentences")
 
 #allocation space for new data entries 
-textspacesallocation<- data.frame(track_artist=NA, sentences= NA, containtextartist=NA)
+textspacesallocation<- data.frame(track_artist=NA, sentences= NA, collabArtist=NA)
 
 #Creating Vector for the For Loop  
 artistvec<- pull(songs_text, track_artist)|>
@@ -343,113 +365,101 @@ unique()
 
 for (a in artistvec){
  spotify_text_identify<-  songs_text|>
-  mutate(containtextartist = str_extract(sentences, a))|>
-   filter(!is.na(containtextartist)) #Used to remove NAs and cut down iteration computation time
+  mutate(collabArtist = str_extract(sentences, a))|>
+   filter(!is.na(collabArtist)) #Used to remove NAs and cut down iteration computation time
   textspacesallocation<- bind_rows(spotify_text_identify, textspacesallocation )
 }
 
 #Creating a new column that tells me when the artist's wikipedia site mentions another artist within the data set that R will extract, to display which artist within the data set have worked together 
 textspacesallocation1<- textspacesallocation|>
   mutate( track_artist1 = case_when (
-    track_artist == containtextartist ~ "x",
+    track_artist == collabArtist ~ "x",
     TRUE ~ track_artist
   ))
 
-#Get rid of artist mentions of themselves and thn removing the column because it does not add any useful information (it just reopeats the artists again), also dont need the wikipedia text anymore once I have the artist they have collabed with
+#Get rid of artist mentions of themselves and thn removing the column because it does not add any useful information (it just reopeats the artists again), also don't need the wikipedia text anymore once I have the artist they have collabed with
 textspacesallocation1<- textspacesallocation1|>
     filter(!track_artist1== "x")
-Offical_artist_collabset<- textspacesallocation1|>
-  select( -track_artist1, sentences)
+#calling it network to save as the offical data set 
+network<- textspacesallocation1|>
+  select( -track_artist1, -sentences)
 
-          
 
+genre<- songs_top100|>
+  select(track_artist, genre)|>
+  mutate(track_artist= str_to_lower(track_artist))
+
+networkdata<- network|>
+  left_join(genre, by= join_by(track_artist))
 
 
 #Datasets to Move Forward With-- 
-Offical_artist_collabset
-songs_top100
+networkdata
 
-#Plan Out The Network Graph:
-#1. Artist Collab
-#2. Artist Genre 
-#3. Number of times artist mentioned (Not Network, just bar Chart)
-#3. Number of times artist mentioned with Genre
-#4. Length of music, maybe something like connection of 
+saveRDS(networkdata, "data/network.Rds")
 
 
-##Artist Collab: (Using Offical_artist_collabset data set)
+##Plan Out The Network Graph:
+#1. Artist Collab (Using Offical_artist_collabset data set)
 # Create the Nodes and Edges for a visble Graph 
 
-artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
-gorder(artistcollab_network) #Number of Nodes 
-gsize(artistcollab_network) # Number of Edges 
+#artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
+#gorder(artistcollab_network) #Number of Nodes 
+#gsize(artistcollab_network) # Number of Edges 
 
 
+```
 
-##All of Graphs Needed: (Using songs_top100) 
-# Create the Nodes and Edges for a visble Graph 
+```{r}
+##Maps for Hometowns
+#Pull in Excel Data using Wikipedia sites tokeep the information consistent 
+hometownAdd<- read.csv("raw-data/hometownsheet.csv")
 
+#Remove Unnecessary Columns 
+hometownAdd<- hometownAdd|>
+               select( -X, -X.1)
 
-##1. Artist Genre 
-artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= TRUE) #Not Mutually Directed 
-gorder(artistcollab_network) #Number of Nodes 
-gsize(artistcollab_network) # Number of Edges 
-
-
-
-##2. How many Times an artist is mentioned in relation to Genre 
-#Need Wrangling First 
-#Need to Add Weight 
-
-numberHits<- songs_top100|>
-  select(track_artist, genre)|>
-  group_by(track_artist, genre)|>
-  summarize(Mentions= n())
-
-NumberOfArtisitHits <- as_tbl_graph(x= numberHits, nodes=genre, edges =  track_artist, directed= FALSE) #Mutually Connected Each Artist Should have a genre (Check that definition)
-gorder(NumberOfArtisitHits) #Number of Nodes 
-gsize(NumberOfArtisitHits) # Number of Edges 
+#Join Data with Excel Sheet
+spotifydata<- hometownAdd|>
+              right_join(songs_top100, by= ("track_artist"))
 
 
-degreeArtistHits <- NumberOfArtisitHits |>
-    activate(nodes) |>
-    mutate(degree = centrality_degree(),
-           strength = centrality_degree(weights = Mentions)) #Grabs how many times the artist has had a hot song for each genre
+#Getting just the hometowns and artist
+spotifydataHT <- spotifydata|>
+  select(track_artist, hometown)|>
+  distinct(track_artist, .keep_all = TRUE)
 
+#grouping and counting how many artist are in each state and delete everything after comma
+spotifydataHTLocations<- spotifydataHT|>
+                         mutate(hometown= str_to_lower(hometown),)|>
+                         group_by(hometown)|>
+                         summarise(count = n())
 
+spotifydataHTLocations<- spotifydataHTLocations|>
+  mutate(hometown = str_replace(hometown, ",.*", ""))
 
+##States
+# Create sf object for US states
+state_map <- maps::map("state", regions = "."
+                    , plot = FALSE, fill = TRUE) |>
+st_as_sf()
 
-##3. Number of times artist mentioned 
-# Need Wrangling First 
-numberHits1<- songs_top100|>
-  select(track_artist)|>
-  group_by(track_artist)|>
-  summarize(Mentions= n())
+#renaming ID to hometown so they merge 
+state_map <- rename(state_map, hometown = ID)
 
+#Combining
+#Note this excludes those outside of US (There are only a few and we can mention the map visual)
+fullStateSpotify<- spotifydataHTLocations|>
+  inner_join(state_map,  by = join_by("hometown"))
 
+#Check Imagine 
+ggplot() +
+  geom_sf(data=fullStateSpotify, aes(geometry=geom)
+          , fill = "lightgrey", color = "white") +
+  geom_sf(data=state_map, aes(geometry=geom)
+          , fill = NA, color = "black") +
+  theme_void()
 
-#4. Length of music, maybe something like connection -- Get Opinions ? Ask them What the think about the need for more.
-artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
-gorder(artistcollab_network) #Number of Nodes 
-gsize(artistcollab_network) # Number of Edges 
-
-
-
-
-
-
-##HomeTown: 
-
-songs_top100_HomeTown<- songs_top100_urls|>
-  
-
-<th scope="row" class="infobox-label">Home town</th>
-
-
-
-##HomeTown 
-
-##Born
 
 
 
