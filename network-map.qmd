@@ -80,7 +80,7 @@ Sources:
 ```{r}
 ## Network Map for Artist Collaboration : Degree Centrality 
 #| label: Network Map: Degree Centrality 
-#| warning: false
+#| message: false
 #| out-width: 100%
 #| fig-height: 10
 
@@ -130,12 +130,16 @@ ggraph(artistcollab_network_Sliced) +
 
 
 ```
+#Analysis 
+
+
 
 
 ```{r}
 ## Network Map for Artist Collaboration : Eigenvector Centrality 
 #| label: Network Map: Eigenvector Centrality 
 #| warning: false
+#| message: false
 #| out-width: 100%
 #| fig-height: 10
 
@@ -182,6 +186,8 @@ ggraph(artistcollab_network_SlicedE) +
 
 
 ```
+#Analysis 
+
 
 
 
@@ -189,4 +195,4 @@ ggraph(artistcollab_network_SlicedE) +
 ##Conclusions 
 
 
-#Sources
+
