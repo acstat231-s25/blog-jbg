@@ -30,7 +30,7 @@ To conduct the data wrangling and analysis for the $k$-means clustering, the fol
 - `GGally` by @GGally - to generate visualizations for the $k$-means analysis     
 - `citation` by @cite - to generate citations     
 
-### Variables
+## Variables
 
 From the tidytuesday Spotify dataset by @ttspotify, 13 variables were used.     
 - `track_popularity`: ranging from 0 (least popular) to 100 (most popular)       
@@ -47,7 +47,7 @@ From the tidytuesday Spotify dataset by @ttspotify, 13 variables were used.
 - `tempo`: the average tempo in beats per minute     
 - `duration_ms`: duration of the song in milliseconds     
 
-### Elbow Plot
+## Elbow Plot
 
 ```{r}
 #| label: elbow plot for k-means analysis
@@ -63,7 +63,7 @@ elbow_plot |>
 
 The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our $k$-means analysis. 
 
-### Visualizations
+## Visualizations
 
 For clearer visualization, four separate plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.     
 
@@ -148,6 +148,6 @@ Overall, there was no significant difference in the popularity scores of the fou
 - Cluster 1 scored much higher on instrumentalness      
 - Cluster 3 scored relatively higher on valence      
 
-### Conclusion
+## Conclusion
 
 While no significant conclusions can be drawn, the $k$-means analysis suggests that more popular songs tend to score higher on valence. This means that consumers tend to like tracks that are more positive, compared to those that carry a negative tone. Additionally, less popular songs scored much higher on instrumentalness, which suggests that consumers tend to gravitate towards tracks with more lyrics and vocals.      
