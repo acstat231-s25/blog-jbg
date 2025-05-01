@@ -40,10 +40,21 @@ library(ggspatial)
 artists<- readRDS("data/networkdata.Rds")
 ```
 
+###Network Maps w/ Additional Visuals 
+
+## Introduction
+
+To explore connections between artists among top Spotify tracks, we used network science to construct and analyze a collaboration network. In this network, each node represents a unique artist, and edges connect artists who have worked together before. By modeling these relationships as a network, we can observe how artists cluster together, which artists are central to the network, and how collaboration patterns vary across the music industry.
+
+Network analysis helps us do more than just count how many times artists worked together, it allows us  to actually see how those collaborations are structured. By looking at the network, we can figure out which artists play important roles, like being central connectors between groups or part of particular circles that collaborate a lot. For example, we might expect pop artists to be part of big, connected clusters because they tend to collaborate more often, while artists from smaller or more niche genres might be more on the edges of the network. Given the use of this spotify dataset, when filter for top our tracks, a majority of the songs are pop genre, thus we will see many connections in the dominating pop genre circles. 
+
+To create the network, we first scrapped and downloaded information from Wikipedia to gain an understanding of which artist have crossed paths professionally. Then that data was filtered to include only unique artist-to-artist collaborations. Then, we used visualizations using centrality metrics to highlight popular artists amongst those groups to examine the overall connectivity of the network. Through this analysis, we hope to gain insight into how collaborative behavior influences visibility, crossovers with genre, and the formation of musical communities or pods. 
+
+
 ### Variables 
 Number of Varibles used: 
 Sources:
-1. tidytuesday Spotify dataset by @ttspotify
+1. Tidytuesday Spotify dataset by @ttspotify
 2. Wikipedia Sites 
 *For Network*
 - `track_artist`: list of all artist who's songs have made it to the top 100 songs 
@@ -57,17 +68,26 @@ Sources:
 
 
 
+```{r}
+# Bar chart Representing Popularity -- 
+
+
+
+
+
+```
+
+
 
 ```{r}
-# Network Map for Artist Collaboration
+## Network Map for Artist Collaboration : Degree Centrality 
 
-# Create the Nodes and Edges for a visble Graph 
-
+#Getting rid of all the repeative information 
 artists<- artists|>
   distinct(track_artist, collabArtist, .keep_all = TRUE)
-  
 
-artistcollab_network <- artists |>
+# Create the Nodes and Edges for a visble Graph 
+artistcollab_network <- artistGenreSingular |>
       select(track_artist, collabArtist, genre) |>
       as_tbl_graph(directed=FALSE)
 
@@ -79,26 +99,79 @@ artistcollab_network <- artistcollab_network |>
   activate(nodes) |>
   left_join(
     artists |> 
-      select(name = track_artist, genre) |> 
+      select(name = track_artist, genre, collabArtist) |> 
       distinct(name, .keep_all = TRUE),
     by = "name"
   )
 
-#Filtering to make graph more readability by decreasing data points
+#Filtering to make graph more readability by decreasing data points (Note to Self-- Refer to Lab 10)
 #Reporting the ones with the most connections for a more interesting data 
-topConnectArtist<- artistcollab_network
+
+#adding degree information to know which artist is most connectioned 
+artistcollab_network<- artistcollab_network|>
+  activate(nodes)|>
+  mutate(degree= centrality_degree())
 
 
-
+artistcollab_network_Sliced<- artistcollab_network|>
+  activate(nodes)|>
+  arrange(desc(degree))|>
+  slice(1:50)
 
 #Plot: 
-ggraph(artistcollab_network) +
+ggraph(artistcollab_network_Sliced) +
     geom_edge_link(edge_alpha = 0.5) +
     geom_node_point(size = 2,aes( color = genre)) +
     geom_node_label(aes(label = name), repel = TRUE) +
     # Had to add `base_family` argument due to error with fonts loading for PDF
     theme_graph(base_family = "sans")
 
+
+```
+
+
+```{r}
+## Network Map for Artist Collaboration : Eigenvector Centrality 
+
+#Getting rid of all the repeative information 
+artists<- artists|>
+  distinct(track_artist, collabArtist, .keep_all = TRUE)
+
+# Create the Nodes and Edges for a visble Graph 
+artistcollab_network <- artistGenreSingular |>
+      select(track_artist, collabArtist, genre) |>
+      as_tbl_graph(directed=FALSE)
+
+gorder(artistcollab_network) #Number of Nodes 
+gsize(artistcollab_network) # Number of Edges 
+
+# Transfer genre info to nodes for ggplot to read it correctly 
+artistcollab_network <- artistcollab_network |>
+  activate(nodes) |>
+  left_join(
+    artists |> 
+      select(name = track_artist, genre, collabArtist) |> 
+      distinct(name, .keep_all = TRUE),
+    by = "name"
+  )
+
+Eig_artistcollab_network<- artistcollab_network|>
+  activate(nodes)|>
+  mutate(Eigenvector= centrality_eigen())
+
+
+artistcollab_network_SlicedE<- Eig_artistcollab_network|>
+  activate(nodes)|>
+  arrange(desc(Eigenvector))|>
+  slice(1:50)
+
+#Plot: 
+ggraph(artistcollab_network_SlicedE) +
+    geom_edge_link(edge_alpha = 0.5) +
+    geom_node_point(size = 2,aes( color = genre)) +
+    geom_node_label(aes(label = name), repel = TRUE) +
+    # Had to add `base_family` argument due to error with fonts loading for PDF
+    theme_graph(base_family = "sans")
 
 
 ```
