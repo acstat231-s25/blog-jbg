@@ -13,7 +13,6 @@ library(robotstxt)
 library(tidytext)
 library(tidyr)
 library(dplyr)
-library(spotifyr)
 library(tidytuesdayR)
 library(geniusr)
 library(httr)
@@ -151,7 +150,7 @@ playlist_nrc <- word_counts |>
   arrange(sentiment, desc(n))
 
 
-playlist_nrc_bleeped <- plalist_nrc |>
+playlist_nrc_bleeped <- playlist_nrc |>
   mutate(word = str_replace(word, "bitch", "b****")) |>
   mutate(word = str_replace(word, "nigga", "n****")) |>
   mutate(word = str_replace(word, "shit", "s***")) |>
@@ -186,9 +185,9 @@ songs_top100_genre <- songs_top100 |>
 playlist_lyrics_4 <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
 
-affinn_song_scores <- playlist_lyrics_4 |>
+afinn_song_scores <- afinn_song_scores |>
   left_join(songs_top100_genre, by = "track_id")
 
 ##Save Final
-save(playlist_lyrics_4, playlist_nrc, afinn_song_scores, word_counts_bleeped, file = "data/sentiment-data.Rds")
+save(playlist_nrc_bleeped, afinn_song_scores, word_counts_bleeped, file = "data/sentiment-data.Rds")
 
