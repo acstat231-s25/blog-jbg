@@ -147,7 +147,9 @@ playlist_nrc <- word_counts |>
   inner_join(nrc_lexicon, by = "word") |>
   filter(sentiment %in% c("anger", "anticipation", "fear"
                           , "joy", "surprise", "trust"))  |>
-  arrange(sentiment, desc(n))
+  arrange(sentiment, desc(n)) |>
+group_by(sentiment) |>
+  slice(1:10)
 
 
 playlist_nrc_bleeped <- playlist_nrc |>

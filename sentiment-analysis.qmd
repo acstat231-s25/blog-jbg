@@ -11,6 +11,11 @@ author: "Ben Snyderman"
 options(scipen = 1, knitr.kable.NA = "")
 
 # Load necessary packages
+library(tidyverse)
+library(dplyr)
+library(RColorBrewer)
+library(wordcloud)
+
 
 # Load datasets
 load("data/sentiment-data.Rds")
@@ -19,3 +24,47 @@ load("data/sentiment-data.Rds")
 ### Title
 
 ## Subtitle
+
+
+
+
+
+```{r}
+
+
+ggplot(data=playlist_nrc_bleeped, aes(x = reorder(word,n), y = n, fill = as.factor(n))) +
+geom_col(show.legend = FALSE) +
+labs(x = NULL, y = "Frequency") +
+facet_wrap(~ sentiment, ncol = 2, scales = "free") +
+coord_flip()
+
+
+```
+
+
+
+
+
+
+```{r}
+
+
+set.seed(26)
+
+
+my_palette2 <- brewer.pal(10, "Set3")
+
+word_counts_bleeped |>
+with(wordcloud(words = word,
+freq = n,
+max.words = 100,
+random.order = TRUE,
+scale = c(2, 0.3),
+rot.per = 0.15,
+colors = my_palette2,
+family = "arial"))
+
+
+```
+
+
