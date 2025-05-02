@@ -462,6 +462,21 @@ ggplot() +
 
 
 
+## Map Tabs 
+
+#Tab 1: USA Hometowns
+#Tab 2: Canada Hometowns
+#Tab 3: South America hometowns? 
+
+
+
+
+
+county_map <- maps::map("county", regions = "."
+                    , plot = FALSE, fill = TRUE) |>
+st_as_sf()
+
+view(country_map)
 
 
 ```
