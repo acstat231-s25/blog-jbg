@@ -67,7 +67,7 @@ The elbow plot indicates that there are no significant drops in the total within
 
 ## Visualizations
 
-For clearer visualization, four separate plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.     
+For clearer visualization, four separate plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores. Each cluster is separated by color.         
 
 ::: {.panel-tabset}
 
