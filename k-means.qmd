@@ -56,6 +56,8 @@ elbow_plot |>
   ggplot(aes(x = k, y = tot.withinss)) +
   geom_point() +
   geom_line() +
+  geom_point(data = (elbow_plot |>
+               filter(k == 4)), color = "blue", size = 4) +
   scale_x_continuous(breaks = 1:10) +
   labs(x = "Number of clusters (k)",
        y = "Total within-cluster sum of squares")
