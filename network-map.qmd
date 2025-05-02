@@ -38,6 +38,8 @@ library(ggspatial)
 
 # Load datasets
 artists<- readRDS("data/networkdata.Rds")
+popularity<- readRDS("data/officalbardata.Rds")
+
 ```
 
 ## Introduction
@@ -69,7 +71,13 @@ Sources:
 ```{r}
 # Bar chart Representing Popularity -- 
 
-
+Bar_Plot1<- 
+ggplot(popularity, aes(x=track_artist, y = Count)) +
+  geom_bar(color= genre) +
+  labs(x="Duration of movie (minutes)"
+       , y="Number of movies"
+       , fill="") +
+  theme_classic()
 
 
 
@@ -120,8 +128,19 @@ artistcollab_network_Sliced<- artistcollab_network|>
   arrange(desc(degree))|>
   slice(1:50)
 
+```
+
+
+
+
+```{r}
+#| label: Network Map: Degree Centrality 
+#| message: false
+#| out-width: 100%
+#| fig-height: 10
+
 #Plot: 
-ggraph(artistcollab_network_Sliced) +
+Plot1<- ggraph(artistcollab_network_Sliced) +
     geom_edge_link(edge_alpha = 0.5) +
     geom_node_point(size = 2,aes( color = genre)) +
     geom_node_label(aes(label = name), repel = TRUE) +
@@ -129,7 +148,26 @@ ggraph(artistcollab_network_Sliced) +
     theme_graph(base_family = "sans")
 
 
+Plot2<- plot(artistcollab_network_Sliced,
+  layout = layout.circle,
+  main = "Circle Layout",
+  vertex.color = "black",       # Node color
+  vertex.frame.color = "black",   # Border of nodes
+  vertex.label.color = "black",# Label color
+  edge.color = "darkgreen"
+)
+
+
+
+
+Plot1
+Plot2
+
+
 ```
+
+
+
 #Analysis 
 
 
@@ -195,4 +233,6 @@ ggraph(artistcollab_network_SlicedE) +
 ##Conclusions 
 
 
+# Sources 
+*https://stackoverflow.com/questions/15999877/correctly-color-vertices-in-r-igraph 
 
