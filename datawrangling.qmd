@@ -49,6 +49,10 @@ library(tidygraph)
 library(sf)
 library(leaflet)
 library(ggspatial)
+library(maps)
+library(geodata)
+library(terra)
+library(bcmaps)
 ```
 
 ## Variables
@@ -291,6 +295,30 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
          
 ```
 
+
+```{r}
+#| label: Wrangle for bar chart 
+
+# Only have information from the original data that I actually need for bar data 
+#Summarizing and counting data for bar transfer
+bardata<- songs_top100|>
+  select(track_artist)|>
+  group_by(track_artist)|>
+  summarise(Count = n())
+
+#Get Only Genre Details 
+songs_genre<- songs_top100|>
+  select(track_artist, genre)
+
+#creating Dataset to move forward with 
+officalbardata<- bardata|>
+  left_join(songs_genre, by = join_by(track_artist))
+
+saveRDS(officalbardata, "data/officalbardata.Rds")
+
+```
+
+
 ```{r}
 #| label: Wrangle for Network 
 
@@ -398,16 +426,6 @@ networkdata
 
 saveRDS(networkdata, "data/networkdata.Rds")
 
-
-##Plan Out The Network Graph:
-#1. Artist Collab (Using Offical_artist_collabset data set)
-# Create the Nodes and Edges for a visble Graph 
-
-#artistcollab_network<- as_tbl_graph(x= Offical_artist_collabset, nodes=track_artist, edges = containtextartist, directed= FALSE)
-#gorder(artistcollab_network) #Number of Nodes 
-#gsize(artistcollab_network) # Number of Edges 
-
-
 ```
 
 ```{r}
@@ -424,12 +442,12 @@ spotifydata<- hometownAdd|>
               right_join(songs_top100, by= ("track_artist"))
 
 
-#Getting just the hometowns and artist
+#Only want Artist and locations for this dataset
 spotifydataHT <- spotifydata|>
   select(track_artist, hometown)|>
   distinct(track_artist, .keep_all = TRUE)
 
-#grouping and counting how many artist are in each state and delete everything after comma
+#Grouping and counting how many artist are in each state (going to use as weight cues later) and delete everything after comma to match with the spatial data 
 spotifydataHTLocations<- spotifydataHT|>
                          mutate(hometown= str_to_lower(hometown),)|>
                          group_by(hometown)|>
@@ -472,11 +490,29 @@ ggplot() +
 
 
 
-county_map <- maps::map("county", regions = "."
+county_map <- maps::map("country", regions = "CAN"
                     , plot = FALSE, fill = TRUE) |>
 st_as_sf()
 
 view(country_map)
+
+maps:map("country", region)
+names(map)
+
+
+maps::map("world", "canada", plot= FALSE, fill= FALSE)
+
+
+# Get Canada provinces
+canada_provinces <- gadm("CAN", level = 1, path = tempdir())
+
+# Plot it
+plot(canada_provinces["NAME_1"])
+
+
+# Get NZ map in sf format
+nz_map <- maps::map("ca", plot = FALSE, fill = TRUE) |>
+st_as_sf()
 
 
 ```
@@ -490,3 +526,5 @@ view(country_map)
 ```
 
 ## Sources
+
+* https://www.rdocumentation.org/packages/geodata/versions/0.6-2 For Canada Data 
