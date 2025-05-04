@@ -31,6 +31,8 @@ spotify_kmeans_standardized <- spotify_kmeans |>
   select(ends_with("_z"))
 
 # elbow plot to see optimal amount of clusters
+set.seed(777)
+
 elbow_plot <- tibble(k = 1:10) |>
   mutate(
     kmeans_results = purrr::map(k, ~kmeans(spotify_kmeans_standardized,
