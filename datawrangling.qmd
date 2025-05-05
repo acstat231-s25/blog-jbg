@@ -53,6 +53,7 @@ library(maps)
 library(geodata)
 library(terra)
 library(bcmaps)
+library(rnaturalearth)
 ```
 
 ## Variables
@@ -510,10 +511,15 @@ canada_provinces <- gadm("CAN", level = 1, path = tempdir())
 plot(canada_provinces["NAME_1"])
 
 
-# Get NZ map in sf format
-nz_map <- maps::map("ca", plot = FALSE, fill = TRUE) |>
-st_as_sf()
+# Get Canada at country level
+canada <- ne_countries(country = "Canada", returnclass = "sf")
 
+# Or get provinces (if available)
+states <- ne_states(country = "Canada", returnclass = "sf")|>
+  st_as_sf()
+states
+
+plot(states)
 
 ```
 
