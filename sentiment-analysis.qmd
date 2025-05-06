@@ -24,14 +24,23 @@ load("data/sentiment-data.Rds")
 
 ## What words are the most popular songs using?
 
-*All data is from the top 100 spotify songs*
+*All data is from the top spotify songs based on popularity*
 
 To analyze what today’s top songs are about, a sentiment analysis was used to examine some of the most popular songs on Spotify. The songs were analyzed word by word in a few different ways. The first way was a simple examination of word frequency, which analyzed which words were most common throughout all the songs. Next, word frequency was examined based on the type of sentiment being conveyed. Finally, each song was analyzed based on if its content had a generally positive or generally negative sentiment.
 
 The following packages were used to conduct the data wrangling and analysis:
 
 - `tidyverse` by @tidyverse
-
+- `dplyr` by @dplyr
+- `RColorBrewer` by @color
+- `wordcloud` by @wordcloud
+- `rvest` by @rvest
+- `stringr` by @stringr
+- `robotstxt` by @robotstxt
+- `tidytext` by @tidytext
+- `httr` by @httr
+- `jsonlite` by @jsonlite
+- `stopwords` by @stopwords
 - `citation` by @cite - to generate citations
 
 
