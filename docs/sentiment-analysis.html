@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -37,12 +57,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3ac1f4854ff92027a02bd85fe598db3b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,6 +100,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/musiclisten.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Following the Line of Music</span>
     </a>
@@ -111,7 +132,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -125,11 +145,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link active" data-scroll-target="#sentiment-analysis">Sentiment Analysis</a></li>
-  <li><a href="#what-words-are-the-most-popular-songs-using" id="toc-what-words-are-the-most-popular-songs-using" class="nav-link" data-scroll-target="#what-words-are-the-most-popular-songs-using">What words are the most popular songs using?</a></li>
-  <li><a href="#total-word-count" id="toc-total-word-count" class="nav-link" data-scroll-target="#total-word-count">Total Word Count</a></li>
+  <li><a href="#what-words-are-the-most-popular-songs-using" id="toc-what-words-are-the-most-popular-songs-using" class="nav-link active" data-scroll-target="#what-words-are-the-most-popular-songs-using">What words are the most popular songs using?</a></li>
+  <li><a href="#total-word-frequency" id="toc-total-word-frequency" class="nav-link" data-scroll-target="#total-word-frequency">Total Word Frequency</a></li>
+  <li><a href="#emotional-sentiments" id="toc-emotional-sentiments" class="nav-link" data-scroll-target="#emotional-sentiments">Emotional Sentiments</a></li>
   <li><a href="#all-song-sentiments" id="toc-all-song-sentiments" class="nav-link" data-scroll-target="#all-song-sentiments">All Song Sentiments</a></li>
   <li><a href="#pop-vs.-rap" id="toc-pop-vs.-rap" class="nav-link" data-scroll-target="#pop-vs.-rap">Pop vs.&nbsp;Rap</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -167,20 +189,25 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="sentiment-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="sentiment-analysis">Sentiment Analysis</h3>
-</section>
 <section id="what-words-are-the-most-popular-songs-using" class="level2">
 <h2 class="anchored" data-anchor-id="what-words-are-the-most-popular-songs-using">What words are the most popular songs using?</h2>
 <p><em>All data is from the top 100 spotify songs</em></p>
+<p>To analyze what today’s top songs are about, a sentiment analysis was used to examine some of the most popular songs on Spotify. The songs were analyzed word by word in a few different ways. The first way was a simple examination of word frequency, which analyzed which words were most common throughout all the songs. Next, word frequency was examined based on the type of sentiment being conveyed. Finally, each song was analyzed based on if its content had a generally positive or generally negative sentiment.</p>
+<p>The following packages were used to conduct the data wrangling and analysis:</p>
+<ul>
+<li><p><code>tidyverse</code> by <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span></p></li>
+<li><p><code>citation</code> by <span class="citation" data-cites="cite">Dietrich and Leoncio (<a href="#ref-cite" role="doc-biblioref">2023</a>)</span> - to generate citations</p></li>
+</ul>
 </section>
-<section id="total-word-count" class="level2">
-<h2 class="anchored" data-anchor-id="total-word-count">Total Word Count</h2>
+<section id="total-word-frequency" class="level2">
+<h2 class="anchored" data-anchor-id="total-word-frequency">Total Word Frequency</h2>
+<p>First, a surface level analysis of the most common words was conducted. The frequency of the appearance of each word throughout all songs was calculated and put into the visuals below. For the word cloud, the size of each word was scaled to a factor of the frequency of the word. For a view of the top words and their frequency, see the next tab which shows a bar graph of the top 10 words.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Word Cloud</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">List</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>This visual shows a word cloud including the top words from all songs.</p>
+<p><em>Inappropriate language has been filtered for viewers</em></p>
+<p>Word Cloud of the Most Common Words</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -192,7 +219,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>This visual shows the top words used among all songs in general.</p>
+<p><em>Inappropriate language has been filtered for viewers</em></p>
+<p>Top Ten Most Common Words</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -205,7 +233,11 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>This visual shows the top words in terms of usage under each category of sentiment defined by nrc.</p>
+<p>Perhaps expectedly, many of the most commonly used words are swear words which take three out of the top 10 words places. This leads to the question of if edginess and shock factor are common throughout the top songs; however, the most common word, which nearly doubles the second most common word, is “Love”. These seem to present two completely different sentiments. It seems that only analysing the frequency of words has not given much value to finding any meaningful sentiment patterns in the top songs.</p>
+</section>
+<section id="emotional-sentiments" class="level2">
+<h2 class="anchored" data-anchor-id="emotional-sentiments">Emotional Sentiments</h2>
+<p>To examine the emotions that these top songs elicit, the top songs were paired with the NRC Emotion Lexicon. This lexicon is a collection of over 5600 English words and their associations with basic emotions such as anger, joy, and surprise. Unfortunately, due to the lexicon being English specific, many of the Spanish words have been left out of the analysis. Although this may be true, this still has valuable data for what sentiments top songs use.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -215,14 +247,16 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p>According to the visual, top words relating to emotions of joy, anger, anticipation, and fear are all more common than the top words from emotions of surprise and trust. Still, with the range of emotions that have relatively high frequency words, it seems that there may not be one most popular emotion displayed in these top songs, but instead many different emotions that are elicited.</p>
 </section>
 <section id="all-song-sentiments" class="level2">
 <h2 class="anchored" data-anchor-id="all-song-sentiments">All Song Sentiments</h2>
+<p>To examine if the top songs had generally positive or negative sentiments, each song was paired with the Afinn Sentiment Lexicon which contains over 2400 words rated on a scale from -5 sentiment to +5 sentiment. The higher the score, the more positive the sentiment of the song. Below, the top 10 and bottom 10 songs are listed.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Top 10 Songs</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Bottom 10 Songs</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<p>This visual shows the top ten songs in terms of sentiment according to afinn.</p>
+<p>Top 10 Positive Songs</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -234,7 +268,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<p>This visual shows the bottom ten songs in terms of sentiment according to afinn.</p>
+<p>Top 10 Negative Songs</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -247,14 +281,16 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p>Based on the visual, it is clear that popular songs can have both very positive and very negative sentiments. This does not seem to show a theme between these common songs.</p>
 </section>
 <section id="pop-vs.-rap" class="level2">
 <h2 class="anchored" data-anchor-id="pop-vs.-rap">Pop vs.&nbsp;Rap</h2>
+<p>Finally, although the most popular songs themselves may represent a wide range of positive and negative sentiments, an analysis analyzing the top pop songs compared to rap songs may tell a different story. Below, the top 10 and bottom 10 of each category are shown against one another.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Top 10 Songs</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Bottom 10 Songs</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<p>The next visual shows the top songs in terms of sentiment according to afinn categorized by genre.</p>
+<p>Top 10 Positive Songs by Genre</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -266,7 +302,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<p>The next visual shows the bottom songs in terms of sentiment according to afinn categorized by genre.</p>
+<p>Top 10 Negative Songs by Genre</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -279,11 +315,27 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p>Although the number of pop songs is greater than the number of rap songs, the differences are still valuable. It is clear that the top 10 songs in positive sentiment are much more positive for pop songs, with over half of the most positive rap songs having negative total sentiments, while all the pop songs have more positive sentiments than the most positive rap song. On the other hand, the 10 most negative pop songs seem to be just as negative as the 10 most negative rap songs. This suggests that a popular rap song may need to have a more negative sentiment in order to gain its popularity, while pop songs may have more room to have either a positive or a negative sentiment.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Overall, there does not seem to be an overtly glaring conclusion to be drawn from the data. The top words span a wide range of sentiments and there are plenty of songs with both very positive and very negative sentiments that are popular. The most convincing conclusion which is supported by the data is that popular rap songs usually require a fairly negative sentiment, while a genre such as pop can have a wide range of sentiments and still be popular. These findings may seem disappointing, as the data does not suggest much of a pattern between these top songs; however, this can also be viewed in a positive light. There seems to be no one way to make a popular song, and that itself may be part of the beauty of music.</p>
+</section>
+<section id="references" class="level2">
+
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cite" class="csl-entry" role="listitem">
+Dietrich, J. P., and Leoncio, W. (2023), <em>Citation: Software citation tools</em>.
+</div>
+<div id="ref-tidyverse" class="csl-entry" role="listitem">
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., Takahashi, K., Vaughan, D., Wilke, C., Woo, K., and Yutani, H. (2019), <span>“Welcome to the <span class="nocase">tidyverse</span>,”</span> <em>Journal of Open Source Software</em>, 4, 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -304,150 +356,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -510,8 +418,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
