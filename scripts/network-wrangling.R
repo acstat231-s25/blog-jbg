@@ -150,3 +150,117 @@ saveRDS(networkdata, "data/networkdata.Rds")
 
 
 
+
+### Wrangle for Table chart 
+
+# Only have information from the original data that I actually need for bar data 
+#Summarizing and counting data for bar transfer
+tabledata<- songs_top100|>
+  select(track_artist)|>
+  group_by(track_artist)|>
+  summarise(Count = n())
+
+#Get Only Genre Details and Valence scores 
+#Must Inlcude Track Names for Clarity in tracking valence scoring 
+songs_genreVal<- songs_top100|>
+  select(track_artist,track_name, genre,track_popularity)
+
+#creating Dataset to move forward with 
+officaltabledata<- bardata|>
+  left_join(songs_genreVal, by = join_by(track_artist))
+
+saveRDS(officaltabledata, "data/officaltabledata.Rds")
+
+
+###Maps for Hometowns
+#Pull in Excel Data using Wikipedia sites tokeep the information consistent 
+hometownAdd<- read.csv("raw-data/hometownsheet.csv")
+
+#Remove Unnecessary Columns 
+hometownAdd<- hometownAdd|>
+  select( -X, -X.1)
+
+#Join Data with Excel Sheet
+spotifydata<- hometownAdd|>
+  right_join(songs_top100, by= ("track_artist"))
+
+
+#Only want Artist and locations for this dataset
+spotifydataHT <- spotifydata|>
+  select(track_artist, hometown)|>
+  distinct(track_artist, .keep_all = TRUE)|>
+  mutate(hometown = str_replace(hometown, ",.*", ""),
+         hometown= str_to_lower(hometown))
+
+
+# Map Tabs -- Canada, USA, Colombia
+#United States
+usa_sf<- geodata::gadm("United States", level= 1, path = tempdir(), resolution = 1) |>
+  st_as_sf()
+usa_sf <- st_simplify(usa_sf, dTolerance = 1000)
+usa_sf <- st_transform(usa_sf, 2163)  #USA contiguous Albers Equal Area 
+
+#USA Wrangling
+usa<- usa_sf|>
+  st_transform(4326)|> # need this for interactive leaflet 
+  select(NAME_1, GID_1,geometry)|>
+  filter(!NAME_1 =="Alaska" & !NAME_1 == "Hawaii")|>
+  rename(hometown = NAME_1)|>
+  mutate(hometown= str_to_lower(hometown))
+
+
+#Collapsing track names into each state for each dataset 
+Artist_hometown_collapse <- spotifydataHT|>
+  tibble(
+    category = hometown,
+    text = track_artist)|>
+  group_by(category)|>
+  summarise(text = str_c(text, collapse = ", "))|>
+  rename(hometown = category, #renaming for later dataset join 
+         track_artist = text)
+
+#tibble
+#https://forum.posit.co/t/combining-multiple-rows-into-one-single-row-in-dataframe-in-r/118856
+
+
+#Colombia
+colombia_sf <- geodata::gadm("Colombia",level= 1, path = tempdir(), resolution = 1)|>
+  st_as_sf()
+colombia_sf <- st_simplify(colombia_sf, dTolerance = 1000)
+
+colombia<- colombia_sf|>
+  st_transform(4326)|> # need this for interactive leaflet 
+  select(NAME_1, GID_1,geometry)|>
+  rename(hometown = NAME_1)|>
+  mutate(hometown= str_to_lower(hometown))
+
+
+#Canada
+canada_sf <- geodata::gadm("Canada", level = 1, path = tempdir(), resolution = 1) |>
+  st_as_sf()
+
+canada_sf <- st_simplify(canada_sf, dTolerance = 1000) #The tolerance/ simplify function removes some of the more complicated mapping for speed with loading
+canada_sf <- st_transform(canada_sf, 3348) #Canada Lambert Conformal Conic 
+
+canada<- canada_sf|>
+  st_transform(4326)|> # need this for interactive leaflet 
+  select(NAME_1, GID_1,geometry)|>
+  rename(hometown = NAME_1)|>
+  mutate(hometown= str_to_lower(hometown))
+
+#combine all the spatial dataframes together 
+NorthSouthAmerica<- bind_rows(usa,colombia,canada)
+
+#cobining artist name to their hometowns
+NorthSouthAmericaTotal<- NorthSouthAmerica|>
+  left_join(Artist_hometown_collapse, by= (join_by("hometown")))|>
+  drop_na()
+
+#Adding weight to see how many artist' hometown are in which place on the map 
+NorthSouthAmericaTotal<- NorthSouthAmericaTotal|>
+  select(-GID_1)|>
+  mutate(Weight= str_count(track_artist, ",")+ 1)
+
+
+#saving data
+saveRDS(NorthSouthAmericaTotal, "data/NorthSouthAmericaTotal")
