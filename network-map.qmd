@@ -147,10 +147,6 @@ artistcollab_network_Sliced<- artistcollab_network|>
 
 
 ```{r}
-#| label: Network Map: Degree Centrality 
-#| message: false
-#| out-width: 100%
-#| fig-height: 10 
 #Plot: 
 # Plot1<- ggraph(artistcollab_network_Sliced) +
 #     geom_edge_link(edge_alpha = 0.5) +
@@ -167,6 +163,10 @@ Plot2<- plot(artistcollab_network_Sliced,
   vertex.label.color = "black",# Label color
   edge.color = "green"
 )
+
+##| message: false
+##| out-width: 100%
+##| fig-height: 10 
 
 
 Plot2
