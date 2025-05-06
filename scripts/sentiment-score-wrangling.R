@@ -14,7 +14,8 @@ library(httr)
 library(jsonlite)
 library(stopwords)
 
-
+# check if it's okay to scrape
+paths_allowed("https://genius.com/")
 
 #need to set working directory to entire folder
 spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")

@@ -27,7 +27,7 @@ Finally, general information on each track was scraped from @wiki.
 
 ## Limitations
 
-Because songs were taken between 1957 to 2020, these results only apply to tracks from that time period. Due to the COVID-19 pandemic, online streaming platforms faced increased demand, leading to a higher quantity of music being produced every year @pandemic. Thus, this sudden change in supply and demand may make the results of this study ungeneralizable beyond 2020.      
+Because songs were taken between 1957 to 2020, these results only apply to tracks from that time period. Due to the COVID-19 pandemic, online streaming platforms faced increased demand, leading to a higher quantity of music being produced every year (@pandemic). Thus, this sudden change in supply and demand may make the results of this study ungeneralizable beyond 2020.      
 
 Originally, we attempted to scrape data on current popular songs using the `spotifyr` package; however, because Spotify no longer allows for users to get data on tracks, we were unable to do so. Thus, with easier access to current data, we would be more able to analyze current trends and relationships in the music industry.       
 
