@@ -102,7 +102,7 @@ coord_flip()
 
 :::
 
-Perhaps expectedly, many of the most commonly used words are swear words which take three out of the top 10 words places. This leads to the question of if edginess and shock factor are common throughout the top songs; however, the most common word, which nearly doubles the second most common word, is “Love”. These seem to present two completely different sentiments. It seems that only analysing the frequency of words has not given much value to finding any meaningful sentiment patterns in the top songs.
+Perhaps expectedly, many of the most commonly used words are swear words which take three of the top 10 spots. This leads to the question of if edginess and shock factor are common throughout the top songs; however, the most common word, which nearly doubles the second most common word, is “Love”. These seem to present two completely different sentiments. It seems that only analyzing the frequency of words has not given much value to finding any meaningful sentiment patterns in the top songs.
 
 
 
