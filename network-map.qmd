@@ -35,11 +35,12 @@ library(tidygraph)
 library(sf)
 library(leaflet)
 library(ggspatial)
+library(RColorBrewer)
 
 # Load datasets
 artists<- readRDS("data/networkdata.Rds")
 popularity<- readRDS("data/officalbardata.Rds")
-hometowns<- readRDS("data/NorthAmericaTotal")
+hometowns<- readRDS("data/NorthSouthAmericaTotal")
 
 ```
 
@@ -84,25 +85,32 @@ Sources:
 #| out-width: 100%
 #| fig-height: 10
 
-Mapplot1<- leaflet(NorthAmericaTotal)|>
-  addTiles()|> #This although redunant wouldn't actually show the map without it
+#Have to create color palette first for weight coloring 
+palette<- colorNumeric(
+  palette = brewer.pal(n= 8, name="Greens"),
+  domain= hometowns$Weight,
+  na.color= "transparent"
+)
+
+#Zoom in or out Map for user
+Mapplot1<- leaflet(hometowns)|>
+  addTiles()|> #This although redundant wouldn't actually show the map without it
   addProviderTiles("CartoDB.DarkMatter")|>
   addPolygons(
-    fillColor= "darkgreen",
+    fillColor= ~palette(Weight),
     fillOpacity = 0.5,
     color="black",
-    label = ~ track_artist,
+    label = ~ track_artist, #tells you which artist are some there
     highlightOptions = highlightOptions(
     weight= 3,# want thick borders
-    bringToFront = TRUE,
-    )
-  )
+    bringToFront = TRUE #Makes the states/provinces with data in them hightlight on the map 
+    ))
 
 Mapplot1
 
 ```
 
-
+#
 
 
 
@@ -146,7 +154,7 @@ Bar_Plot1
 #| out-width: 100%
 #| fig-height: 10
 
-#Getting rid of all the repeative information 
+#Getting rid of all the repetitive information 
 artists<- artists|>
   distinct(track_artist, collabArtist, .keep_all = TRUE)
 
@@ -168,10 +176,9 @@ artistcollab_network <- artistcollab_network |>
     by = "name"
   )
 
-#Filtering to make graph more readability by decreasing data points (Note to Self-- Refer to Lab 10)
+#Filtering to make graph more readability by decreasing data points 
 #Reporting the ones with the most connections for a more interesting data 
-
-#adding degree information to know which artist is most connectioned 
+#adding degree information to know which artist is most connected
 artistcollab_network<- artistcollab_network|>
   activate(nodes)|>
   mutate(degree= centrality_degree())
@@ -188,24 +195,25 @@ artistcollab_network_Sliced<- artistcollab_network|>
 
 
 ```{r}
-#Plot: 
+## Network Map for Artist Collaboration : Degree Centrality 
+#| label: Network Map: Degree Centrality 
+#| message: false
+#| out-width: 100%
+#| fig.width:  20
+#| fig-height: 20
 
+Networkplot<- artistcollab_network_Sliced |>
+  mutate(degree = centrality_degree())|>
+  ggraph(layout = "linear", circular = TRUE)+
+  geom_edge_link( alpha= 0.5, color = "#228B22")+
+  geom_node_point(size= 8, color="#1874CD")+
+  geom_node_text(aes(label=name, size= degree), repel= TRUE, color= "white")+
+  theme(panel.background = element_rect(fill = "black"),
+        plot.background = element_rect(fill = "black"),
+        legend.position = "none"
+    )
 
-Plot2<- plot(artistcollab_network_Sliced,
-  layout = layout.circle,
-  main = "Circle Layout",
-  vertex.color = "black",       # Node color
-  vertex.frame.color = "black",   # Border of nodes
-  vertex.label.color = "black",# Label color
-  edge.color = "green"
-)
-
-##| message: false
-##| out-width: 100%
-##| fig-height: 10 
-
-
-Plot2
+Networkplot
 
 ```
 
@@ -228,5 +236,5 @@ Plot2
 
 
 # Sources 
-*https://stackoverflow.com/questions/15999877/correctly-color-vertices-in-r-igraph 
+*https://stackoverflow.com/questions/15999877/correctly-color-vertices-in-r-igraph *https://r-charts.com/colors/ best for color picking 
 

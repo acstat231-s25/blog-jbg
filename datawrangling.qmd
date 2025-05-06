@@ -96,77 +96,6 @@ songs_top100 <- spotify_distinct |>
 ```
 
 ```{r}
-#| label: scrape lyrics from genius.com
-#Genius Lyric Data
-
-Sys.getenv("ADf5awyFcKidqW0da12mAzZsO8U_PQ6XDrF3ecWrhbqJzrQM1-lM9fysJFWk_K79")
-
-# Will need to figure out how to make this a full data frame eventually 
-
-# Helpful Website: https://ewenme.github.io/geniusr/
-
-#lyrics
-lyrics <- get_lyrics_search(artist_name = "Kanye West",
-                  song_title = "Good Morning") 
-```
-
-```{r}
-#| label: (attempt) load spotify data - DELETE IF NOT USED
-
-## spotify credentials
-##Sys.setenv(SPOTIFY_CLIENT_ID = "03faef051fef46ed8ecc6f2153a55206")
-##Sys.setenv(SPOTIFY_CLIENT_SECRET = "475255efd20c45f88e50275490895841")
-
-## tokens necessary for use 
-#access_token <- get_spotify_access_token()
-
-## get playlist details
-#playlist <- get_playlist_tracks("6UeSakyzhiEt4NB3UAd6NQ")
-
-## get individual track audio features
-# track_ids <- playlist$track.id
-# track_audio_features <- get_track_audio_features(track_ids,
-#                                                  authorization = access_token)
-```
-
-
-```{r}
-#| label: scrape genius lyrics 
-
-## chatGPT prompt: scrape lyrics from genius.com
-
-genius_access_token <- "W28ITauMuo8HwVUStqe7xzv0EepDLZm3rHvYkkAHyhrp-0Y-FSdm7GDqFqCYS-fA"
-
-## pre-allocate space
-playlist_lyrics <- tibble(track_name = rep(NA_character_, 100),
-                          track_id = rep(NA_real_, 100),
-                          lyrics = rep(NA_character_, 100))
-
-## iterate through to get lyrics
-for (i in 2:100){
-  # scrape lyrics
-  song_title <- playlist$track.name[i]
-  search_song <- GET("https://api.genius.com/search",
-                     query = list(q = song_title),
-                     add_headers(Authorization = paste("Bearer", genius_access_token)))
-  song_info <- content(search_song, as = "parsed", type = "application/json")
-  song_url <- song_info$response$hits[[1]]$result$url
-  lyrics <- read_html(song_url) |>
-    html_element("div[data-lyrics-container='true']") |>
-    html_text2()
-  
-  # add to dataset
-  playlist_lyrics$track_name[i] <- song_title
-  playlist_lyrics$track_id[i] <- playlist$track.id[i]
-  playlist_lyrics$lyrics[i] <- lyrics
-}
-
-## need to manually clean
-## need to manually scrape:
-  # 1. luther
-```
-
-```{r}
 #| label: wrangling for k-means analysis
 # remove any non-numerical variables
 spotify_kmeans <- spotify_distinct |>
@@ -204,96 +133,6 @@ spotify_kmeans_4 <- spotify_kmeans_standardized |>
   kmeans(centers = 4, nstart = 20)
 
 spotify_k3 <- augment(spotify_kmeans_4, spotify_kmeans_standardized)
-```
-
-```{r}
-#| label: wrangling for Sentiment Analysis
-
-
-##Still working on removing filler at the top
-playlist_lyrics <- tibble(
-  track_name = rep(NA_character_, 91),
-  track_id = rep(NA_character_, 91),
-  lyrics = rep(NA_character_, 91)
-)
-
-
-
-for (i in 1:91) {
-  song_title <- songs_top100$track_name[i]
-  song_id <- songs_top100$track_id[i]
-  
-  search_song <- GET("https://api.genius.com/search",
-                     query = list(q = song_title),
-                     add_headers(Authorization = paste("Bearer", "OQQUZXvKYhXxNvw9_x7RZgVypJWWwUQvSGmJMD77mTonSK75psaEQL48qYbIpfaj")))
-  song_info <- content(search_song, as = "parsed", type = "application/json")
-
-
-    song_url <- song_info$response$hits[[1]]$result$url
-
-    lyrics <- 
-      read_html(song_url) |>
-        html_elements("div[data-lyrics-container='true']") |>
-        html_text2() |>
-        paste(collapse = "\n")
-    
-
-
-    playlist_lyrics$track_name[i] <- song_title
-    playlist_lyrics$track_id[i] <- song_id
-    playlist_lyrics$lyrics[i] <- lyrics
-  
-}
-
-##used ChatGPT prompt to help get (?s)^.*?\\bLyrics\\b\\s*\\n+ within the str_replace method
-playlist_lyrics_2 <- playlist_lyrics |>
-  mutate(lyrics = str_replace(lyrics, "(?s)^.*?\\bLyrics\\b\\s*\\n+", ""))
-
-playlist_lyrics_3 <- playlist_lyrics_2 |>
-  mutate(lyrics = str_replace(lyrics, "(?s)^.*?\\bRead More\\b\\s*\\n+", ""))
-
-playlist_lyrics_4 <- playlist_lyrics_3 |>
-  mutate(lyrics = str_remove_all(lyrics, "\\[.*?\\]"))
-
-lyrics_words <- playlist_lyrics_4 |>
-  unnest_tokens(output = word, input = lyrics)
-
-afinn_lexicon <- get_sentiments("afinn")
-
-
-afinn_lyrics <- lyrics_words |>
-  inner_join(afinn_lexicon, by = "word")
-
-
-
-afinn_song_scores <- afinn_lyrics |>
-  group_by(track_name, track_id) |>
-  summarize(sentiment_score = sum(value))
-
-
-my_stop_words <- tibble(
-  word = c("contributors", "Translations")
-)
-
-
-
-
-
-lyrics_no_stop_words <- lyrics_words |>
-  anti_join(stop_words, by = "word") |>
-  anti_join(my_stop_words, by = "word")
-
-
-word_counts <- lyrics_no_stop_words |>
-  count(word)
-
-
-songs_top100_genre <- songs_top100 |>
-  select(track_id, playlist_genre)
-
-playlist_lyrics_4 <- playlist_lyrics_4 |>
-  left_join(songs_top100_genre, by = "track_id")
-         
 ```
 
 
@@ -459,82 +298,15 @@ spotifydataHT <- spotifydata|>
    mutate(hometown = str_replace(hometown, ",.*", ""),
           hometown= str_to_lower(hometown))
 
-#Grouping and counting how many artist are in each state (going to use as weight cues later) and delete everything after comma to match with the spatial data 
-spotifydataHTLocations<- spotifydataHT|>
-                         mutate(hometown= str_to_lower(hometown))|>
-                         group_by(hometown)|>
-                         summarise(count = n())
 
-spotifydataHTLocations<- spotifydataHTLocations|>
-  mutate(hometown = str_replace(hometown, ",.*", ""))
-
-##States
-# Create sf object for US states
-state_map <- maps::map("state", regions = "."
-                    , plot = FALSE, fill = TRUE) |>
-st_as_sf()
-
-#renaming ID to hometown so they merge 
-state_map <- rename(state_map, hometown = ID)
-
-#Combining
-#Note this excludes those outside of US (There are only a few and we can mention the map visual)
-fullStateSpotify<- spotifydataHTLocations|>
-  inner_join(state_map,  by = join_by("hometown"))
-
-#Check Imagine 
-ggplot() +
-  geom_sf(data=fullStateSpotify, aes(geometry=geom)
-          , fill = "lightgrey", color = "white") +
-  geom_sf(data=state_map, aes(geometry=geom)
-          , fill = NA, color = "black") +
-  theme_void()
+## Map Tabs -- Canada, USA, Colombia
 
 
-
-## Map Tabs 
-
-#Tab 1: USA Hometowns
-#Tab 2: Canada Hometowns
-#Tab 3: South America hometowns? 
-
-
-
-#Canada
-canada_sf <- geodata::gadm("Canada", level = 1, path = tempdir(), resolution = 1) |>
-  st_as_sf()
-
-canada_sf <- st_simplify(canada_sf, dTolerance = 1000) #The tolerance/ simplify function removes some of the more complicated mapping for speed with loading
-canada_sf <- st_transform(canada_sf, 3348) #Canada Lambert Conformal Conic 
-
-
-##United States
+#United States
 usa_sf<- geodata::gadm("United States", level= 1, path = tempdir(), resolution = 1) |>
   st_as_sf()
-usa_sf
-
 usa_sf <- st_simplify(usa_sf, dTolerance = 1000)
 usa_sf <- st_transform(usa_sf, 2163)  #USA contiguous Albers Equal Area 
-
-#Get the data for leaflet
-#get link from phone 
-# usa_sf_leaflet <- sf::read_sf("https://rstudio.github.io/leaflet/json/us-states.geojson")
-# class(usa_sf_leaflet)
-# names(usa_sf_leaflet)
-
-# #changing column to hometown to combine data 
-# usa_states_data_geom<- usa_sf_leaflet|>
-#    select(-density)|>
-#    rename(hometown = name)|>
-#    mutate(hometown= str_to_lower(hometown))
-# #Combine Spotify Data with USA
-# ArtistUSA<- usa_states_data_geom|>
-#   left_join(spotifydataHT, by= (join_by("hometown")))|>
-#   drop_na()
-
-  
-
-
 
 #USA Wrangling
 usa<- usa_sf|>
@@ -544,72 +316,71 @@ usa<- usa_sf|>
   rename(hometown = NAME_1)|>
   mutate(hometown= str_to_lower(hometown))
 
-#Collapsing track names into each state 
-USAartistComb <- spotifydataHT|>
+
+#Collapsing track names into each state for each dataset 
+Artist_hometown_collapse <- spotifydataHT|>
   tibble(
   category = hometown,
   text = track_artist)|>
   group_by(category)|>
-  summarise(text = str_c(text, collapse = ", "))
-
-#renaming for later dataset join 
-USAartistC<- USAartistComb|>
-  rename(hometown = category,
+  summarise(text = str_c(text, collapse = ", "))|>
+  rename(hometown = category, #renaming for later dataset join 
          track_artist = text)
+
 #tibble
 #https://forum.posit.co/t/combining-multiple-rows-into-one-single-row-in-dataframe-in-r/118856
 
 
-#Combine Spotify Data with USA
-ArtistUSA<- usa|>
-  left_join(USAartistC, by= (join_by("hometown")))|>
-  drop_na() #removes artist in the list who do not live in the United states 
+#Colombia
+colombia_sf <- geodata::gadm("Colombia",level= 1, path = tempdir(), resolution = 1)|>
+  st_as_sf()
+colombia_sf <- st_simplify(colombia_sf, dTolerance = 1000)
 
-OfficalArtistUSA<- ArtistUSA|>
-  mutate(Weight= str_count(track_artist, ",")+ 1)
+colombia<- colombia_sf|>
+  st_transform(4326)|> # need this for interactive leaflet 
+  select(NAME_1, GID_1,geometry)|>
+  rename(hometown = NAME_1)|>
+  mutate(hometown= str_to_lower(hometown))
 
- 
 
+#Canada
+canada_sf <- geodata::gadm("Canada", level = 1, path = tempdir(), resolution = 1) |>
+  st_as_sf()
 
-leaflet(OfficalArtistUSA)|>
-  addTiles()|> #This although redunant wouldn't actually show the map without it
-  addProviderTiles("CartoDB.DarkMatter")|>
-  addPolygons(
-    fillColor= "darkgreen",
-    fillOpacity = 0.5,
-    color="black",
-    label = ~ (gsub(",\\s*", <br>,track_artist)),
-    highlightOptions = highlightOptions(
-    weight= 3,# want thick borders
-    bringToFront = TRUE,
-    )
-  )
+canada_sf <- st_simplify(canada_sf, dTolerance = 1000) #The tolerance/ simplify function removes some of the more complicated mapping for speed with loading
+canada_sf <- st_transform(canada_sf, 3348) #Canada Lambert Conformal Conic 
 
-leaflet()
+canada<- canada_sf|>
+  st_transform(4326)|> # need this for interactive leaflet 
+  select(NAME_1, GID_1,geometry)|>
+  rename(hometown = NAME_1)|>
+  mutate(hometown= str_to_lower(hometown))
 
 
 
-ggplot() +
-  geom_sf(data = canada_sf, aes(fill = GID_1), alpha = .5) +
-  geom_sf(color = "red") +
-  theme_light() +
-  scale_fill_grey() +
-  theme(legend.position = "none")
+##Data to merge together 
+#1. Canada: CANartistC
+#2. Colombia: ColombiaartistC
+#3. USA: USAartistC
 
-ggplot() +
-  geom_sf(data = usa, aes(fill = GID_1), alpha = .5) +
-  geom_sf() +
-  theme_light() +
-  scale_fill_grey() +
-  theme(legend.position = "none")
-#can add color in that second geom_sf
+#combine all the spatial dataframes together 
+NorthSouthAmerica<- bind_rows(usa,colombia,canada)
 
+#cobining artist name to their hometowns
+NorthSouthAmericaTotal<- NorthSouthAmerica|>
+  left_join(Artist_hometown_collapse, by= (join_by("hometown")))|>
+  drop_na()
+
+#Adding weight to see how many artist' hometown are in which place on the map 
+NorthSouthAmericaTotal<- NorthSouthAmericaTotal|>
+  select(-GID_1)|>
+   mutate(Weight= str_count(track_artist, ",")+ 1)
+
+
+#saving data
+saveRDS(NorthSouthAmericaTotal, "data/NorthSouthAmericaTotal")
 ```
 
-```{r}
-leaflet()|>
-  addTiles()
-```
 
 
 ```{r}
