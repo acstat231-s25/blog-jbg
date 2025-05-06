@@ -69,18 +69,31 @@ Sources:
 
 
 ```{r}
-# Bar chart Representing Popularity -- 
+# Bar chart Representing Popularity by Genre 
+#| label: Who's the Most Popular Spotify Artist ?
+#| message: false
+#| out-width: 100%
+#| fig-height: 10
 
-Bar_Plot1<- 
-ggplot(popularity, aes(x=track_artist, y = Count)) +
-  geom_bar(color= genre) +
-  labs(x="Duration of movie (minutes)"
-       , y="Number of movies"
-       , fill="") +
-  theme_classic()
+#Only Need One Valence 
+popularity<- popularity|>
+  distinct(track_artist, .keep_all = TRUE)
 
+Bar_Plot1 <- popularity |> 
+  filter(Count>1)|>
+  ggplot(aes(x= track_artist, y = Count, fill = genre)) +
+  geom_bar(stat= "identity", color = "black") +
+  geom_text(aes(label= Max_valence), 
+            position= position_stack(vjust =1.15),
+            size = 3, color = "blue") +
+  labs(x= "Track Artist",
+       y ="Count",
+       fill= "Genre") +
+  theme_classic() +
+  coord_flip()+
+  theme(axis.text.x= element_text(angle= 90, vjust= 0.5, hjust= 1))
 
-
+Bar_Plot1
 ```
 
 
@@ -137,16 +150,15 @@ artistcollab_network_Sliced<- artistcollab_network|>
 #| label: Network Map: Degree Centrality 
 #| message: false
 #| out-width: 100%
-#| fig-height: 10
 
+# fig-height: 10 
 #Plot: 
-Plot1<- ggraph(artistcollab_network_Sliced) +
-    geom_edge_link(edge_alpha = 0.5) +
-    geom_node_point(size = 2,aes( color = genre)) +
-    geom_node_label(aes(label = name), repel = TRUE) +
-    # Had to add `base_family` argument due to error with fonts loading for PDF
-    theme_graph(base_family = "sans")
-
+# Plot1<- ggraph(artistcollab_network_Sliced) +
+#     geom_edge_link(edge_alpha = 0.5) +
+#     geom_node_point(size = 2,aes( color = genre)) +
+#     geom_node_label(aes(label = name), repel = TRUE) +
+#     # Had to add `base_family` argument due to error with fonts loading for PDF
+#     theme_graph(base_family = "sans")
 
 Plot2<- plot(artistcollab_network_Sliced,
   layout = layout.circle,
@@ -154,13 +166,10 @@ Plot2<- plot(artistcollab_network_Sliced,
   vertex.color = "black",       # Node color
   vertex.frame.color = "black",   # Border of nodes
   vertex.label.color = "black",# Label color
-  edge.color = "darkgreen"
+  edge.color = "green"
 )
 
 
-
-
-Plot1
 Plot2
 
 
@@ -173,57 +182,6 @@ Plot2
 
 
 
-```{r}
-## Network Map for Artist Collaboration : Eigenvector Centrality 
-#| label: Network Map: Eigenvector Centrality 
-#| warning: false
-#| message: false
-#| out-width: 100%
-#| fig-height: 10
-
-
-#Getting rid of all the repeative information 
-artists<- artists|>
-  distinct(track_artist, collabArtist, .keep_all = TRUE)
-
-# Create the Nodes and Edges for a visble Graph 
-artistcollab_networkE <- artists |>
-      select(track_artist, collabArtist, genre) |>
-      as_tbl_graph(directed=FALSE)
-
-gorder(artistcollab_networkE) #Number of Nodes 
-gsize(artistcollab_networkE) # Number of Edges 
-
-# Transfer genre info to nodes for ggplot to read it correctly 
-artistcollab_networkE <- artistcollab_networkE |>
-  activate(nodes) |>
-  left_join(
-    artists |> 
-      select(name = track_artist, genre, collabArtist) |> 
-      distinct(name, .keep_all = TRUE),
-    by = "name"
-  )
-
-Eig_artistcollab_network<- artistcollab_networkE|>
-  activate(nodes)|>
-  mutate(Eigenvector= centrality_eigen())
-
-
-artistcollab_network_SlicedE<- Eig_artistcollab_network|>
-  activate(nodes)|>
-  arrange(desc(Eigenvector))|>
-  slice(1:50)
-
-#Plot: 
-ggraph(artistcollab_network_SlicedE) +
-    geom_edge_link(edge_alpha = 0.5) +
-    geom_node_point(size = 2,aes( color = genre)) +
-    geom_node_label(aes(label = name), repel = TRUE) +
-    # Had to add `base_family` argument due to error with fonts loading for PDF
-    theme_graph(base_family = "sans")
-
-
-```
 #Analysis 
 
 
