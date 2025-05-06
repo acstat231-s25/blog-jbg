@@ -30,6 +30,9 @@ library(ggspatial)
 # set working directory to blog-jbg
 spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 
+# check if it's okay to scrape
+paths_allowed("https://en.wikipedia.org/wiki/")
+
 # All Songs - Full Set for Cluster 
 # get rid of duplicate songs
 spotify_distinct <- spotify_songs|>
