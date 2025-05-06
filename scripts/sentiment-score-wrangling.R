@@ -6,20 +6,12 @@
 ### load packages
 library(tidyverse)
 library(rvest)
-library(ggplot2)
 library(stringr)
-library(purrr)
 library(robotstxt)
 library(tidytext)
-library(tidyr)
 library(dplyr)
-library(tidytuesdayR)
-library(geniusr)
 library(httr)
 library(jsonlite)
-library(broom)
-library(GGally)
-library(rgenius)
 library(stopwords)
 
 
@@ -27,7 +19,7 @@ library(stopwords)
 #need to set working directory to entire folder
 spotify_songs <- readRDS("raw-data/tt_spotify_songs.Rds")
 
-# All Songs - Full Set for Cluster 
+
 # get rid of duplicate songs
 spotify_distinct <- spotify_songs|>
   distinct(track_name, .keep_all = TRUE)
@@ -39,7 +31,7 @@ songs_top100 <- spotify_distinct |>
          - playlist_name, -playlist_id, -playlist_id)
 
 
-
+# creates the table to contain the tracks after scraping
 playlist_lyrics <- tibble(
   track_name = rep(NA_character_, 91),
   track_id = rep(NA_character_, 91),
@@ -48,7 +40,7 @@ playlist_lyrics <- tibble(
 
 
 
-##new to try to help with parenthesis problem
+##To help with parenthesis problem and specific Sunflower song
 songs_top100 <- songs_top100 |>
   mutate(track_name = str_replace(track_name, "\\(.*?\\)", ""))
 
@@ -56,7 +48,7 @@ songs_top100 <- songs_top100 |>
   mutate(track_name = str_replace(track_name, "Sunflower - Spider-Man: Into the Spider-Verse", "Sunflower"))
 
 
-
+# Scraping Genius to obtain the lyrics for each song
 for (i in 1:91) {
   song_title <- songs_top100$track_name[i]
   song_id <- songs_top100$track_id[i]
@@ -89,16 +81,19 @@ for (i in 1:91) {
 playlist_lyrics_2 <- playlist_lyrics |>
   mutate(lyrics = str_replace(lyrics, "(?s)^.*?\\bLyrics\\b\\s*\\n+", ""))
 
+# gets rid of everything before Read More
 playlist_lyrics_3 <- playlist_lyrics_2 |>
   mutate(lyrics = str_replace(lyrics, "(?s)^.*?\\bRead More\\b\\s*\\n+", ""))
 
+# gets rid of everything in brackets (ie [chorus])
 playlist_lyrics_4 <- playlist_lyrics_3 |>
   mutate(lyrics = str_remove_all(lyrics, "\\[.*?\\]"))
 
+# puts the lyrics into word by word
 lyrics_words <- playlist_lyrics_4 |>
   unnest_tokens(output = word, input = lyrics)
 
-
+# creates a set of my own stop words to be filtered out later
 my_stop_words <- tibble(
   word = c("contributors", "Translations", "uh", "ooh", "ayy", "ah", "woo", "eh", "yeh", "em", "hmm", "mmh", "yeah")
 )
@@ -106,12 +101,12 @@ my_stop_words <- tibble(
 
 
 
-
+#filters stop words
 lyrics_no_stop_words <- lyrics_words |>
   anti_join(stop_words, by = "word") |>
   anti_join(my_stop_words, by = "word")
 
-
+#gets the stop words in Spanish and gets rid of them
 stop_words_es <- stopwords(language = "es")
 
 stop_words_es <- tibble(
@@ -121,7 +116,7 @@ lyrics_no_stop_words <- lyrics_no_stop_words |>
   anti_join(stop_words_es, by = "word")
 
 
-
+# gives the counts of each word
 word_counts <- lyrics_no_stop_words |>
   count(word) |>
   mutate(frequency = n / sum(n))
@@ -134,14 +129,14 @@ afinn_lyrics <- lyrics_words |>
   inner_join(afinn_lexicon, by = "word")
 
 
-
+#gives the afinn scores
 afinn_song_scores <- afinn_lyrics |>
   group_by(track_name, track_id) |>
   summarize(sentiment_score = sum(value))
 
 
 
-
+# sentiments for each word
 nrc_lexicon <- get_sentiments("nrc")
 
 playlist_nrc <- word_counts |>
@@ -152,7 +147,7 @@ playlist_nrc <- word_counts |>
 group_by(sentiment) |>
   slice(1:10)
 
-
+#filters words
 playlist_nrc_bleeped <- playlist_nrc |>
   mutate(word = str_replace(word, "bitch", "b****")) |>
   mutate(word = str_replace(word, "nigga", "n****")) |>
@@ -162,7 +157,7 @@ playlist_nrc_bleeped <- playlist_nrc |>
   mutate(word = str_replace(word, "fuckin", "f*****"))
 
 
-
+#filters words
 word_counts_bleeped <- word_counts |>
   mutate(word = str_replace(word, "bitch", "b****")) |>
   mutate(word = str_replace(word, "nigga", "n****")) |>
@@ -172,7 +167,7 @@ word_counts_bleeped <- word_counts |>
   mutate(word = str_replace(word, "fuckin", "f*****"))
   
 
-
+#filters words
 word_counts_no_swears <- word_counts |>
   mutate(word = str_remove(word, "bitch")) |>
   mutate(word = str_remove(word, "nigga")) |>
@@ -182,7 +177,7 @@ word_counts_no_swears <- word_counts |>
   mutate(word = str_remove(word, "fuckin"))
 
 
-
+# to be used to put the genre in the afinn score dataset
 songs_top100_genre <- songs_top100 |>
   select(track_id, playlist_genre)
 
@@ -194,19 +189,19 @@ afinn_song_scores <- afinn_song_scores |>
   mutate(playlist_genre = str_replace(playlist_genre, "pop", "Pop")) |>
   mutate(playlist_genre = str_replace(playlist_genre, "rap", "Rap"))
 
-
+# only the top 10 songs
 afinn_best <- afinn_song_scores |>
   arrange(desc(sentiment_score)) |>
   ungroup() |>
   slice(1:10)
-
+# only the bottom 10 songs
 afinn_worst <- afinn_song_scores |>
   arrange((sentiment_score)) |>
   ungroup() |>
   slice(1:10)
 
 
-
+#Only rap and pop songs and gives top and bottom 10
 afinn_rap_pop_good <- afinn_song_scores |>
   filter(playlist_genre %in% c("Pop", "Rap")) |>
   group_by(playlist_genre) |>
