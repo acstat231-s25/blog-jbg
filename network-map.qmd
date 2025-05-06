@@ -39,6 +39,7 @@ library(ggspatial)
 # Load datasets
 artists<- readRDS("data/networkdata.Rds")
 popularity<- readRDS("data/officalbardata.Rds")
+hometowns<- readRDS("data/NorthAmericaTotal")
 
 ```
 
@@ -56,15 +57,55 @@ Number of Variables used:
 Sources:
 1. Tidytuesday Spotify dataset by @ttspotify
 2. Wikipedia Sites 
+
+
+*For Map* 
+- `track_artist`: list of all artist who's songs have made it to the top 100 songs 
+- `hometown`: hometown is distinct from bornplace, hometown is where the artist grew up
+- `Weight`: how many artist were raised in a given location 
+- `geometry`: spatial data that stored in polygons (boundary areas across the globe)
+
+*Bar* -- 
+
+
+
+
 *For Network*
 - `track_artist`: list of all artist who's songs have made it to the top 100 songs 
 - `hometown`: hometown is distinct from bornplace, hometown is where the artist grew up
 - `collabArtist`: the names of artist (exclusively artist listed in the top 100) who have worked with (in any capacity) with track artist
 
-*For Map* -- focus only on network first 
 
 
-*Bar* -- focus only on network first 
+```{r}
+## Find Your Favorite Artists Hometown
+#| label: Find Your Artist's Hometown
+#| message: false
+#| out-width: 100%
+#| fig-height: 10
+
+Mapplot1<- leaflet(NorthAmericaTotal)|>
+  addTiles()|> #This although redunant wouldn't actually show the map without it
+  addProviderTiles("CartoDB.DarkMatter")|>
+  addPolygons(
+    fillColor= "darkgreen",
+    fillOpacity = 0.5,
+    color="black",
+    label = ~ track_artist,
+    highlightOptions = highlightOptions(
+    weight= 3,# want thick borders
+    bringToFront = TRUE,
+    )
+  )
+
+Mapplot1
+
+```
+
+
+
+
+
 
 
 
@@ -148,12 +189,7 @@ artistcollab_network_Sliced<- artistcollab_network|>
 
 ```{r}
 #Plot: 
-# Plot1<- ggraph(artistcollab_network_Sliced) +
-#     geom_edge_link(edge_alpha = 0.5) +
-#     geom_node_point(size = 2,aes( color = genre)) +
-#     geom_node_label(aes(label = name), repel = TRUE) +
-#     # Had to add `base_family` argument due to error with fonts loading for PDF
-#     theme_graph(base_family = "sans")
+
 
 Plot2<- plot(artistcollab_network_Sliced,
   layout = layout.circle,
@@ -172,6 +208,7 @@ Plot2<- plot(artistcollab_network_Sliced,
 Plot2
 
 ```
+
 
 
 

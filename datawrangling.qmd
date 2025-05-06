@@ -572,12 +572,13 @@ OfficalArtistUSA<- ArtistUSA|>
 
 
 leaflet(OfficalArtistUSA)|>
-  addProviderTiles("CartonDB.DarkMatter")|>
+  addTiles()|> #This although redunant wouldn't actually show the map without it
+  addProviderTiles("CartoDB.DarkMatter")|>
   addPolygons(
     fillColor= "darkgreen",
-    fillOpacity = "0.5",
+    fillOpacity = 0.5,
     color="black",
-    label = ~track_artist,
+    label = ~ (gsub(",\\s*", <br>,track_artist)),
     highlightOptions = highlightOptions(
     weight= 3,# want thick borders
     bringToFront = TRUE,
@@ -606,7 +607,8 @@ ggplot() +
 ```
 
 ```{r}
-leaflet()
+leaflet()|>
+  addTiles()
 ```
 
 
