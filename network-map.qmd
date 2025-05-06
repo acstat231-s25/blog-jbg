@@ -22,17 +22,13 @@ library(tidytext)
 library(tidyr)
 library(dplyr)
 library(spotifyr)
-library(tidytuesdayR)
-library(geniusr)
-library(httr)
-library(jsonlite)
-library(broom)
 library(GGally)
-library(rgenius)
 library(igraph)
 library(ggraph)
+library(geodata)
 library(tidygraph)
 library(sf)
+library(httr)
 library(leaflet)
 library(ggspatial)
 library(RColorBrewer)
@@ -45,7 +41,7 @@ hometowns<- readRDS("data/NorthSouthAmericaTotal")
 
 ```
 
-## Introduction
+## You're Here To
 
 To explore connections between artists among top Spotify tracks, we used network science to construct and analyze a collaboration network. In this network, each node represents a unique artist, and edges connect artists who have worked together before. By modeling these relationships as a network, we can observe how artists cluster together, which artists are central to the network, and how collaboration patterns vary across the music industry.
 
@@ -64,11 +60,35 @@ To complement the visual analysis, we created a table that counts how often each
 *Network* - To show which artist have worked together (and more specifically who 
 are the most connected/ hottest collaborators)
 
-### Variables 
-Number of Variables used: 7
-1. Tidytuesday Spotify dataset by @ttspotify
-2. Wikipedia Sites 
+Packages: 
+To conduct the data wrangling and analysis for this page,
+the following packages were used:     
 
+- `tidyverse` by @tidyverse
+- `rvest` by @tidyverse
+- `ggplot2` by @tidyverse
+- `stringr` by @tidyverse
+- `purrr` by @tidyverse
+- `robotstxt` by @petermeissner
+- `tidytext` by @juliasilge and @dgrtwo
+- `tidyr` by @tidyverse
+- `dplyr` by @tidyverse
+- `spotifyr` by @charlie86
+- `GGally` by @ggobi
+- `igraph` by @igraph
+- `ggraph` by @thomasp85
+- `tidygraph` by @thomasp85
+- `sf` by @r-spatial
+- `httr` by @tidyverse
+- `leaflet` by @rstudio
+- `ggspatial` by @paleolimbot
+- `RColorBrewer` by @rforge
+- `kableExtra`by @haozhu233
+- `geodata` by @rspatial
+- `citation` by @cite  
+
+## Variables 
+Number of Variables used: 7
 - `track_artist`: list of all artist who's songs have made it to the top 100 songs 
 - `collabArtist`: the names of artist (exclusively artist listed in the top 100) who have worked with (in any capacity) with track artist
 - `track_popularity`: spotify used metrics such as total number of plays, recent numer of plays, user enegments and other metrics to give songs a popularity score from 0 to 100 
@@ -76,8 +96,6 @@ Number of Variables used: 7
 - `hometown`: hometown is distinct from born place, hometown is where the artist grew up
 - `Weight`: how many artist were raised in a given location 
 - `geometry`: spatial data that stored in polygons (boundary areas across the globe)
-
-
 
 
 ## Home, Sweet, Home
