@@ -53,12 +53,12 @@ Network analysis helps us do more than just count how many times artists worked 
 
 To create the network, we first scrapped and downloaded information from Wikipedia to gain an understanding of which artist have crossed paths professionally. Then that data was filtered to include only unique artist-to-artist collaborations. Then, we used visualizations using  degree centrality to highlight popular artists amongst those groups to examine the overall connectivity of the network. Through this analysis, we hope to gain insight into how collaborative behavior influences visibility, crossovers with genre, and the formation of musical communities or pods. 
 
-To further contextualize these relationships, we added a geographic layer: an interactive map showing each artist’s hometown. The Artist in this dataset come from UUSa, Canada, and South America is shaded by the number of artists from that area, and users can hover to explore who’s from where. This data required wikipedia site pulling and location extraction from page scrolling. Once collected, these hometown countries and provinces were merged with spatial features geometry data from *geodata* package using level 1, adminstrative level to gain fillings for the leaflet map consisting of states, provinces, and department borders within contient borders. 
+To further contextualize these relationships, we added a geographic layer: an interactive map showing each artist’s hometown. The Artist in this dataset come from USA, Canada, and South America is shaded by the number of artists from that area, and users can hover to explore who’s from where. This data required wikipedia site pulling and location extraction from page scrolling. Once collected, these hometown countries and provinces were merged with spatial features geometry data from *geodata* package using level 1, administrative level to gain fillings for the leaflet map consisting of states, provinces, and department borders within continent borders. 
 
 To complement the visual analysis, we created a table that counts how often each artist was mentioned in the dataset — either as a main or featured artist. This provides a fast way to identify who appears the most across top tracks, and gives insight into both popularity and industry presence.
 
 
-###Visuals
+##Visuals
 *Map* - To display hometowns of artist
 *Table* - To show what artist has had the most top tracks in spotify
 *Network* - To show which artist have worked together (and more specifically who 
@@ -130,6 +130,7 @@ In other words, where you’re from can shape who you work with, and ultimately,
 #TopArtisit 
 #Number of times theyre songs have made it to the top 
 TopArtist<- popularity|>
+distinct(track_artist, .keep_all = TRUE)|>
  arrange(desc(Count))|>
  slice(1:10)
 
@@ -142,7 +143,6 @@ tableTopArtist <- TopArtist |>
     digits = 2,
     col.names = c("Artist","Billboard Hits", "Genre", "Popularity Spotify Scores")) |>
     kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed", "dark"),
     full_width = TRUE,
     font_size = 14
   ) |>
@@ -155,13 +155,19 @@ tableTopArtist
 ```
 
 
+This table presents a ranked list of the most popular spotify artists in our dataset, based on a combination of songs in the dataset and Spotify popularity scores.
 
-```{r}
+This table presents a ranked snapshot of the most prominent artists in our dataset, combining number of songs as *count* with Spotify popularity scores to offer a layered perspective on the artist. At the top, Post Malone leads with 5 tracks, showing strong mainstream success though his Spotify score of 87 suggests that chart dominance doesn’t always equate to peak streaming popularity. In contrast, Billie Eilish comes in second with 4 song mentions and a  high popularity scores of 95. Artists like DaBaby and Travis Scott also rank highly across both metrics, reflecting strong fan engagement and consumption across platforms. Interestingly, artists with fewer chart appearances such as Harry Styles, Camila Cabello, and Halsey still maintain high Spotify scores, emphasizing that streaming success isn’t solely tied to chart frequency. Overall, the table reveals how pop artists dominate in both metrics, with only a few rap and Latin artists appearing. 
+
+The dominance of pop artists in this table is striking as the most represented and interconnected genre. 
+
+
+
+
+```{r, echo= FALSE, message= FALSE, warning= FALSE}
+
 ## Network Map for Artist Collaboration : Degree Centrality 
-#| label: Network Map: Degree Centrality 
-#| message: false
-#| out-width: 100%
-#| fig-height: 10
+#Activation Code for Nodes and Edges
 
 #Getting rid of all the repetitive information 
 artists<- artists|>
@@ -201,8 +207,6 @@ artistcollab_network_Sliced<- artistcollab_network|>
 ```
 
 
-
-
 ```{r}
 ## Network Map for Artist Collaboration : Degree Centrality 
 #| label: Network Map: Degree Centrality 
@@ -225,7 +229,9 @@ Networkplot<- artistcollab_network_Sliced |>
 Networkplot
 
 ```
+This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collobrations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient ive conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weeknd, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
 
+On the other hand, artists positioned more toward the left side of the circle, with smaller labels, tend to have fewer collaborations. This could reflect either genre isolation, activity in the industry, preferences, location. less cross genres collaborations and more. While this graph doesn’t capture how strong each connection is, it gives a clear picture of how connected each artist is. 
 
 
 
