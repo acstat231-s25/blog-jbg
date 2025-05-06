@@ -65,26 +65,24 @@ To conduct the data wrangling and analysis for this page,
 the following packages were used:     
 
 - `tidyverse` by @tidyverse
-- `rvest` by @tidyverse
-- `ggplot2` by @tidyverse
-- `stringr` by @tidyverse
-- `purrr` by @tidyverse
-- `robotstxt` by @petermeissner
-- `tidytext` by @juliasilge and @dgrtwo
-- `tidyr` by @tidyverse
-- `dplyr` by @tidyverse
-- `spotifyr` by @charlie86
-- `GGally` by @ggobi
-- `igraph` by @igraph
-- `ggraph` by @thomasp85
-- `tidygraph` by @thomasp85
-- `sf` by @rspatial
-- `httr` by @tidyverse
-- `leaflet` by @rstudio
-- `ggspatial` by @paleolimbot
-- `RColorBrewer` by @rforge
-- `kableExtra`by @haozhu233
-- `geodata` by @rspatial
+- `rvest` by @rvest
+- `ggplot2` by @ggplot2
+- `stringr` by @stringr
+- `purrr` by @purrr
+- `robotstxt` by @robotstxt
+- `tidytext` by @tidytext
+- `tidyr` by @tidyr
+- `dplyr` by @dplyr
+- `spotifyr` by @spotifyr
+- `GGally` by @GGally
+- `ggraph` by @ggraph
+- `tidygraph` by @tidygraph
+- `httr` by @httr
+- `leaflet` by @leaflet
+- `ggspatial` by @ggspatial
+- `RColorBrewer` by @color
+- `kableExtra`by @kable
+- `geodata` by @geodata
 - `citation` by @cite  
 
 ## Variables 
