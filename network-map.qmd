@@ -65,8 +65,7 @@ To complement the visual analysis, we created a table that counts how often each
 are the most connected/ hottest collaborators)
 
 ### Variables 
-Number of Variables used: 
-Sources:
+Number of Variables used: 7
 1. Tidytuesday Spotify dataset by @ttspotify
 2. Wikipedia Sites 
 
@@ -78,6 +77,13 @@ Sources:
 - `Weight`: how many artist were raised in a given location 
 - `geometry`: spatial data that stored in polygons (boundary areas across the globe)
 
+
+
+
+## Home, Sweet, Home
+
+*Where are your favorite Artist ? * 
+*Any Artist A Surprise for you ?*
 
 ```{r}
 ## Find Your Favorite Artists Hometown
@@ -111,7 +117,6 @@ Mapplot1
 
 ```
 
-#
 
 This map reinforces how geographic origin often intersects with collaborative opportunity. Artists from major cultural hubs — like California, Texas, Ontario, and Antioquia — appear more frequently and often show higher connectivity in the network. That makes sense: location can shape access to recording infrastructure, scene culture, and collaboration opportunities.
 
@@ -119,7 +124,7 @@ In other words, where you’re from can shape who you work with, and ultimately,
 
 
 
-
+## Artist Tabling 
 ```{r}
 # Table Displaying Popularity by Artist 
 #| label: Who's the Most Popular Spotify Artist ?
@@ -207,6 +212,9 @@ artistcollab_network_Sliced<- artistcollab_network|>
 ```
 
 
+## Network Map
+*How Well Are Those Most Popular Artist Connected?*
+
 ```{r}
 ## Network Map for Artist Collaboration : Degree Centrality 
 #| label: Network Map: Degree Centrality 
@@ -229,27 +237,14 @@ Networkplot<- artistcollab_network_Sliced |>
 Networkplot
 
 ```
-This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collobrations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient ive conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weeknd, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
+This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collaborations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient ive conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weekend, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
 
 On the other hand, artists positioned more toward the left side of the circle, with smaller labels, tend to have fewer collaborations. This could reflect either genre isolation, activity in the industry, preferences, location. less cross genres collaborations and more. While this graph doesn’t capture how strong each connection is, it gives a clear picture of how connected each artist is. 
-
-
-
-
-#Analysis 
-
-
-
-
-#Analysis 
-
-
-
 
 
 ##Conclusions 
 
 
-# Sources 
+## Reference
 *https://stackoverflow.com/questions/15999877/correctly-color-vertices-in-r-igraph *https://r-charts.com/colors/ best for color picking 
 

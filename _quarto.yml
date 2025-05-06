@@ -7,7 +7,7 @@ project:
 website:
   title: "Following the Line of Music"
   navbar:
-    logo: images/musiclisten.png
+    logo: "images/musiclisten.png"
     left:
       - href: index.qmd # Must be included as index.qmd
         text: "Home"
