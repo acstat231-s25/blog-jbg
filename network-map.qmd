@@ -39,10 +39,9 @@ library(citation)
 artists<- readRDS("data/networkdata.Rds")
 popularity<- readRDS("data/officaltabledata.Rds")
 hometowns<- readRDS("data/NorthSouthAmericaTotal")
-
 ```
 
-## You're Here To
+## You're Here To...
 
 To explore connections between artists among top Spotify tracks, we used network science to construct and analyze a collaboration network. In this network, each node represents a unique artist, and edges connect artists who have worked together before. By modeling these relationships as a network, we can observe how artists cluster together, which artists are central to the network, and how collaboration patterns vary across the music industry.
 
@@ -260,34 +259,10 @@ This network graph visualizes how artists in our dataset are connected through c
 On the other hand, artists positioned more toward the left side of the circle, with smaller labels, tend to have fewer collaborations. This could reflect either genre isolation, activity in the industry, preferences, location. less cross genres collaborations and more. While this graph doesn’t capture how strong each connection is, it gives a clear picture of how connected each artist is. 
 
 
-##Conclusions 
+## Conclusions 
 
 Through exploring this data, we hope you had as much fun as we did learning new things about Artist and the music industry through connections the artist make. From our interactive map, we hope you can see if you want to make music or become famous it might not be a bad idea to set up shop there, in addition to the pop genre takeover might even be in your best interest to produce a pop song or two-- while still putting out what you actually want. 
 
 The collaboration network revealed that artists like Drake, Travis Scott, and J Balvin are highly central figures, its not something that I knew beforehand. Meanwhile, the top artist table showed names like Post Malone, Billie Eilish, and DaBaby dominating both charts and streams, offering a snapshot of who’s modt at the forefront in listeners’ daily lives.
 
 This is a music fact sheet meant for engagement, entertainment, and information. Whether you are a fan, and inspiring artist, or your just in the mood to fact gauge. 
-
-
-
-
-
-```{r, echo=FALSE}
-citation ("geodata")
-citation ("igraph")
-print(citation("igraph"), bibtex = TRUE)
-citation ("leaflet")
-citation ("kableExtra")
-citation ("robotstxt")
-citation ("tidytext")
-citation ("")
-citation ("")
-citation ("")
-citation ("")
-citation ("")
-
-```
-
-## Reference
-*https://stackoverflow.com/questions/15999877/correctly-color-vertices-in-r-igraph *https://r-charts.com/colors/ best for color picking 
-
