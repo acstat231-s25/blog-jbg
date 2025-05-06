@@ -63,7 +63,7 @@ elbow_plot |>
        y = "Total within-cluster sum of squares")
 ```
 
-The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our $k$-means analysis. 
+The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters (the highlighted point), so 4 clusters was used for our $k$-means analysis. 
 
 ## Visualizations
 

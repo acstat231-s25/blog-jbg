@@ -14,8 +14,8 @@ In recent years, music has taken up a significant share of our media consumption
 
 To analyze these different components of music, we utilize three methods:   
 1. [$K$-means analysis](k-means.qmd) to see if there is a "formula," in regards to track features, in determining track popularity.                 
-2. [Sentiment analysis](sentiment-analysis.qmd) -        
-3. [Network map](network-map.qmd) -         
+2. [Sentiment analysis](sentiment-analysis.qmd) to see any lyrics trends across songs, moods, and genres.             
+3. [Network map](network-map.qmd) - to view relationships between artists and the industry                 
 
 ## Dataset
 
