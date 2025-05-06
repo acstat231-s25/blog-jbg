@@ -123,7 +123,8 @@ lyrics_no_stop_words <- lyrics_no_stop_words |>
 
 
 word_counts <- lyrics_no_stop_words |>
-  count(word)
+  count(word) |>
+  mutate(frequency = n / sum(n))
 
 
 afinn_lexicon <- get_sentiments("afinn")
@@ -169,6 +170,7 @@ word_counts_bleeped <- word_counts |>
   mutate(word = str_replace(word, "fuck", "f***")) |>
   mutate(word = str_replace(word, "niggas", "n****s")) |>
   mutate(word = str_replace(word, "fuckin", "f*****"))
+  
 
 
 word_counts_no_swears <- word_counts |>
@@ -188,7 +190,9 @@ playlist_lyrics_4 <- playlist_lyrics_4 |>
   left_join(songs_top100_genre, by = "track_id")
 
 afinn_song_scores <- afinn_song_scores |>
-  left_join(songs_top100_genre, by = "track_id")
+  left_join(songs_top100_genre, by = "track_id") |>
+  mutate(playlist_genre = str_replace(playlist_genre, "pop", "Pop")) |>
+  mutate(playlist_genre = str_replace(playlist_genre, "rap", "Rap"))
 
 
 afinn_best <- afinn_song_scores |>
@@ -204,13 +208,13 @@ afinn_worst <- afinn_song_scores |>
 
 
 afinn_rap_pop_good <- afinn_song_scores |>
-  filter(playlist_genre %in% c("pop", "rap")) |>
+  filter(playlist_genre %in% c("Pop", "Rap")) |>
   group_by(playlist_genre) |>
   arrange(desc(sentiment_score)) |>
   slice(1:10)
 
 afinn_rap_pop_bad <- afinn_song_scores |>
-  filter(playlist_genre %in% c("pop", "rap")) |>
+  filter(playlist_genre %in% c("Pop", "Rap")) |>
   group_by(playlist_genre) |>
   arrange((sentiment_score)) |>
   slice(1:10)

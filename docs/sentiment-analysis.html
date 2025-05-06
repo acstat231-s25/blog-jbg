@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ben Snyderman">
-<meta name="dcterms.date" content="2025-04-30">
+<meta name="dcterms.date" content="2025-05-05">
 
 <title>Sentiment Analysis – Following the Line of Music</title>
 <style>
@@ -106,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./network-map.html"> 
-<span class="menu-text">Network Map</span></a>
+<span class="menu-text">Network Map w/ Additional Visuals</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -127,6 +127,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link active" data-scroll-target="#sentiment-analysis">Sentiment Analysis</a></li>
   <li><a href="#what-words-are-the-most-popular-songs-using" id="toc-what-words-are-the-most-popular-songs-using" class="nav-link" data-scroll-target="#what-words-are-the-most-popular-songs-using">What words are the most popular songs using?</a></li>
+  <li><a href="#total-word-count" id="toc-total-word-count" class="nav-link" data-scroll-target="#total-word-count">Total Word Count</a></li>
+  <li><a href="#all-song-sentiments" id="toc-all-song-sentiments" class="nav-link" data-scroll-target="#all-song-sentiments">All Song Sentiments</a></li>
+  <li><a href="#pop-vs.-rap" id="toc-pop-vs.-rap" class="nav-link" data-scroll-target="#pop-vs.-rap">Pop vs.&nbsp;Rap</a></li>
   </ul>
 </nav>
     </div>
@@ -152,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 30, 2025</p>
+      <p class="date">May 5, 2025</p>
     </div>
   </div>
   
@@ -170,7 +173,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="what-words-are-the-most-popular-songs-using" class="level2">
 <h2 class="anchored" data-anchor-id="what-words-are-the-most-popular-songs-using">What words are the most popular songs using?</h2>
 <p><em>All data is from the top 100 spotify songs</em></p>
-<p>This visual shows the top words in terms of usage under each category of sentiment defined by nrc.</p>
+</section>
+<section id="total-word-count" class="level2">
+<h2 class="anchored" data-anchor-id="total-word-count">Total Word Count</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Word Cloud</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">List</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>This visual shows a word cloud including the top words from all songs.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -180,6 +190,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>This visual shows the top words used among all songs in general.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -190,7 +202,10 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>This visual shows a word cloud including the top words from all songs.</p>
+</div>
+</div>
+</div>
+<p>This visual shows the top words in terms of usage under each category of sentiment defined by nrc.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -200,6 +215,13 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</section>
+<section id="all-song-sentiments" class="level2">
+<h2 class="anchored" data-anchor-id="all-song-sentiments">All Song Sentiments</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Top 10 Songs</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Bottom 10 Songs</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>This visual shows the top ten songs in terms of sentiment according to afinn.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -210,6 +232,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <p>This visual shows the bottom ten songs in terms of sentiment according to afinn.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -220,6 +244,16 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="pop-vs.-rap" class="level2">
+<h2 class="anchored" data-anchor-id="pop-vs.-rap">Pop vs.&nbsp;Rap</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Top 10 Songs</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Bottom 10 Songs</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>The next visual shows the top songs in terms of sentiment according to afinn categorized by genre.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -230,6 +264,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <p>The next visual shows the bottom songs in terms of sentiment according to afinn categorized by genre.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -237,6 +273,9 @@ ul.task-list li input[type="checkbox"] {
 <figure class="figure">
 <p><img src="sentiment-analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
