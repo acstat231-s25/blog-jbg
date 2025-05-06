@@ -230,7 +230,7 @@ artistcollab_network_Sliced<- artistcollab_network|>
 ```
 
 
-## Network Map
+## Connections
 *How Well Are Those Most Popular Artist Connected?*
 
 ```{r}
