@@ -307,13 +307,22 @@ bardata<- songs_top100|>
   group_by(track_artist)|>
   summarise(Count = n())
 
-#Get Only Genre Details 
-songs_genre<- songs_top100|>
-  select(track_artist, genre)
+#Get Only Genre Details and Valence scores 
+#Must Inlcude Track Names for Clarity in tracking valence scoring 
+songs_genreVal<- songs_top100|>
+  select(track_artist,track_name, genre, valence)
 
 #creating Dataset to move forward with 
-officalbardata<- bardata|>
-  left_join(songs_genre, by = join_by(track_artist))
+combbardata<- bardata|>
+  left_join(songs_genreVal, by = join_by(track_artist))
+
+#Average Valence
+officalbardata<- combbardata|>
+  group_by(track_artist)|>
+  mutate(Max_valence = round(max(valence), 3))|>
+   #only returns three sig figs 
+  ungroup()
+  
 
 saveRDS(officalbardata, "data/officalbardata.Rds")
 
@@ -446,11 +455,13 @@ spotifydata<- hometownAdd|>
 #Only want Artist and locations for this dataset
 spotifydataHT <- spotifydata|>
   select(track_artist, hometown)|>
-  distinct(track_artist, .keep_all = TRUE)
+  distinct(track_artist, .keep_all = TRUE)|>
+   mutate(hometown = str_replace(hometown, ",.*", ""),
+          hometown= str_to_lower(hometown))
 
 #Grouping and counting how many artist are in each state (going to use as weight cues later) and delete everything after comma to match with the spatial data 
 spotifydataHTLocations<- spotifydataHT|>
-                         mutate(hometown= str_to_lower(hometown),)|>
+                         mutate(hometown= str_to_lower(hometown))|>
                          group_by(hometown)|>
                          summarise(count = n())
 
@@ -489,40 +500,114 @@ ggplot() +
 
 
 
-
-
-county_map <- maps::map("country", regions = "CAN"
-                    , plot = FALSE, fill = TRUE) |>
-st_as_sf()
-
-view(country_map)
-
-maps:map("country", region)
-names(map)
-
-
-maps::map("world", "canada", plot= FALSE, fill= FALSE)
-
-
-# Get Canada provinces
-canada_provinces <- gadm("CAN", level = 1, path = tempdir())
-
-# Plot it
-plot(canada_provinces["NAME_1"])
-
-
-# Get Canada at country level
-canada <- ne_countries(country = "Canada", returnclass = "sf")
-
-# Or get provinces (if available)
-states <- ne_states(country = "Canada", returnclass = "sf")|>
+#Canada
+canada_sf <- geodata::gadm("Canada", level = 1, path = tempdir(), resolution = 1) |>
   st_as_sf()
-states
 
-plot(states)
+canada_sf <- st_simplify(canada_sf, dTolerance = 1000) #The tolerance/ simplify function removes some of the more complicated mapping for speed with loading
+canada_sf <- st_transform(canada_sf, 3348) #Canada Lambert Conformal Conic 
+
+
+##United States
+usa_sf<- geodata::gadm("United States", level= 1, path = tempdir(), resolution = 1) |>
+  st_as_sf()
+usa_sf
+
+usa_sf <- st_simplify(usa_sf, dTolerance = 1000)
+usa_sf <- st_transform(usa_sf, 2163)  #USA contiguous Albers Equal Area 
+
+#Get the data for leaflet
+#get link from phone 
+# usa_sf_leaflet <- sf::read_sf("https://rstudio.github.io/leaflet/json/us-states.geojson")
+# class(usa_sf_leaflet)
+# names(usa_sf_leaflet)
+
+# #changing column to hometown to combine data 
+# usa_states_data_geom<- usa_sf_leaflet|>
+#    select(-density)|>
+#    rename(hometown = name)|>
+#    mutate(hometown= str_to_lower(hometown))
+# #Combine Spotify Data with USA
+# ArtistUSA<- usa_states_data_geom|>
+#   left_join(spotifydataHT, by= (join_by("hometown")))|>
+#   drop_na()
+
+  
+
+
+
+#USA Wrangling
+usa<- usa_sf|>
+  st_transform(4326)|> # need this for interactive leaflet 
+  select(NAME_1, GID_1,geometry)|>
+  filter(!NAME_1 =="Alaska" & !NAME_1 == "Hawaii")|>
+  rename(hometown = NAME_1)|>
+  mutate(hometown= str_to_lower(hometown))
+
+#Collapsing track names into each state 
+USAartistComb <- spotifydataHT|>
+  tibble(
+  category = hometown,
+  text = track_artist)|>
+  group_by(category)|>
+  summarise(text = str_c(text, collapse = ", "))
+
+#renaming for later dataset join 
+USAartistC<- USAartistComb|>
+  rename(hometown = category,
+         track_artist = text)
+#tibble
+#https://forum.posit.co/t/combining-multiple-rows-into-one-single-row-in-dataframe-in-r/118856
+
+
+#Combine Spotify Data with USA
+ArtistUSA<- usa|>
+  left_join(USAartistC, by= (join_by("hometown")))|>
+  drop_na() #removes artist in the list who do not live in the United states 
+
+OfficalArtistUSA<- ArtistUSA|>
+  mutate(Weight= str_count(track_artist, ",")+ 1)
+
+ 
+
+
+leaflet(OfficalArtistUSA)|>
+  addProviderTiles("CartonDB.DarkMatter")|>
+  addPolygons(
+    fillColor= "darkgreen",
+    fillOpacity = "0.5",
+    color="black",
+    label = ~track_artist,
+    highlightOptions = highlightOptions(
+    weight= 3,# want thick borders
+    bringToFront = TRUE,
+    )
+  )
+
+leaflet()
+
+
+
+ggplot() +
+  geom_sf(data = canada_sf, aes(fill = GID_1), alpha = .5) +
+  geom_sf(color = "red") +
+  theme_light() +
+  scale_fill_grey() +
+  theme(legend.position = "none")
+
+ggplot() +
+  geom_sf(data = usa, aes(fill = GID_1), alpha = .5) +
+  geom_sf() +
+  theme_light() +
+  scale_fill_grey() +
+  theme(legend.position = "none")
+#can add color in that second geom_sf
 
 ```
 
+```{r}
+leaflet()
+```
 
 
 ```{r}
