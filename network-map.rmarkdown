@@ -42,6 +42,9 @@ hometowns<- readRDS("data/NorthSouthAmericaTotal")
 
 ```
 
+
+
+
 ## You're Here To
 
 To explore connections between artists among top Spotify tracks, we used network science to construct and analyze a collaboration network. In this network, each node represents a unique artist, and edges connect artists who have worked together before. By modeling these relationships as a network, we can observe how artists cluster together, which artists are central to the network, and how collaboration patterns vary across the music industry.
@@ -104,6 +107,9 @@ Number of Variables used: 7
 *Where are your favorite Artist ? * 
 *Any Artist A Surprise for you ?*
 
+
+
+
 ```{r}
 ## Find Your Favorite Artists Hometown
 #| label: Find Your Artist's Hometown
@@ -137,12 +143,18 @@ Mapplot1
 ```
 
 
+
+
+
 This interactive map shows the geographic distribution of artists based on their hometowns. Each polygon is colored using a choropleth style, where darker shades represent a higher number of artists. When hovering over a region which will then display the names of artists from that area which making the map both informative and interactive.
 
 What stands out immediately is that California, Texas, and Ontario are among the darkest regions, meaning they’ve produced the most artists in our dataset. This makes sense given their large population, metropolitan cities within them like Los Angeles, Houston, and Toronto. Places like these are known for strong music scenes and access to industry infrastructure. Puerto Rico, while small, is also a dark region, showing that it produces a high concentration of artists relative to its size. Another important observation is the absence or low representation in many central and rural regions. States like North Dakota, South Dakota, and parts of central Canada are nearly blank, suggesting fewer artists with mainstream visibility come from those areas. This raises interesting questions about the relationship between place, opportunity, and exposure. Artists from densely populated or culturally rich areas may have more access to collaboration networks, production studios, or early fan bases. It is important to note that tiktok in recent years has made it much easier for rural, or smaller artist in general thrive more in the music industry than ever before which will seen be reflected once a new cycle of data census is collected surrounding music social media consumption. 
 
 
 ## Artist Tabling 
+
+
+
 ```{r}
 # Table Displaying Popularity by Artist 
 #| label: Who's the Most Popular Spotify Artist ?
@@ -178,11 +190,17 @@ tableTopArtist
 ```
 
 
+
+
+
 This table presents a ranked list of the most popular spotify artists in our dataset, based on a combination of songs in the dataset and Spotify popularity scores.
 
 This table presents a ranked snapshot of the most prominent artists in our dataset, combining number of songs as *count* with Spotify popularity scores to offer a layered perspective on the artist. At the top, Post Malone leads with 5 tracks, showing strong mainstream success though his Spotify score of 87 suggests that chart dominance doesn’t always equate to peak streaming popularity. In contrast, Billie Eilish comes in second with 4 song mentions and a  high popularity scores of 95. Artists like DaBaby and Travis Scott also rank highly across both metrics, reflecting strong fan engagement and consumption across platforms. Interestingly, artists with fewer chart appearances such as Harry Styles, Camila Cabello, and Halsey still maintain high Spotify scores, emphasizing that streaming success isn’t solely tied to chart frequency. Overall, the table reveals how pop artists dominate in both metrics, with only a few rap and Latin artists appearing. 
 
 The dominance of pop artists in this table is striking as the most represented and interconnected genre. 
+
+
+
 
 
 
@@ -230,8 +248,14 @@ artistcollab_network_Sliced<- artistcollab_network|>
 ```
 
 
+
+
+
 ## Network Map
 *How Well Are Those Most Popular Artist Connected?*
+
+
+
 
 ```{r}
 ## Network Map for Artist Collaboration : Degree Centrality 
@@ -255,6 +279,9 @@ Networkplot<- artistcollab_network_Sliced |>
 Networkplot
 
 ```
+
+
+
 This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collaborations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient at conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weekend, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
 
 On the other hand, artists positioned more toward the left side of the circle, with smaller labels, tend to have fewer collaborations. This could reflect either genre isolation, activity in the industry, preferences, location. less cross genres collaborations and more. While this graph doesn’t capture how strong each connection is, it gives a clear picture of how connected each artist is. 
@@ -267,6 +294,9 @@ Through exploring this data, we hope you had as much fun as we did learning new 
 The collaboration network revealed that artists like Drake, Travis Scott, and J Balvin are highly central figures, its not something that I knew beforehand. Meanwhile, the top artist table showed names like Post Malone, Billie Eilish, and DaBaby dominating both charts and streams, offering a snapshot of who’s modt at the forefront in listeners’ daily lives.
 
 This is a music fact sheet meant for engagement, entertainment, and information. Whether you are a fan, and inspiring artist, or your just in the mood to fact gauge. 
+
+
+
 
 
 
@@ -288,6 +318,10 @@ citation ("")
 
 ```
 
+
+
+
 ## Reference
 *https://stackoverflow.com/questions/15999877/correctly-color-vertices-in-r-igraph *https://r-charts.com/colors/ best for color picking 
+
 
