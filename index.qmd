@@ -31,4 +31,4 @@ Because songs were taken between 1957 to 2020, these results only apply to track
 
 Originally, we attempted to scrape data on current popular songs using the `spotifyr` package; however, because Spotify no longer allows for users to get data on tracks, we were unable to do so. Thus, with easier access to current data, we would be more able to analyze current trends and relationships in the music industry.       
 
-- how can study be improved, connect to future work
+In the future, this project can be improved by using more recent data, as well as having access to scrape track data. Additionally, it would be interesting to see any trends between different streaming platforms, such as Apple Music and YouTube music. Because other countries use different streaming platforms (for example, people in China mainly use QQ music, as Spotify is blocked), trends across different countries and cultures could also be investigated. 
