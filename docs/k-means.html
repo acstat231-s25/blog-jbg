@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Gloria Wu">
-<meta name="dcterms.date" content="2025-04-30">
+<meta name="dcterms.date" content="2025-05-06">
 
 <title>Following the Line of Music - K-Means Analysis</title>
 <style>
@@ -155,7 +155,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./network-map.html"> 
-<span class="menu-text">Network Map</span></a>
+<span class="menu-text">Network Map w/ Additional Visuals</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -204,7 +204,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 30, 2025</p>
+      <p class="date">May 6, 2025</p>
     </div>
   </div>
   
@@ -218,7 +218,7 @@ window.Quarto = {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>To observe patterns and relationships amongst the top songs on Spotify, unsupervised learning was utilized through <span class="math inline">\(k\)</span>-means analysis. <span class="math inline">\(K\)</span>-means analysis includes assigning each track to a distinct group based on similarities in track features. Through cluster analysis, we hope to see if there are specific track features that have a larger impact on a track’s popularity. For instance, we often think that more “hype” songs have a higher likelihood of being popular than slower, more melancholy songs; in this case, we would expect that clusters with a higher popularity would also score higher on danceability and energy.</p>
+<p>To observe patterns and relationships amongst the top songs on Spotify, unsupervised learning was utilized through <span class="math inline">\(k\)</span>-means analysis. <span class="math inline">\(K\)</span>-means analysis includes assigning each track to a distinct group based on similarities in track features; thus, the purpose of clustering is to see if there are any distinguishable “groupings” between different tracks. Through cluster analysis, we hope to see if there are specific track features that have a larger impact on a track’s popularity. For instance, we often think that more “hype” songs have a higher likelihood of being popular than slower, more melancholy songs; in this case, we would expect that clusters with a higher popularity would also score higher on danceability and energy.</p>
 <p>Because <span class="math inline">\(k\)</span>-means analysis can only be conducted on numerical data, all qualitative variables were removed. Then, the data was standardized to ensure that no one variable had a significant impact on the clustering. For example, <code>track_popularity</code> was recorded on a much larger scale (0-100) than the other variables, which were on a scale from 0-1. Then, an elbow plot was constructed to see the optimal amount of clusters to conduct the <span class="math inline">\(k\)</span>-means analysis. Finally, visualizations were generated to see differences amongst clusters.</p>
 <p>To conduct the data wrangling and analysis for the <span class="math inline">\(k\)</span>-means clustering, the following packages were used:<br>
 - <code>tidyverse</code> by <span class="citation" data-cites="tidyverse">Wickham et al. (<a href="#ref-tidyverse" role="doc-biblioref">2019</a>)</span><br>
@@ -256,11 +256,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters, so 4 clusters was used for our <span class="math inline">\(k\)</span>-means analysis.</p>
+<p>The elbow plot indicates that there are no significant drops in the total within-cluster sum of squares after 4 clusters (the highlighted point), so 4 clusters was used for our <span class="math inline">\(k\)</span>-means analysis.</p>
 </section>
 <section id="visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
-<p>For clearer visualization, four separate plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores.</p>
+<p>For clearer visualization, four separate plots were generated to visualize the differences between clusters, with each plot comparing three different variables with popularity scores. Click through the tabset panels to explore the different visualizations. The title of each panel indicates the three variables that were used to compare clusters and popularity scores. Each cluster is separated by color.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Danceability, Energy, Liveness</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Key, Tempo, Duration</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Speechiness, Acousticness, Instrumentalness</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Valence, Mode, Loudness</a></li></ul>
 <div class="tab-content">
