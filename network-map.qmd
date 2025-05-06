@@ -36,10 +36,11 @@ library(sf)
 library(leaflet)
 library(ggspatial)
 library(RColorBrewer)
+library(kableExtra)
 
 # Load datasets
 artists<- readRDS("data/networkdata.Rds")
-popularity<- readRDS("data/officalbardata.Rds")
+popularity<- readRDS("data/officaltabledata.Rds")
 hometowns<- readRDS("data/NorthSouthAmericaTotal")
 
 ```
@@ -48,10 +49,20 @@ hometowns<- readRDS("data/NorthSouthAmericaTotal")
 
 To explore connections between artists among top Spotify tracks, we used network science to construct and analyze a collaboration network. In this network, each node represents a unique artist, and edges connect artists who have worked together before. By modeling these relationships as a network, we can observe how artists cluster together, which artists are central to the network, and how collaboration patterns vary across the music industry.
 
-Network analysis helps us do more than just count how many times artists worked together, it allows us  to actually see how those collaborations are structured. By looking at the network, we can figure out which artists play important roles, like being central connectors between groups or part of particular circles that collaborate a lot. For example, we might expect pop artists to be part of big, connected clusters because they tend to collaborate more often, while artists from smaller or more niche genres might be more on the edges of the network. Given the use of this spotify dataset, when filter for top our tracks, a majority of the songs are pop genre, thus we will see many connections in the dominating pop genre circles. 
+Network analysis helps us do more than just count how many times artists worked together, it allows us  to actually see how those collaborations are structured. By looking at the network, we can figure out which artists play important roles, like being central connectors between groups or part of particular circles that collaborate a lot. For example, we might expect pop artists to be part of big, connected clusters because they tend to collaborate more often, while artists from smaller or more niche genres might be more on the edges of the network. Given the use of this *spotifyr* dataset, when filter for top our tracks, a majority of the songs are pop genre, thus we will see many connections in the dominating pop genre circles. 
 
-To create the network, we first scrapped and downloaded information from Wikipedia to gain an understanding of which artist have crossed paths professionally. Then that data was filtered to include only unique artist-to-artist collaborations. Then, we used visualizations using centrality metrics to highlight popular artists amongst those groups to examine the overall connectivity of the network. Through this analysis, we hope to gain insight into how collaborative behavior influences visibility, crossovers with genre, and the formation of musical communities or pods. 
+To create the network, we first scrapped and downloaded information from Wikipedia to gain an understanding of which artist have crossed paths professionally. Then that data was filtered to include only unique artist-to-artist collaborations. Then, we used visualizations using  degree centrality to highlight popular artists amongst those groups to examine the overall connectivity of the network. Through this analysis, we hope to gain insight into how collaborative behavior influences visibility, crossovers with genre, and the formation of musical communities or pods. 
 
+To further contextualize these relationships, we added a geographic layer: an interactive map showing each artist’s hometown. The Artist in this dataset come from UUSa, Canada, and South America is shaded by the number of artists from that area, and users can hover to explore who’s from where. This data required wikipedia site pulling and location extraction from page scrolling. Once collected, these hometown countries and provinces were merged with spatial features geometry data from *geodata* package using level 1, adminstrative level to gain fillings for the leaflet map consisting of states, provinces, and department borders within contient borders. 
+
+To complement the visual analysis, we created a table that counts how often each artist was mentioned in the dataset — either as a main or featured artist. This provides a fast way to identify who appears the most across top tracks, and gives insight into both popularity and industry presence.
+
+
+###Visuals
+*Map* - To display hometowns of artist
+*Table* - To show what artist has had the most top tracks in spotify
+*Network* - To show which artist have worked together (and more specifically who 
+are the most connected/ hottest collaborators)
 
 ### Variables 
 Number of Variables used: 
@@ -59,23 +70,13 @@ Sources:
 1. Tidytuesday Spotify dataset by @ttspotify
 2. Wikipedia Sites 
 
-
-*For Map* 
 - `track_artist`: list of all artist who's songs have made it to the top 100 songs 
-- `hometown`: hometown is distinct from bornplace, hometown is where the artist grew up
+- `collabArtist`: the names of artist (exclusively artist listed in the top 100) who have worked with (in any capacity) with track artist
+- `track_popularity`: spotify used metrics such as total number of plays, recent numer of plays, user enegments and other metrics to give songs a popularity score from 0 to 100 
+- `track_name`: name of the song
+- `hometown`: hometown is distinct from born place, hometown is where the artist grew up
 - `Weight`: how many artist were raised in a given location 
 - `geometry`: spatial data that stored in polygons (boundary areas across the globe)
-
-*Bar* -- 
-
-
-
-
-*For Network*
-- `track_artist`: list of all artist who's songs have made it to the top 100 songs 
-- `hometown`: hometown is distinct from bornplace, hometown is where the artist grew up
-- `collabArtist`: the names of artist (exclusively artist listed in the top 100) who have worked with (in any capacity) with track artist
-
 
 
 ```{r}
@@ -112,37 +113,45 @@ Mapplot1
 
 #
 
+This map reinforces how geographic origin often intersects with collaborative opportunity. Artists from major cultural hubs — like California, Texas, Ontario, and Antioquia — appear more frequently and often show higher connectivity in the network. That makes sense: location can shape access to recording infrastructure, scene culture, and collaboration opportunities.
 
+In other words, where you’re from can shape who you work with, and ultimately, how visible you are.
 
 
 
 
 ```{r}
-# Bar chart Representing Popularity by Genre 
+# Table Displaying Popularity by Artist 
 #| label: Who's the Most Popular Spotify Artist ?
 #| message: false
 #| out-width: 100%
 #| fig-height: 10
 
-#Only Need One Valence 
-popularity<- popularity|>
-  distinct(track_artist, .keep_all = TRUE)
+#TopArtisit 
+#Number of times theyre songs have made it to the top 
+TopArtist<- popularity|>
+ arrange(desc(Count))|>
+ slice(1:10)
 
-Bar_Plot1 <- popularity |> 
-  filter(Count>1)|>
-  ggplot(aes(x= track_artist, y = Count, fill = genre)) +
-  geom_bar(stat= "identity", color = "black") +
-  geom_text(aes(label= Max_valence), 
-            position= position_stack(vjust =1.15),
-            size = 3, color = "blue") +
-  labs(x= "Track Artist",
-       y ="Count",
-       fill= "Genre") +
-  theme_classic() +
-  coord_flip()+
-  theme(axis.text.x= element_text(angle= 90, vjust= 0.5, hjust= 1))
+#table 
+tableTopArtist <- TopArtist |>
+  select(track_artist, Count, genre, track_popularity) |>
+  kable(
+    caption = "<span style='color:black;font-weight:bold;'>Most Popular Artist</span>", #creates a nice title 
+    format = "html",
+    digits = 2,
+    col.names = c("Artist","Billboard Hits", "Genre", "Popularity Spotify Scores")) |>
+    kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "dark"),
+    full_width = TRUE,
+    font_size = 14
+  ) |>
+  column_spec(1:4, background = "black", color = "white", border_right = FALSE, border_left = FALSE) |>
+  row_spec(0, background = "black", color = "white") |>
+  row_spec(1:nrow(TopArtist), extra_css = "border-bottom: none;")
 
-Bar_Plot1
+tableTopArtist
+
 ```
 
 

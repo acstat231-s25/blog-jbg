@@ -1,0 +1,17 @@
+{
+  "hash": "fec209efc6e4aa7a3a040256a3fe4bf7",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Sentiment Analysis\"\nauthor: \"Ben Snyderman\"\n---\n\n\n\n\n\n\n### Sentiment Analysis\n\n## What words are the most popular songs using?\n\n*All data is from the top 100 spotify songs*\n\n\n## Total Word Count\n\n::: {.panel-tabset}\n\n### Word Cloud\n\nThis visual shows a word cloud including the top words from all songs.\n\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n\n\n\n\n\n### List\n\nThis visual shows the top words used among all songs in general.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-3-1.png){width=672}\n:::\n:::\n\n\n\n\n\n:::\n\n\n\n\nThis visual shows the top words in terms of usage under each category of sentiment defined by nrc.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::\n\n\n\n\n\n\n\n\n\n\n\n## All Song Sentiments\n\n::: {.panel-tabset}\n\n\n### Top 10 Songs\n\nThis visual shows the top ten songs in terms of sentiment according to afinn.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-5-1.png){width=672}\n:::\n:::\n\n\n\n\n\n### Bottom 10 Songs\n\nThis visual shows the bottom ten songs in terms of sentiment according to afinn.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-6-1.png){width=672}\n:::\n:::\n\n\n\n\n\n:::\n\n\n\n\n## Pop vs. Rap\n\n::: {.panel-tabset}\n\n### Top 10 Songs\n\nThe next visual shows the top songs in terms of sentiment according to afinn categorized by genre.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-7-1.png){width=672}\n:::\n:::\n\n\n\n\n\n### Bottom 10 Songs\n\n\nThe next visual shows the bottom songs in terms of sentiment according to afinn categorized by genre.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sentiment-analysis_files/figure-html/unnamed-chunk-8-1.png){width=672}\n:::\n:::\n\n\n\n\n\n:::\n\n",
+    "supporting": [
+      "sentiment-analysis_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
