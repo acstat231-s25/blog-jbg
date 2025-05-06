@@ -118,10 +118,9 @@ Mapplot1
 ```
 
 
-This map reinforces how geographic origin often intersects with collaborative opportunity. Artists from major cultural hubs — like California, Texas, Ontario, and Antioquia — appear more frequently and often show higher connectivity in the network. That makes sense: location can shape access to recording infrastructure, scene culture, and collaboration opportunities.
+This interactive map shows the geographic distribution of artists based on their hometowns. Each polygon is colored using a choropleth style, where darker shades represent a higher number of artists. When hovering over a region which will then display the names of artists from that area which making the map both informative and interactive.
 
-In other words, where you’re from can shape who you work with, and ultimately, how visible you are.
-
+What stands out immediately is that California, Texas, and Ontario are among the darkest regions, meaning they’ve produced the most artists in our dataset. This makes sense given their large population, metropolitan cities within them like Los Angeles, Houston, and Toronto. Places like these are known for strong music scenes and access to industry infrastructure. Puerto Rico, while small, is also a dark region, showing that it produces a high concentration of artists relative to its size. Another important observation is the absence or low representation in many central and rural regions. States like North Dakota, South Dakota, and parts of central Canada are nearly blank, suggesting fewer artists with mainstream visibility come from those areas. This raises interesting questions about the relationship between place, opportunity, and exposure. Artists from densely populated or culturally rich areas may have more access to collaboration networks, production studios, or early fan bases. It is important to note that tiktok in recent years has made it much easier for rural, or smaller artist in general thrive more in the music industry than ever before which will seen be reflected once a new cycle of data census is collected surrounding music social media consumption. 
 
 
 ## Artist Tabling 
@@ -237,12 +236,18 @@ Networkplot<- artistcollab_network_Sliced |>
 Networkplot
 
 ```
-This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collaborations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient ive conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weekend, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
+This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collaborations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient at conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weekend, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
 
 On the other hand, artists positioned more toward the left side of the circle, with smaller labels, tend to have fewer collaborations. This could reflect either genre isolation, activity in the industry, preferences, location. less cross genres collaborations and more. While this graph doesn’t capture how strong each connection is, it gives a clear picture of how connected each artist is. 
 
 
 ##Conclusions 
+
+Through exploring this data, we hope you had as much fun as we did learning new things about Artist and the music industry through connections the artist make. From our interactive map, we hope you can see if you want to make music or become famous it might not be a bad idea to set up shop there, in addition to the pop genre takeover might even be in your best interest to produce a pop song or two-- while still putting out what you actually want. 
+
+The collaboration network revealed that artists like Drake, Travis Scott, and J Balvin are highly central figures, its not something that I knew beforehand. Meanwhile, the top artist table showed names like Post Malone, Billie Eilish, and DaBaby dominating both charts and streams, offering a snapshot of who’s modt at the forefront in listeners’ daily lives.
+
+This is a music fact sheet meant for engagement, entertainment, and information. Whether you are a fan, and inspiring artist, or your just in the mood to fact gauge. 
 
 
 ## Reference
