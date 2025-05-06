@@ -6,20 +6,12 @@
 ### load packages
 library(tidyverse)
 library(rvest)
-library(ggplot2)
 library(stringr)
-library(purrr)
 library(robotstxt)
 library(tidytext)
-library(tidyr)
 library(dplyr)
-library(tidytuesdayR)
-library(geniusr)
 library(httr)
 library(jsonlite)
-library(broom)
-library(GGally)
-library(rgenius)
 library(stopwords)
 
 
