@@ -166,7 +166,7 @@ songs_genreVal<- songs_top100|>
   select(track_artist,track_name, genre,track_popularity)
 
 #creating Dataset to move forward with 
-officaltabledata<- bardata|>
+officaltabledata<- tabledata |>
   left_join(songs_genreVal, by = join_by(track_artist))
 
 saveRDS(officaltabledata, "data/officaltabledata.Rds")
