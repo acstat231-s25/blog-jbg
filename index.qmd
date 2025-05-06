@@ -5,7 +5,7 @@ author:
 - "Gloria Wu"
 - "Justyce Williams"
 - "Ben Snyderman"
-abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this project, we utilize k-means analysis, sentiment analysis, and a network map to explore music."
+abstract: "Music is a significant portion of our media consumption - from iconic performances at the Super Bowl and the Grammys to the viral spread of songs on social media platforms. Through this project, we utilize $k$-means analysis, sentiment analysis, and a network map to explore music."
 ---
 
 ## Introduction
