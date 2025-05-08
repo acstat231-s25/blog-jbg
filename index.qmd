@@ -16,7 +16,6 @@ library(knitr)
 
 ```{r, message=FALSE}
 include_graphics("images/musiclisten.png")
-
 ```
 
 
