@@ -148,7 +148,7 @@ What stands out immediately is that California, Texas, and Ontario are among the
 #| fig-height: 10
 
 #TopArtisit 
-#Number of times theyre songs have made it to the top 
+#Number of times their songs have made it to the top 
 TopArtist<- popularity|>
 distinct(track_artist, .keep_all = TRUE)|>
  arrange(desc(Count))|>
@@ -252,6 +252,7 @@ Networkplot<- artistcollab_network_Sliced |>
 Networkplot
 
 ```
+
 This network graph visualizes how artists in our dataset are connected through collaboration. Each blue circle, a node represents an artist, and the green lines, edges, represent collaborations between them, meaning they’ve appeared together on a track. However, to be explicit those tracks might not be represented in the spotify dataset-- these collaborations are beyong the scope of just his data we used.  The layout is circular, helping us clearly observe which artists are highly connected and which ones appear less connected. Network maps are very efficient at conveying relationships but if they are indecipherable due to overlaying edges then it does more of the opposite, and might even make the information seem more convoluted-- the circular layout fixes that issue. To emphasize influence within the network, we used a metric from our network science unit called degree centrality, which in this context measures how many connections each artist has to others. Artists with higher degree centrality appear with larger labels, visually highlighting who collaborates the most. For example, Justin Bieber, J Balvin, The Weekend, and Travis Scott have noticeably larger names, indicating they are among the most central collaborators in this music dataset. These artists often serve as connectors between clusters, linking pop, hip-hop, and Latin artists together across genres.
 
 On the other hand, artists positioned more toward the left side of the circle, with smaller labels, tend to have fewer collaborations. This could reflect either genre isolation, activity in the industry, preferences, location. less cross genres collaborations and more. While this graph doesn’t capture how strong each connection is, it gives a clear picture of how connected each artist is. 
